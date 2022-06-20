@@ -18,7 +18,9 @@ use App\Orchid\Screens\User\UserProfileScreen;
 use Illuminate\Support\Facades\Route;
 use Tabuna\Breadcrumbs\Trail;
 
-use App\Orchid\Screens\SkusenostiScreen;
+use App\Orchid\Screens\SkusenostiEditScreen;
+use App\Orchid\Screens\SkusenostiListScreen;
+use App\Orchid\Screens\SkusenostiCreateScreen;
 
 /*
 |--------------------------------------------------------------------------
@@ -116,4 +118,9 @@ Route::screen('example-advanced', ExampleFieldsAdvancedScreen::class)->name('pla
 
 //Route::screen('idea', Idea::class, 'platform.screens.idea');
 
-Route::screen('skusenosti', SkusenostiScreen::class)->name('platform.skusenosti');
+Route::screen('skusenost/{skusenost?}', SkusenostiEditScreen::class)
+    ->name('platform.skusenosti.edit');
+Route::screen('skusenosti', SkusenostiListScreen::class)
+    ->name('platform.skusenosti.list');
+Route::screen('skusenosti/create', SkusenostiCreateScreen::class)
+    ->name('platform.skusenosti.create');

@@ -28,7 +28,7 @@ class SkusenostiScreen extends Screen
      */
     public function name(): ?string
     {
-        return 'SkusenostiScreen';
+        return 'Skúsenosti';
     }
 
     /**
@@ -36,7 +36,7 @@ class SkusenostiScreen extends Screen
     */
     public function description(): ?string
     {
-        return "SkusenostiScreeeeeeeeen";
+        return "Obrazovka na editovanie skúseností";
     }
 
     /**

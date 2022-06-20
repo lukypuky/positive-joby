@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedInteger('id_druh_pracovneho_pomeru');
             $table->foreign('id_druh_pracovneho_pomeru')->references('id_druh_pracovneho_pomeru')->on('druh_pracovneho_pomerus');
             $table->unsignedInteger('id_skusenosti');
-            $table->foreign('id_skusenosti')->references('id_skusenosti')->on('skusenosts');
+            $table->foreign('id_skusenosti')->references('id')->on('skusenosts');
             $table->unsignedInteger('id_praca_z_domu');
             $table->foreign('id_praca_z_domu')->references('id_praca_z_domu')->on('praca_z_domus');
             $table->unsignedInteger('id_typ_platu');
