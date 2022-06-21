@@ -1,39 +1,33 @@
 <?php
 
-namespace App\Orchid\Screens;
+namespace App\Orchid\Screens\Experience;
 
-use App\Orchid\Layouts\SkusenostiEditLayout;
-use App\Models\Skusenost;
+use App\Models\Experience;
 use Orchid\Screen\Screen;
 use Illuminate\Http\Request;
 use Orchid\Screen\Fields\Input;
-use Orchid\Screen\Fields\Quill;
-use Orchid\Screen\Fields\Relation;
-use Orchid\Screen\Fields\TextArea;
-use Orchid\Screen\Fields\Upload;
 use Orchid\Support\Facades\Layout;
 use Orchid\Screen\Actions\Button;
 use Orchid\Support\Facades\Alert;
 use Orchid\Screen\Actions\ModalToggle;
 
-
-class SkusenostiEditScreen extends Screen
+class ExperienceEditScreen extends Screen
 {
     /**
-     * @var Skusenost
+     * @var Experience
      */
 
-     public $skusenost;
+    public $experience;
     /**
      * Query data.
      *
      * @return array
      */
     
-    public function query(Skusenost $skusenost): array
+    public function query(Experience $experience): array
     {
         return [
-            'skusenost' => $skusenost
+            'experience' => $experience
         ];
     }
 
@@ -83,10 +77,8 @@ class SkusenostiEditScreen extends Screen
     {
         return [
             Layout::rows([
-                Input::make('skusenost.nazov')
-                    ->title('Názov')
-                    ->placeholder('Názov skúsenosti')
-                    ->help('Zadajte názov pre danú skúsenosť')
+                Input::make('experience.name')
+                    ->title('Hodnota')
             ]),
 
             Layout::modal('removeRow',Layout::rows([
@@ -94,21 +86,21 @@ class SkusenostiEditScreen extends Screen
         ];
     }
 
-    public function updateRow(Skusenost $skusenost,Request $request)
+    public function updateRow(Experience $experience, Request $request)
     {
-        $skusenost->fill($request->get('skusenost'))->save();
+        $experience->fill($request->get('experience'))->save();
 
         Alert::info('Úspešne ste upravili záznam.');
 
-        return redirect()->route('platform.skusenosti.list');
+        return redirect()->route('platform.experience.list');
     }
 
-    public function remove(Skusenost $skusenost)
+    public function remove(Experience $experience)
     {
-        $skusenost->delete();
+        $experience->delete();
 
         Alert::info('Záznam bol úspešne odstránený.');
 
-        return redirect()->route('platform.skusenosti.list');
+        return redirect()->route('platform.experience.list');
     }
 }

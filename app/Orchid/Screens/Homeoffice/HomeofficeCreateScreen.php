@@ -1,20 +1,16 @@
 <?php
 
-namespace App\Orchid\Screens;
+namespace App\Orchid\Screens\Homeoffice;
 
-use App\Models\Skusenost;
+use App\Models\Homeoffice;
 use Orchid\Screen\Screen;
 use Illuminate\Http\Request;
 use Orchid\Screen\Fields\Input;
-use Orchid\Screen\Fields\Quill;
-use Orchid\Screen\Fields\Relation;
-use Orchid\Screen\Fields\TextArea;
-use Orchid\Screen\Fields\Upload;
 use Orchid\Support\Facades\Layout;
 use Orchid\Screen\Actions\Button;
 use Orchid\Support\Facades\Alert;
 
-class SkusenostiCreateScreen extends Screen
+class HomeofficeCreateScreen extends Screen
 {
     /**
      * Query data.
@@ -33,7 +29,7 @@ class SkusenostiCreateScreen extends Screen
      */
     public function name(): ?string
     {
-        return 'Skúsenosti';
+        return 'Práca z domu';
     }
 
     /**
@@ -44,13 +40,12 @@ class SkusenostiCreateScreen extends Screen
         return "Pridanie";
     }
 
-
     /**
      * Button commands.
      *
      * @return \Orchid\Screen\Action[]
      */
-    public function commandBar(): array
+    public function commandBar(): iterable
     {
         return [
             Button::make('Potvrdiť')
@@ -62,22 +57,24 @@ class SkusenostiCreateScreen extends Screen
     /**
      * Views.
      *
-     * @return \Orchid\Screen\Layout[]
+     * @return \Orchid\Screen\Layout[]|string[]
      */
-    public function layout(): array
+    public function layout(): iterable
     {
-        return [Layout::rows([
-            Input::make('skusenost.nazov')
-                ->title('Názov'),
-        ])];
+        return [
+            Layout::rows([
+                Input::make('homeoffice.name')
+                    ->title('Hodnota'),
+            ])
+        ];
     }
 
-    public function createRow(Skusenost $skusenost, Request $request)
+    public function createRow(Homeoffice $homeoffice, Request $request)
     {
-        $skusenost->fill($request->get('skusenost'))->save();
+        $homeoffice->fill($request->get('homeoffice'))->save();
 
         Alert::info('Úspešne ste pridali nový záznam.');
 
-        return redirect()->route('platform.skusenosti.list');
+        return redirect()->route('platform.homeoffice.list');
     }
 }

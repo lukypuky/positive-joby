@@ -13,12 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('referencias', function (Blueprint $table) {
-            $table->increments('id_referencie');
-            $table->string('meno');
-            $table->string('spolocnost');
-            $table->string('img_path');
-            $table->text('popis');
+        Schema::create('homeoffices', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('referencias');
+        Schema::dropIfExists('homeoffices');
     }
 };

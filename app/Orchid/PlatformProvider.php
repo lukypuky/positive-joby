@@ -28,17 +28,24 @@ class PlatformProvider extends OrchidServiceProvider
     public function registerMainMenu(): array
     {
         return [
-            Menu::make('Skusenosti')
+            Menu::make('Joby')
                 ->icon('tablet')
-                ->route('platform.skusenosti.list'),
-
-            // Menu::make('Example screen')
-            //     ->icon('monitor')
-            //     ->route('platform.example')
-            //     ->title('Navigation')
-            //     ->badge(function () {
-            //         return 6;
-            //     }),
+                ->route('platform.job.list'),
+            Menu::make('Druh pracovného pomeru')
+                ->icon('tablet')
+                ->route('platform.employmentType.list'),
+            Menu::make('Skúsenosti')
+                ->icon('tablet')
+                ->route('platform.experience.list'),
+            Menu::make('Práca z domu')
+                ->icon('tablet')
+                ->route('platform.homeoffice.list'),
+            Menu::make('Typ platu')
+                ->icon('tablet')
+                ->route('platform.salaryType.list'),
+            Menu::make('Referencie')
+                ->icon('tablet')
+                ->route('platform.reference.list'),
 
             // Menu::make('Dropdown menu')
             //     ->icon('code')

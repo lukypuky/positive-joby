@@ -18,10 +18,29 @@ use App\Orchid\Screens\User\UserProfileScreen;
 use Illuminate\Support\Facades\Route;
 use Tabuna\Breadcrumbs\Trail;
 
-use App\Orchid\Screens\SkusenostiEditScreen;
-use App\Orchid\Screens\SkusenostiListScreen;
-use App\Orchid\Screens\SkusenostiCreateScreen;
+use App\Orchid\Screens\Experience\ExperienceEditScreen;
+use App\Orchid\Screens\Experience\ExperienceListScreen;
+use App\Orchid\Screens\Experience\ExperienceCreateScreen;
 
+use App\Orchid\Screens\Homeoffice\HomeofficeEditScreen;
+use App\Orchid\Screens\Homeoffice\HomeofficeListScreen;
+use App\Orchid\Screens\Homeoffice\HomeofficeCreateScreen;
+
+use App\Orchid\Screens\EmploymentType\EmploymentTypeEditScreen;
+use App\Orchid\Screens\EmploymentType\EmploymentTypeListScreen;
+use App\Orchid\Screens\EmploymentType\EmploymentTypeCreateScreen;
+
+use App\Orchid\Screens\SalaryType\SalaryTypeEditScreen;
+use App\Orchid\Screens\SalaryType\SalaryTypeListScreen;
+use App\Orchid\Screens\SalaryType\SalaryTypeCreateScreen;
+
+use App\Orchid\Screens\Reference\ReferenceEditScreen;
+use App\Orchid\Screens\Reference\ReferenceListScreen;
+use App\Orchid\Screens\Reference\ReferenceCreateScreen;
+
+use App\Orchid\Screens\Job\JobEditScreen;
+use App\Orchid\Screens\Job\JobListScreen;
+use App\Orchid\Screens\Job\JobCreateScreen;
 /*
 |--------------------------------------------------------------------------
 | Dashboard Routes
@@ -118,9 +137,44 @@ Route::screen('example-advanced', ExampleFieldsAdvancedScreen::class)->name('pla
 
 //Route::screen('idea', Idea::class, 'platform.screens.idea');
 
-Route::screen('skusenost/{skusenost?}', SkusenostiEditScreen::class)
-    ->name('platform.skusenosti.edit');
-Route::screen('skusenosti', SkusenostiListScreen::class)
-    ->name('platform.skusenosti.list');
-Route::screen('skusenosti/create', SkusenostiCreateScreen::class)
-    ->name('platform.skusenosti.create');
+Route::screen('skusenost/{skusenost?}', ExperienceEditScreen::class)
+    ->name('platform.experience.edit');
+Route::screen('skusenosti', ExperienceListScreen::class)
+    ->name('platform.experience.list');
+Route::screen('skusenost-create', ExperienceCreateScreen::class)
+    ->name('platform.experience.create');
+
+Route::screen('homeoffice/{homeoffice?}', HomeofficeEditScreen::class)
+    ->name('platform.homeoffice.edit');
+Route::screen('homeoffices', HomeofficeListScreen::class)
+    ->name('platform.homeoffice.list');
+Route::screen('homeoffice-create', HomeofficeCreateScreen::class)
+    ->name('platform.homeoffice.create');
+
+Route::screen('druh-pracovneho-pomeru/{druhpracovnehopomeru?}', EmploymentTypeEditScreen::class)
+    ->name('platform.employmentType.edit');
+Route::screen('druhy-pracovneho-pomeru', EmploymentTypeListScreen::class)
+    ->name('platform.employmentType.list');
+Route::screen('druh-pracovneho-pomeru-create', EmploymentTypeCreateScreen::class)
+    ->name('platform.employmentType.create');
+
+Route::screen('typ-platu/{typplatu?}', SalaryTypeEditScreen::class)
+    ->name('platform.salaryType.edit');
+Route::screen('typy-platu', SalaryTypeListScreen::class)
+    ->name('platform.salaryType.list');
+Route::screen('typ-platu-create', SalaryTypeCreateScreen::class)
+    ->name('platform.salaryType.create');
+
+Route::screen('referencia/{referencia?}', ReferenceEditScreen::class)
+    ->name('platform.reference.edit');
+Route::screen('referencie', ReferenceListScreen::class)
+    ->name('platform.reference.list');
+Route::screen('referencia-create', ReferenceCreateScreen::class)
+    ->name('platform.reference.create');
+
+Route::screen('job/{job?}', JobEditScreen::class)
+    ->name('platform.job.edit');
+Route::screen('joby', JobListScreen::class)
+    ->name('platform.job.list');
+Route::screen('job-create', JobCreateScreen::class)
+    ->name('platform.job.create');

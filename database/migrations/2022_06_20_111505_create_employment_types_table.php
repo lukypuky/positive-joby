@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('typ_platus', function (Blueprint $table) {
-            $table->increments('id_typ_platu');
-            $table->string('typ');
+        Schema::create('employment_types', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('typ_platus');
+        Schema::dropIfExists('employment_types');
     }
 };

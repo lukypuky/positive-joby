@@ -1,23 +1,14 @@
 <?php
 
-namespace App\Orchid\Screens;
+namespace App\Orchid\Screens\SalaryType;
 
-use App\Orchid\Layouts\SkusenostiListLayout;
-use App\Models\Skusenost;
+use App\Models\Salary_type;
 use Orchid\Screen\Screen;
 use Orchid\Screen\Actions\Link;
-use Orchid\Screen\Fields\Input;
-use Orchid\Screen\Fields\Quill;
-use Orchid\Screen\Fields\Relation;
-use Orchid\Screen\Fields\TextArea;
-use Orchid\Screen\Fields\Upload;
 use Orchid\Support\Facades\Layout;
-use Orchid\Screen\Actions\Button;
-use Orchid\Support\Facades\Alert;
 use Orchid\Screen\TD;
 
-
-class SkusenostiListScreen extends Screen
+class SalaryTypeListScreen extends Screen
 {
     /**
      * Query data.
@@ -26,10 +17,10 @@ class SkusenostiListScreen extends Screen
      */
     public function query(): array
     {
-        $skusenosti = Skusenost::paginate(10);
-
+        $salaryType = Salary_type::paginate(10);
+        
         return [
-            'skusenosti' => $skusenosti
+            'salary_types' => $salaryType
         ];
     }
 
@@ -40,7 +31,7 @@ class SkusenostiListScreen extends Screen
      */
     public function name(): ?string
     {
-        return 'Skúsenosti';
+        return 'Typ Platu';
     }
 
     /**
@@ -59,9 +50,9 @@ class SkusenostiListScreen extends Screen
     public function commandBar(): array
     {
         return [
-            Link::make('Pridať novú skúsenosť')
+            Link::make('Pridať nový typ platu')
                 ->icon('plus')
-                ->route('platform.skusenosti.create')
+                ->route('platform.salaryType.create')
         ];
     }
 
@@ -73,18 +64,18 @@ class SkusenostiListScreen extends Screen
     public function layout(): array
     {
         return [
-            Layout::table('skusenosti',[
+            Layout::table('salary_types',[
                 TD::make('Názov')
                     ->filter(TD::FILTER_TEXT)
                     ->sort()
-                    ->render(function ($skusenost) {
-                        return $skusenost->nazov;
+                    ->render(function ($salaryType) {
+                        return $salaryType->name;
                     }),
                 TD::make('Akcie')
-                    ->render(function (Skusenost $skusenost) {
+                    ->render(function (Salary_type $salaryType) {
                         return Link::make('')
                             ->icon('pencil')
-                            ->route('platform.skusenosti.edit', $skusenost);
+                            ->route('platform.salaryType.edit', $salaryType);
                     }), 
             ])
         ];

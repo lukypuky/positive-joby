@@ -130,7 +130,7 @@
         </div>
         <div>
             @foreach($testik as $test)
-                <h1>{{ $test->nazov }} </h1>
+                <h1>{{ $test->name }} </h1>
             @endforeach
         </div>
     </body>

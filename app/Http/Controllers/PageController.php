@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Skusenost;
+use App\Models\Experience;
 
 class PageController extends Controller
 {
     public function getIndex()
     {   
-        $test=Skusenost::all();
+        $test=Experience::all();
         return view('/welcome', ['testik' => $test]);
     }
 }

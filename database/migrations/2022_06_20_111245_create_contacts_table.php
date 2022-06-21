@@ -13,16 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('kontakts', function (Blueprint $table) {
-            $table->increments('id_kontakty');
-            $table->integer('typ_kontaktu');
+        Schema::create('contacts', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('contact_type');
             $table->unsignedInteger('id_job');
-            $table->foreign('id_job')->references('id_job')->on('jobs')->nullable();
-            $table->string('meno_priezvisko');
-            $table->string('telefon');
+            $table->foreign('id_job')->references('id')->on('jobs')->nullable();
+            $table->string('name_surname');
+            $table->string('phone');
             $table->string('email');
-            $table->string('sprava');
-            $table->binary('priloha');
+            $table->string('message');
+            $table->binary('attachment');
             $table->timestamps();
         });
     }
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kontakts');
+        Schema::dropIfExists('contacts');
     }
 };

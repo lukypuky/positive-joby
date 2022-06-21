@@ -13,9 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('druh_pracovneho_pomerus', function (Blueprint $table) {
-            $table->increments('id_druh_pracovneho_pomeru');
-            $table->string('nazov');
+        Schema::create('references', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('company');
+            $table->string('img_path');
+            $table->text('description');
             $table->timestamps();
         });
     }
@@ -27,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('druh_pracovneho_pomerus');
+        Schema::dropIfExists('references');
     }
 };

@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('praca_z_domus', function (Blueprint $table) {
-            $table->increments('id_praca_z_domu');
-            $table->string('nazov');
+        Schema::create('salary_types', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('praca_z_domus');
+        Schema::dropIfExists('salary_types');
     }
 };
