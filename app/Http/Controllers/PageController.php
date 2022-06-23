@@ -9,7 +9,6 @@ class PageController extends Controller
 {
     public function getIndex()
     {   
-        $test=Experience::all();
-        return view('/welcome', ['testik' => $test]);
+        return view('/index');
     }
 }

@@ -17,8 +17,6 @@ return new class extends Migration
             $table->increments('id');
             $table->string('position_name');
             $table->string('slug');
-            $table->unsignedInteger('id_employment_type');
-            $table->foreign('id_employment_type')->references('id')->on('employment_types');
             $table->unsignedInteger('id_experience');
             $table->foreign('id_experience')->references('id')->on('experiences');
             $table->unsignedInteger('id_homeoffice');

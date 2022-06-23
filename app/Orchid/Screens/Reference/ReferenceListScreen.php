@@ -86,6 +86,7 @@ class ReferenceListScreen extends Screen
                 TD::make('Popis')
                     ->filter(TD::FILTER_TEXT)
                     ->sort()
+                    ->width('500px')
                     ->render(function ($reference) {
                         return $reference->description;
                     }),

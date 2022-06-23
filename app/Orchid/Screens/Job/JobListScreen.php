@@ -3,7 +3,11 @@
 namespace App\Orchid\Screens\Job;
 
 use App\Models\Job;
+use App\Models\Experience;
 use App\Models\Employment_type;
+use App\Models\Job_employment_type;
+use App\Models\Homeoffice;
+use App\Models\Salary_type;
 use Orchid\Screen\Screen;
 use Orchid\Screen\Actions\Link;
 use Orchid\Support\Facades\Layout;
@@ -20,10 +24,12 @@ class JobListScreen extends Screen
     {
         $jobs = Job::paginate(10);
         $employment_types = Employment_type::all();
+        $job_employment_types = Job_employment_type::all();
 
         return [
             'jobs' => $jobs,
-            'employment_types' => $employment_types
+            'employment_types' => $employment_types,
+            'job_employment_types' => $job_employment_types
         ];
     }
 
@@ -82,10 +88,45 @@ class JobListScreen extends Screen
                 TD::make('Druh pracovného pomeru')
                     ->filter(TD::FILTER_TEXT)
                     ->sort()
-                    ->render(function ($jobs, $employment_types) {
-                        $tmp = Employment_type::select('name')->where('id', $jobs->id_employment_type)->get();
-                        return $tmp;
+                    ->render(function ($jobs) {
+                        $jobEmploymentType = Job_employment_type::where('id_job', $jobs->id)->get();
+
+                        $jobEmploymentType = $jobEmploymentType->toJson();
+                        $newJobEmploymentType = json_decode($jobEmploymentType);
+                        $stringEmploymentType = '';
+                        
+                        foreach($newJobEmploymentType as $employmentType)
+                        {
+                            $tmp = Employment_type::select('name')->where('id', $employmentType->id_employment_type)->get();
+                            
+                            $tmp = $tmp->toJson();
+                            $newtmp = json_decode($tmp);
+                            $stringEmploymentType = $stringEmploymentType.$newtmp[0]->name.', ';
+                        }
+
+                        $stringEmploymentType."<br>";
+                        return rtrim($stringEmploymentType,", ");
                     }),
+                TD::make('Skúsenosti')
+                ->filter(TD::FILTER_TEXT)
+                    ->sort()
+                    ->render(function ($jobs) {
+                        $experienceName = Experience::select('name')->where('id', $jobs->id_experience)->get();
+                        $experienceName = $experienceName->toJson();
+                        $newExperienceName = json_decode($experienceName);
+
+                        return $newExperienceName[0]->name;
+                   }),
+                TD::make('Práca z domu')
+                    ->filter(TD::FILTER_TEXT)
+                    ->sort()
+                    ->render(function ($jobs) {
+                        $homeofficeName = Homeoffice::select('name')->where('id', $jobs->id_homeoffice)->get();
+                        $homeofficeName = $homeofficeName->toJson();
+                        $newHomeofficeName = json_decode($homeofficeName);
+
+                        return $newHomeofficeName[0]->name;
+                   }),
                 TD::make('Plat od')
                     ->sort()
                     ->render(function ($jobs) {
@@ -96,6 +137,17 @@ class JobListScreen extends Screen
                     ->render(function ($jobs) {
                         return $jobs->salary_to;
                     }),
+                TD::make('Typ platu')
+                    ->filter(TD::FILTER_TEXT)
+                    ->sort()
+                    ->render(function ($jobs) {
+                        $salaryTypeName = Salary_type::select('name')->where('id', $jobs->id_salary_type)->get();
+                        $salaryTypeName = $salaryTypeName->toJson();
+                        $newSalaryTypeName = json_decode($salaryTypeName);
+
+                        return $newSalaryTypeName[0]->name;
+                   }),
+                
                 TD::make('Popis')
                     ->sort()
                     ->width('250px')
@@ -115,7 +167,7 @@ class JobListScreen extends Screen
                         return $jobs->benefits;
                     }),
                 TD::make('Akcie')
-                    ->render(function (Job $jobs) {
+                    ->render(function ($jobs) {
                         return Link::make('')
                             ->icon('pencil')
                             ->route('platform.job.edit', $jobs);

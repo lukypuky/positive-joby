@@ -4,6 +4,7 @@ namespace App\Orchid\Screens\Job;
 
 
 use App\Models\Job;
+use App\Models\Job_employment_type;
 use App\Models\Experience;
 use App\Models\Employment_type;
 use App\Models\Homeoffice;
@@ -17,6 +18,7 @@ use Orchid\Support\Facades\Alert;
 use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Fields\TextArea;
+use Orchid\Screen\Fields\Relation;
 
 class JobCreateScreen extends Screen
 {
@@ -75,9 +77,10 @@ class JobCreateScreen extends Screen
                     ->title('Názov Jobu'),
                 Input::make('job.slug')
                     ->title('Slug'),
-                Select::make('job.id_employment_type')
+                Relation::make('job_employment_type.id_employment_type.')
                     ->title('Druh pracovného pomeru')
-                    ->fromModel(Employment_type::class, 'name'),
+                    ->fromModel(Employment_type::class, 'name')
+                    ->multiple(),
                 Select::make('job.id_experience')
                     ->title('Skúsenosti')
                     ->fromModel(Experience::class, 'name'),
@@ -106,12 +109,20 @@ class JobCreateScreen extends Screen
         ];
     }
 
-    public function createRow(Job $job, Request $request)
+    public function createRow(Job $job, Job_employment_type $jobEmploymentType, Request $request)
     {
         $job->fill($request->get('job'))->save();
 
-        Alert::info('Úspešne ste pridali nový záznam.');
+        $jobEmploymentType->fill($request->get('job_employment_type'));
+        foreach($jobEmploymentType->id_employment_type as $employmentTypeId)
+        {
+            $tmpJobEmploymentType = new Job_employment_type;
+            $tmpJobEmploymentType->id_job = $job->id;
+            $tmpJobEmploymentType->id_employment_type = $employmentTypeId;
+            $tmpJobEmploymentType->save();
+        }
 
+        Alert::info('Úspešne ste pridali nový záznam.');
         return redirect()->route('platform.job.list');
     }
 }

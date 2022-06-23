@@ -5,6 +5,7 @@ namespace App\Orchid\Screens\Job;
 use App\Models\Job;
 use App\Models\Experience;
 use App\Models\Employment_type;
+use App\Models\Job_employment_type;
 use App\Models\Homeoffice;
 use App\Models\Salary_type;
 use Orchid\Screen\Screen;
@@ -17,6 +18,7 @@ use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Fields\TextArea;
 use Orchid\Screen\Actions\ModalToggle;
+use Orchid\Screen\Fields\Relation;
 
 class JobEditScreen extends Screen
 {
@@ -88,9 +90,10 @@ class JobEditScreen extends Screen
                     ->title('Názov Jobu'),
                 Input::make('job.slug')
                     ->title('Slug'),
-                Select::make('job.id_employment_type')
+                Relation::make('job_employment_type.id_employment_type')
                     ->title('Druh pracovného pomeru')
-                    ->fromModel(Employment_type::class, 'name'),
+                    ->fromModel(Employment_type::class, 'name')
+                    ->multiple(),
                 Select::make('job.id_experience')
                     ->title('Skúsenosti')
                     ->fromModel(Experience::class, 'name'),
@@ -115,21 +118,45 @@ class JobEditScreen extends Screen
                 TextArea::make('job.benefits')
                     ->title('Benefity')
                     ->rows(5),
-            ])
+            ]),
+
+            Layout::modal('removeRow',Layout::rows([
+                ]))->title('Naozaj si prajete odstrániť tento záznam?')->applyButton('Áno')->closeButton('Nie')
         ];
     }
 
     public function updateRow(Job $job, Request $request)
     {
         $job->fill($request->get('job'))->save();
+        $newJobEmploymentTypes = new Job_employment_type;
+        $newJobEmploymentTypes->fill($request->get('job_employment_type'));
 
-        Alert::info('Úspešne ste upravili záznam.');
+        Job_employment_type::where('id_job', $job->id)->delete();
 
+        foreach($newJobEmploymentTypes->id_employment_type as $newJobEmploymentType)
+        {
+            $tmpNewJobEmploymentType = new Job_employment_type;
+            $tmpNewJobEmploymentType->id_job = $job->id;
+            $tmpNewJobEmploymentType->id_employment_type = $newJobEmploymentType;
+            $tmpNewJobEmploymentType->save();
+        }
+
+        Alert::info('Úspešne ste pridali nový záznam.');
         return redirect()->route('platform.job.list');
     }
 
     public function remove(Job $job)
     {
+        $jobEmploymentType = Job_employment_type::where('id_job', $job->id)->get();
+
+        $jobEmploymentType = $jobEmploymentType->toJson();
+        $newJobEmploymentType = json_decode($jobEmploymentType);
+
+        foreach($newJobEmploymentType as $employmentType)
+        {
+            Job_employment_type::where('id', $employmentType->id)->delete();
+        }
+
         $job->delete();
 
         Alert::info('Záznam bol úspešne odstránený.');

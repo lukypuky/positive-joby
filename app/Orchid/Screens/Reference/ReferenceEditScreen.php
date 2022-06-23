@@ -3,6 +3,7 @@
 namespace App\Orchid\Screens\Reference;
 
 use App\Models\Reference;
+use App\Models\Attachment;
 use Orchid\Screen\Screen;
 use Illuminate\Http\Request;
 use Orchid\Screen\Fields\Input;
@@ -11,6 +12,9 @@ use Orchid\Screen\Actions\Button;
 use Orchid\Support\Facades\Alert;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Fields\TextArea;
+use Orchid\Screen\Fields\Picture;
+use Illuminate\Support\Facades\File; 
+use Illuminate\Support\Facades\Storage;
 
 class ReferenceEditScreen extends Screen
 {
@@ -84,6 +88,9 @@ class ReferenceEditScreen extends Screen
                 TextArea::make('reference.description')
                     ->title('Popis')
                     ->rows(5),
+                Picture::make('reference.img_path')
+                    ->title('Obrázok')
+                    ->storage('local')
             ]),
 
             Layout::modal('removeRow',Layout::rows([
@@ -102,7 +109,17 @@ class ReferenceEditScreen extends Screen
 
     public function remove(Reference $reference)
     {
+        $path = $reference->img_path;
+        $path = substr($path, 8);
+
+        $referenceName = $reference->img_path;
+        $referenceName = substr($referenceName, 20, -4);
+
+        Storage::disk('local')->delete($path);
+
         $reference->delete();
+
+        Attachment::where('name', $referenceName)->delete();
 
         Alert::info('Záznam bol úspešne odstránený.');
 

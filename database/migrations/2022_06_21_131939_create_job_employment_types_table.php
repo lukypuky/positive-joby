@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('references', function (Blueprint $table) {
+        Schema::create('job_employment_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('company');
-            $table->string('img_path')->nullable();
-            $table->text('description');
+            $table->unsignedInteger('id_job');
+            $table->foreign('id_job')->references('id')->on('jobs');
+            $table->unsignedInteger('id_employment_type');
+            $table->foreign('id_employment_type')->references('id')->on('employment_types');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('references');
+        Schema::dropIfExists('job_employment_types');
     }
 };

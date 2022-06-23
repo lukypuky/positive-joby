@@ -19,4 +19,5 @@ use App\Http\Controllers\PageController;
 // });
 
 Route::get('/', [PageController::class, 'getIndex']);
+Route::get('/index', [PageController::class, 'getIndex']);
 

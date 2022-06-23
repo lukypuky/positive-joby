@@ -10,6 +10,7 @@ use Orchid\Support\Facades\Layout;
 use Orchid\Screen\Actions\Button;
 use Orchid\Support\Facades\Alert;
 use Orchid\Screen\Fields\TextArea;
+use Orchid\Screen\Fields\Picture;
 
 class ReferenceCreateScreen extends Screen
 {
@@ -71,6 +72,9 @@ class ReferenceCreateScreen extends Screen
                 TextArea::make('reference.description')
                     ->title('Popis')
                     ->rows(5),
+                Picture::make('reference.img_path')
+                    ->title('Obrázok')
+                    ->storage('local')
             ])
         ];
     }
