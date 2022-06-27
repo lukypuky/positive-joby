@@ -1,3 +1,73 @@
 .orangeObject {
     color: #fc5506;
 }
+
+.filterBackgroud {
+    background-color: #f8f4f4;
+}
+
+.grid {
+    padding: 25px;
+    margin: 0px 1.5% 2.8% 1.5%;
+    width: 40%;
+}
+
+.border {
+    border-color: #d5d5d5;
+    border-radius: 10px;
+}
+
+.homePagePadding {
+    padding: 11px;
+}
+
+.accordionItem {
+    margin: 2.8% 0 2.8% 0;
+}
+
+.checkboxMargin {
+    margin-right: 10px;
+}
+
+.salaryWidth {
+    width: 25%;
+    border-radius: 5px;
+    margin: 0px 5px;
+}
+
+.salaryHeading {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 1rem 1.25rem;
+    font-size: 1rem;
+    color: #212529;
+    text-align: left;
+}
+
+.form-inline {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+}
+
+.form-inline label {
+    margin: 5px 10px 5px 0;
+}
+
+.form-inline input {
+    vertical-align: middle;
+    margin: 5px 10px 5px 0;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+.form-inline button {
+    padding: 10px 20px;
+    background-color: dodgerblue;
+    border: 1px solid #ddd;
+    color: white;
+    cursor: pointer;
+}
