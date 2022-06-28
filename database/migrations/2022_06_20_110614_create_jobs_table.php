@@ -24,7 +24,7 @@ return new class extends Migration
             $table->unsignedInteger('id_salary_type');
             $table->foreign('id_salary_type')->references('id')->on('salary_types');
             $table->integer('salary_from');
-            $table->integer('salary_to');
+            $table->integer('salary_to')->nullable();
             $table->text('description');
             $table->text('expectation');
             $table->text('benefits');
