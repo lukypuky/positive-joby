@@ -1,30 +1,55 @@
 @extends('navbar')
 @section('index')
+    <?php $layoutValue = 0; ?>
+
     <div class="container" style="text-align: center; width: 55%;">
-        <div>
-            <!-- nadpis -->
-            <h1><span class="orangeObject">Pridaj sa k nám!</span> Čaká ťa skvelý job</h1>
-            <!-- searchbox -->
+        <div style="margin-top: 60px;">
+            <div>
+                {{-- image missing --}}
+            </div>
+            <div style="margin-bottom: 30px;">
+                <h1><span class="orangeText">Pridaj sa k nám!</span> Čaká ťa skvelý job</h1>
+            </div>
+            <div>
+                <div class="search">
+                    <i class="fa fa-user-o"></i>
+                    <input type="text" class="form-control" id="searchJobs" placeholder="Vyhľadať pozíciu">
+                    <button class="btn btn-primary orangeObject" id="searchJobsButton"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
         </div>
         <div>
-            <div class="homePagePadding" style="display: flex; margin-left: 15px; align-items: center; cursor: pointer;">
-                <div>
-                    <img src="/img/reset.png" alt="#" width="30" height="30">
-                </div>
-                <div>
-                    Resetovať filter
-                </div>
-                <div style="display: flex;">
+            <div class="flex2" style="margin-left: 15px; align-items: center; margin-top: 25px; margin-bottom: 5px;">
+                <div style="cursor: pointer;" class="flex-items">
                     <div>
-                        <button onclick="toTilesLayout()">TILES</button>
+                        <img src="/img/reset.png" alt="#" width="30" height="30">
                     </div>
-                    <div>
-                        <button onclick="toRowsLayout()">ROWS</button>
+                    <div style="align-self: center;">
+                        Resetovať filter
+                    </div>
+                </div>
+                <div class="flex-items">
+                    <div class="dropdown">
+                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Zoradiť podľa
+                        </a>
+
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </div>
+                    <div class="layoutButtons">
+                        <button onclick="toTilesLayout({{ $layoutValue }})" id="toTilesButton" class="layoutButton"><i
+                                class="fa fa-th-large"></i></button>
+                        <button onclick="toRowsLayout({{ $layoutValue }})" id="toRowsButton" class="layoutButton"><i
+                                class="fa fa-list"></i></button>
                     </div>
                 </div>
             </div>
             <div style="display: flex;">
-                <!-- CONTENT, filtre, dlazdice, riadky -->
                 <div class="accordion homePagePadding" id="accordionExample" style=" width:30%;">
                     <div class="filterBackgroud staticBorder">
                         <div>
@@ -114,8 +139,19 @@
                     <div>
                         <div class="row">
                             @foreach ($jobs as $job)
-                                <div class="col col-sm-12 col-md-6 col-lg-6 jobObject staticBorder layoutClass">
-                                    <div style="text-align: -webkit-center;"> {{-- webkit centre --}}
+                                <?php $jobData = [
+                                    'job' => $job,
+                                    'jobEmploymentTypes' => $jobEmploymentTypes,
+                                    'allEmploymentTypes' => $allEmploymentTypes,
+                                    '$salaryTypes' => $salaryTypes,
+                                ]; ?>
+
+                                @include('row', $jobData)
+                                {{-- @include('tile', $jobData) --}}
+
+
+                                {{-- <div class="col col-sm-12 col-md-6 col-lg-6 jobObject staticBorder layoutClass">
+                                    <div style="text-align: -webkit-center;">
                                         <div class="jobTileObjectHeading">
                                             <div class="jobTileObjectHeadingImage">
                                                 <img src="/img/job.png" alt=">User icons created by Freepik - Flaticon"
@@ -160,74 +196,63 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             @endforeach
-                            {{-- //////////////////////////////////////////////////////////////////////////////// --}}
-                            {{-- <div class="col col-sm-12 col-md-12 col-lg-12 jobObject staticBorder layoutClass">
-                                <div class="jobRowObjectHeading">
-                                    <div class="jobRowObjectHeadingImage">
-                                        <img src="/img/job.png" alt=">User icons created by Freepik - Flaticon"
-                                            width="30" height="30">
-                                    </div>
-                                    <div class="jobRowObjectHeadingImageObject">
-                                        <h4 class="jobRowObjectHeadingText">Junior PHP Developer</h4>
-                                    </div>
-                                </div>
-                                <div class="jobRowObjectFooter">
-                                    <div class="jobRowObjectFooterSectionObject">
-                                        <div class="jobObjectFooterSection jobObjectFooterText">
-                                            <img src="/img/briefcase.png" alt="#" width="30" height="30"
-                                                class="jobObjectFooterImage">
-                                            <div>TPP, živnosť</div>
-                                        </div>
-
-                                    </div>
-                                    <div class="jobRowObjectFooterSectionObject">
-                                        <div class="jobObjectFooterSection jobObjectFooterText">
-                                            <img src="/img/euro.png" alt="#" width="30" height="30"
-                                                class="jobObjectFooterImage">
-                                            <div>1200 - 1600 €</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> --}}
                         </div>
-                        {{-- <div class="row"> --}}
-                        {{-- //////////////////////////////////////////////////////////////////////////////// --}}
-                        {{-- <div class="col col-sm-12 col-md-6 col-lg-6 jobObject staticBorder">
-                                <div>
-                                    <div class="jobTileObjectHeading">
-                                        <div class="jobTileObjectHeadingImage">
-                                            <img src="/img/job.png" alt=">User icons created by Freepik - Flaticon"
-                                                width="30" height="30">
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <h4 class="jobTileObjectHeadingText">Junior PHP Developer</h4>
-                                    </div>
-                                </div>
-                                <div class="jobtileObjectFooter">
-                                    <div class="jobTileObjectFooterSectionObject">
-                                        <div class="jobObjectFooterSection">
-                                            <img src="/img/briefcase.png" alt="#" width="30" height="30"
-                                                class="jobObjectFooterImage">
-                                            <div>TPP, živnosť</div>
-                                        </div>
 
-                                    </div>
-                                    <div class="jobTileObjectFooterSectionObject">
-                                        <div class="jobObjectFooterSection">
-                                            <img src="/img/euro.png" alt="#" width="30" height="30"
-                                                class="jobObjectFooterImage">
-                                            <div>1200 - 1600 €</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> --}}
+                        @if ($jobs->count())
+                            <div>
+                                {{ $jobs->links() }}
+                            </div>
+                        @else
+                            <div>
+                                Žiadne joby.
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
+
+    <script type="text/javascript">
+        $("#toTilesButton").on("click", function(e) {
+            e.preventDefault();
+            $(".jobObject").remove();
+
+            $.ajax({
+                method: 'POST',
+                url: "{{ route('getJobTiles') }}",
+                data: {
+                    '_token': '{{ csrf_token() }}',
+                },
+                success: function(res) {
+                    console.log(res);
+                }
+            });
+        });
+
+        $("#toRowsButton").on("click", function(e) {
+            e.preventDefault();
+            $(".jobObject").remove();
+        });
+
+        $("#searchJobsButton").on("click", function(e) {
+            e.preventDefault();
+            let searchRequest = $("#searchJobs").val();
+
+            $.ajax({
+                method: 'POST',
+                url: "{{ route('searchJobs') }}",
+                dataType: 'json',
+                data: {
+                    '_token': '{{ csrf_token() }}',
+                    searchRequest: searchRequest,
+                },
+                success: function(res) {
+                    console.log(res);
+                }
+            });
+        });
+    </script>
 @endsection

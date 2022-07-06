@@ -14,24 +14,25 @@ class PageController extends Controller
 {
     public function getIndex()
     {   
-        $jobs = Job::all();
+        $jobs = Job::orderBy('position_name', 'asc')->paginate(8);
         $allEmplymentTypes = Employment_type::all();
         $experiences = Experience::all();
         $homeoffices = Homeoffice::all();
         $jobEmploymentTypeIds = Job_employment_type::all();
         $salaryTypes = Salary_type::all();
 
-        // $jobEmploymentTypeIds = Job_employment_type::select('id_employment_type')->where('id_job', 15)->get();
-        // $jobEmploymentTypes = array();
-
-        // foreach($jobEmploymentTypeIds as $jobEmploymentTypeId)
-        // {
-        //     $employmentTypeName = Employment_type::select('name')->where('id', $jobEmploymentTypeId->id_employment_type)->get();
-        //     array_push($jobEmploymentTypes, $employmentTypeName);
-        // }
-
-        // return $jobEmploymentTypes;
-
         return view('/index', ['jobs' => $jobs, 'allEmploymentTypes' => $allEmplymentTypes, 'experiences' => $experiences, 'homeoffices' => $homeoffices, 'jobEmploymentTypes' => $jobEmploymentTypeIds, 'salaryTypes' => $salaryTypes]);
+    }
+
+    public function searchJobs(Request $request){
+        
+        $searchedJobs = Job::where('position_name', 'like', '%' . $request->get('searchRequest') . '%')->get();
+        $jobs = json_encode($searchedJobs);
+        return $jobs;
+    }
+
+    public function getJobTiles(){
+        
+        echo "dacoTile";
     }
 }

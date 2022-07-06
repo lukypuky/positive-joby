@@ -1,3 +1,7 @@
+body {
+    color: black;
+}
+
 /* DLAZDICE */
 .jobTileObjectHeading {
     /* display: flex; */
@@ -76,7 +80,6 @@
     justify-content: center;
     background-color: #f8f4f4;
     border-radius: 20px;
-    margin-bottom: 10px;
     padding: 5px 15px;
     width: fit-content;
     margin-right: 15px;
@@ -101,7 +104,7 @@
     border-radius: 10px;
     cursor: pointer;
     margin-bottom: 10px;
-    padding: 20px;
+    padding: 15px;
 }
 
 .jobObject:hover {
@@ -114,8 +117,12 @@
 }
 
 
-.orangeObject {
+.orangeText {
     color: #fc5506;
+}
+
+.orangeObject {
+    background-color: #fc5506;
 }
 
 .active {
@@ -185,4 +192,147 @@
     border: 1px solid #ddd;
     color: white;
     cursor: pointer;
+}
+
+.search {
+    position: relative;
+    box-shadow: 0 0 40px rgba(51, 51, 51, .1);
+    margin-left: 10px;
+    padding: 20px;
+    background-color: #ffddcc;
+    border-radius: 10px;
+}
+
+.search input {
+    height: 50px;
+    text-indent: 25px;
+    border: 1px solid #d5d5d5;
+    font-style: italic;
+}
+
+
+.search input:focus {
+    box-shadow: none;
+    border: 1px solid #fc5506;
+}
+
+.search .fa-search {
+    position: absolute;
+    top: 16px;
+    left: 19px;
+}
+
+.search .fa-user-o {
+    position: absolute;
+    top: 38px;
+    left: 35px;
+}
+
+.search button {
+    position: absolute;
+    top: 20px;
+    right: 21px;
+    height: 50px;
+    width: 55px;
+    border-radius: 0px 10px 10px 0px;
+}
+
+.btn-primary {
+    border-color: #fc5506;
+}
+
+.form-control {
+    border-radius: 10px;
+}
+
+.btn:hover {
+    background-color: #e34a02;
+    border-color: #e34a02;
+}
+
+.btn:focus {
+    background-color: #e34a02;
+    border-color: #e34a02;
+    box-shadow: none;
+}
+
+.btn-secondary {
+    border: 1px solid #d5d5d5;
+    background-color: #fff;
+    color: black;
+}
+
+.btn-secondary:hover {
+    border: 1px solid #d5d5d5;
+    background-color: #fff;
+    color: black;
+}
+
+.btn-secondary:focus {
+    border: 1px solid #d5d5d5;
+    background-color: #fff;
+    color: black;
+}
+
+.flex2 {
+    display: flex;
+    justify-content: space-between;
+}
+
+.flex-items {
+    text-align: center;
+    display: flex;
+}
+
+button {
+    border: none;
+}
+
+.layoutButtons {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+    align-items: initial;
+}
+
+.layoutButton {
+    margin-left: 10px;
+    background-color: #f8f4f4;
+    border-radius: 10px;
+    width: 35px;
+}
+
+.layoutButton:hover {
+    background-color: #ffddcc;
+}
+
+.layoutButton:focus {
+    background-color: #ffddcc;
+}
+
+.pagination {
+    justify-content: center;
+}
+
+.page-link {
+    color: #9f9f9e;
+    border-radius: 10px;
+}
+
+.page-link:hover {
+    z-index: 2;
+    color: #9f9f9e;
+    background-color: #ffddcc;
+    border-color: #9f9f9e;
+}
+
+.page-item {
+    padding: 0px 3px;
+}
+
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: #fc5506;
+    border-color: #fc5506;
 }
