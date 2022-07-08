@@ -19,10 +19,11 @@ use App\Http\Controllers\PageController;
 // });
 
 Route::get('/', [PageController::class, 'getIndex']);
-Route::get('/index', [PageController::class, 'getIndex']);
+Route::get('/index', [PageController::class, 'getIndex'])->name('getIndex');
 
-Route::get('/tile', [PageController::class, 'getTile']);
+Route::get('/kontakt', [PageController::class, 'getContact']);
+Route::get('/referencie', [PageController::class, 'getReference']);
 
 Route::post('/jobs/search', [PageController::class,'searchJobs'])->name('searchJobs');
-Route::post('/jobs/tiles', [PageController::class,'getJobTiles'])->name('getJobTiles');
-Route::post('/jobs/rows', [PageController::class,'getJobRows'])->name('getJobRows');
+Route::post('/jobs/layout', [PageController::class,'getJobLayout'])->name('getJobLayout');
+Route::post('/jobs/filter', [PageController::class,'getJobsFiltred'])->name('getJobFiltred');

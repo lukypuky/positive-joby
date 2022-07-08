@@ -34,13 +34,13 @@
                 <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                     <ul class="navbar-nav ">
                         <li class="nav-item" style="padding: 0px 15px;">
-                            <a class="nav-link active" aria-current="page" href="#"><strong>Joby</strong></a>
+                            <a class="nav-link active" aria-current="page" href="/index"><strong>Joby</strong></a>
                         </li>
                         <li class="nav-item" style="padding: 0px 15px;">
-                            <a class="nav-link" aria-current="page" href="#"><strong>Referencie</strong></a>
+                            <a class="nav-link" aria-current="page" href="/referencie"><strong>Referencie</strong></a>
                         </li>
                         <li class="nav-item" style="padding: 0px 15px;">
-                            <a class="nav-link" aria-current="page" href="#"><strong>Kontakt</strong></a>
+                            <a class="nav-link" aria-current="page" href="/kontakt"><strong>Kontakt</strong></a>
                         </li>
                     </ul>
                 </div>
@@ -49,6 +49,8 @@
     </div>
     <div class="content">
         @yield('index')
+        @yield('contact')
+        @yield('reference')
     </div>
     <footer class="text-center" style="background-color: #f5f4f2; color: #9f9f9e;">
         <!-- Grid container -->

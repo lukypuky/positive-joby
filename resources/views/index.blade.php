@@ -42,10 +42,8 @@
                         </ul>
                     </div>
                     <div class="layoutButtons">
-                        <button onclick="toTilesLayout({{ $layoutValue }})" id="toTilesButton" class="layoutButton"><i
-                                class="fa fa-th-large"></i></button>
-                        <button onclick="toRowsLayout({{ $layoutValue }})" id="toRowsButton" class="layoutButton"><i
-                                class="fa fa-list"></i></button>
+                        <button id="toTilesButton" class="layoutButton"><i class="fa fa-th-large"></i></button>
+                        <button id="toRowsButton" class="layoutButton"><i class="fa fa-list"></i></button>
                     </div>
                 </div>
             </div>
@@ -78,8 +76,8 @@
                             <div class="accordion-body" style="text-align:left">
                                 @foreach ($allEmploymentTypes as $employmentType)
                                     <div>
-                                        <input class="form-check-input checkboxMargin" type="checkbox" value=""
-                                            id="flexCheckDefault">
+                                        <input class="form-check-input checkboxMargin checkbox" type="checkbox"
+                                            id="{{ $employmentType->id }}">
                                         <label class="form-check-label" for="flexCheckDefault">
                                             {{ $employmentType->name }}
                                         </label>
@@ -101,8 +99,8 @@
                             <div class="accordion-body" style="text-align:left">
                                 @foreach ($experiences as $experience)
                                     <div>
-                                        <input class="form-check-input checkboxMargin" type="checkbox" value=""
-                                            id="flexCheckDefault">
+                                        <input class="form-check-input checkboxMargin experienceCheckbox checkbox"
+                                            type="checkbox" id=" {{ $experience->name }} ">
                                         <label class="form-check-label" for="flexCheckDefault">
                                             {{ $experience->name }}
                                         </label>
@@ -124,8 +122,8 @@
                             <div class="accordion-body" style="text-align:left">
                                 @foreach ($homeoffices as $homeoffice)
                                     <div>
-                                        <input class="form-check-input checkboxMargin" type="checkbox" value=""
-                                            id="flexCheckDefault">
+                                        <input class="form-check-input checkboxMargin homeofficeCheckbox checkbox"
+                                            type="checkbox" id="{{ $homeoffice->name }}">
                                         <label class="form-check-label" for="flexCheckDefault">
                                             {{ $homeoffice->name }}
                                         </label>
@@ -137,70 +135,10 @@
                 </div>
                 <div class="homePagePadding" style="width:70%;">
                     <div>
-                        <div class="row">
-                            @foreach ($jobs as $job)
-                                <?php $jobData = [
-                                    'job' => $job,
-                                    'jobEmploymentTypes' => $jobEmploymentTypes,
-                                    'allEmploymentTypes' => $allEmploymentTypes,
-                                    '$salaryTypes' => $salaryTypes,
-                                ]; ?>
-
-                                @include('row', $jobData)
-                                {{-- @include('tile', $jobData) --}}
-
-
-                                {{-- <div class="col col-sm-12 col-md-6 col-lg-6 jobObject staticBorder layoutClass">
-                                    <div style="text-align: -webkit-center;">
-                                        <div class="jobTileObjectHeading">
-                                            <div class="jobTileObjectHeadingImage">
-                                                <img src="/img/job.png" alt=">User icons created by Freepik - Flaticon"
-                                                    width="30" height="30">
-                                            </div>
-                                            <div class="jobTileObjectHeadingImageObject">
-                                                <h4 class="jobTileObjectHeadingText">{{ $job->position_name }}</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="jobTileObjectFooter">
-                                        <div class="jobTileObjectFooterSectionObject">
-                                            <div class="jobObjectFooterSection">
-                                                <img src="/img/briefcase.png" alt="#" width="30"
-                                                    height="30" class="jobObjectFooterImage">
-                                                <div class="jobObjectFooterText">
-                                                    @foreach ($jobEmploymentTypes as $jobEmploymentType)
-                                                        @if ($job->id === $jobEmploymentType->id_job)
-                                                            @foreach ($allEmploymentTypes as $employmentType)
-                                                                @if ($jobEmploymentType->id_employment_type === $employmentType->id)
-                                                                    {{ $employmentType->name }}
-                                                                @endif
-                                                            @endforeach
-                                                        @endif
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="jobTileObjectFooterSectionObject">
-                                            <div class="jobObjectFooterSection jobObjectFooterText">
-                                                <img src="/img/euro.png" alt="#" width="30" height="30"
-                                                    class="jobObjectFooterImage">
-                                                @foreach ($salaryTypes as $salaryType)
-                                                    @if ($job->id_salary_type === $salaryType->id && ($salaryType->id === 1 || $salaryType->id === 2))
-                                                        <div>{{ $job->salary_from }} € {{ $salaryType->name }} </div>
-                                                    @elseif($job->id_salary_type === $salaryType->id && $salaryType->id === 3)
-                                                        <div>{{ $salaryType->name }} {{ $job->salary_from }} €</div>
-                                                    @elseif($job->id_salary_type === $salaryType->id && $salaryType->id === 4)
-                                                        <div>{{ $job->salary_from }} € - {{ $job->salary_to }} €</div>
-                                                    @endif
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> --}}
-                            @endforeach
+                        <div class="row" id="row">
                         </div>
 
-                        @if ($jobs->count())
+                        {{-- @if ($jobs->count())
                             <div>
                                 {{ $jobs->links() }}
                             </div>
@@ -208,7 +146,7 @@
                             <div>
                                 Žiadne joby.
                             </div>
-                        @endif
+                        @endif --}}
                     </div>
                 </div>
             </div>
@@ -216,43 +154,132 @@
     </div>
 
     <script type="text/javascript">
-        $("#toTilesButton").on("click", function(e) {
-            e.preventDefault();
-            $(".jobObject").remove();
+        // filter
+        $(".checkbox").change(function() {
+            let experiences = [];
+            let homeoffices = [];
+
+            $('.experienceCheckbox').each(function(index, item) {
+                if (item.checked) {
+                    experiences.push(item.id);
+                }
+            });
+
+            $('.homeofficeCheckbox').each(function(index, item) {
+                if (item.checked) {
+                    homeoffices.push(item.id);
+                }
+            });
 
             $.ajax({
                 method: 'POST',
-                url: "{{ route('getJobTiles') }}",
+                url: "{{ route('getJobFiltred') }}",
+                dataType: 'html',
                 data: {
                     '_token': '{{ csrf_token() }}',
+                    layout: 2,
+                    experiences: experiences,
+                    homeoffices: homeoffices,
                 },
                 success: function(res) {
-                    console.log(res);
+                    $(".jobObject").remove();
+                    $('#row').html(res);
                 }
             });
         });
 
-        $("#toRowsButton").on("click", function(e) {
-            e.preventDefault();
-            $(".jobObject").remove();
+        // defaultne zobrazenie jobov
+        $(document).ready(function() {
+
+            $.ajax({
+                method: 'POST',
+                url: "{{ route('getJobLayout') }}",
+                dataType: 'html',
+                data: {
+                    '_token': '{{ csrf_token() }}',
+                    layout: 2,
+                },
+                success: function(res) {
+                    $(".jobObject").remove();
+                    $('#row').html(res);
+                }
+            });
         });
 
+        // zobrazenie jobov v podobe dlazdic
+        $("#toTilesButton").on("click", function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                method: 'POST',
+                url: "{{ route('getJobLayout') }}",
+                dataType: 'html',
+                data: {
+                    '_token': '{{ csrf_token() }}',
+                    layout: 1,
+                },
+                success: function(res) {
+                    $(".jobObject").remove();
+                    $('#row').html(res);
+                }
+            });
+        });
+
+        //zobrazenie jobov v podobe riadkov
+        $("#toRowsButton").on("click", function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                method: 'POST',
+                url: "{{ route('getJobLayout') }}",
+                dataType: 'html',
+                data: {
+                    '_token': '{{ csrf_token() }}',
+                    layout: 2,
+                },
+                success: function(res) {
+                    $(".jobObject").remove();
+                    $('#row').html(res);
+                }
+            });
+        });
+
+        // search job
         $("#searchJobsButton").on("click", function(e) {
             e.preventDefault();
             let searchRequest = $("#searchJobs").val();
 
-            $.ajax({
-                method: 'POST',
-                url: "{{ route('searchJobs') }}",
-                dataType: 'json',
-                data: {
-                    '_token': '{{ csrf_token() }}',
-                    searchRequest: searchRequest,
-                },
-                success: function(res) {
-                    console.log(res);
-                }
-            });
+            if ($("div").hasClass("jobTileObjectHeading")) {
+                $.ajax({
+                    method: 'POST',
+                    url: "{{ route('searchJobs') }}",
+                    dataType: 'html',
+                    data: {
+                        '_token': '{{ csrf_token() }}',
+                        searchRequest: searchRequest,
+                        layout: 1,
+                    },
+                    success: function(res) {
+                        $(".jobObject").remove();
+                        $('#row').html(res);
+                    }
+                });
+            } else {
+                $.ajax({
+                    method: 'POST',
+                    url: "{{ route('searchJobs') }}",
+                    dataType: 'html',
+                    data: {
+                        '_token': '{{ csrf_token() }}',
+                        searchRequest: searchRequest,
+                        layout: 2,
+                    },
+                    success: function(res) {
+                        $(".jobObject").remove();
+                        $('#row').html(res);
+                    }
+                });
+            }
         });
     </script>
 @endsection
