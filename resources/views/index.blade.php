@@ -20,13 +20,13 @@
         </div>
         <div>
             <div class="flex2" style="margin-left: 15px; align-items: center; margin-top: 25px; margin-bottom: 5px;">
-                <div style="cursor: pointer;" class="flex-items">
-                    <div>
-                        <img src="/img/reset.png" alt="#" width="30" height="30">
-                    </div>
-                    <div style="align-self: center;">
-                        Resetovať filter
-                    </div>
+                <div class="flex-items">
+                    <button style="display: flex; background: transparent;" id="resetFilter">
+                        <div><img src="/img/reset.png" alt="#" width="30" height="30"></div>
+                        <div style="align-self: center;">
+                            Resetovať filter
+                        </div>
+                    </button>
                 </div>
                 <div class="flex-items">
                     <div class="dropdown">
@@ -57,9 +57,9 @@
                         <div style="padding: 1rem 1.25rem;">
                             <form style="display: flex;">
                                 <label for="salaryFrom">od</label>
-                                <input type="number" id="salaryFrom" name="salaryFrom" class="salaryWidth">
+                                <input type="number" id="salaryFrom" name="salaryFrom" class="salaryWidth filter">
                                 <label for="salaryTo">do</label>
-                                <input type="number" id="salaryTo" name="salaryTo" class="salaryWidth">
+                                <input type="number" id="salaryTo" name="salaryTo" class="salaryWidth filter">
                             </form>
                         </div>
                     </div>
@@ -76,8 +76,8 @@
                             <div class="accordion-body" style="text-align:left">
                                 @foreach ($allEmploymentTypes as $employmentType)
                                     <div>
-                                        <input class="form-check-input checkboxMargin checkbox" type="checkbox"
-                                            id="{{ $employmentType->id }}">
+                                        <input class="form-check-input checkboxMargin employmentTypeCheckbox filter"
+                                            type="checkbox" id="{{ $employmentType->id }}">
                                         <label class="form-check-label" for="flexCheckDefault">
                                             {{ $employmentType->name }}
                                         </label>
@@ -99,7 +99,7 @@
                             <div class="accordion-body" style="text-align:left">
                                 @foreach ($experiences as $experience)
                                     <div>
-                                        <input class="form-check-input checkboxMargin experienceCheckbox checkbox"
+                                        <input class="form-check-input checkboxMargin experienceCheckbox filter"
                                             type="checkbox" id=" {{ $experience->name }} ">
                                         <label class="form-check-label" for="flexCheckDefault">
                                             {{ $experience->name }}
@@ -122,7 +122,7 @@
                             <div class="accordion-body" style="text-align:left">
                                 @foreach ($homeoffices as $homeoffice)
                                     <div>
-                                        <input class="form-check-input checkboxMargin homeofficeCheckbox checkbox"
+                                        <input class="form-check-input checkboxMargin homeofficeCheckbox filter"
                                             type="checkbox" id="{{ $homeoffice->name }}">
                                         <label class="form-check-label" for="flexCheckDefault">
                                             {{ $homeoffice->name }}
@@ -155,13 +155,46 @@
 
     <script type="text/javascript">
         // filter
-        $(".checkbox").change(function() {
+        $("#resetFilter").on("click", function(e) {
+            e.preventDefault();
+
+            $(".experienceCheckbox").prop("checked", false);
+            $(".homeofficeCheckbox").prop("checked", false);
+            $(".employmentTypeCheckbox").prop("checked", false);
+            $('#salaryFrom').val('');
+            $('#salaryTo').val('');
+
+            $.ajax({
+                method: 'POST',
+                url: "{{ route('getJobFiltred') }}",
+                dataType: 'html',
+                data: {
+                    '_token': '{{ csrf_token() }}',
+                    layout: 2,
+                    experiences: [],
+                    homeoffices: [],
+                    employmentTypes: [],
+                    salaryFrom: 0,
+                    salaryTo: 0,
+                },
+                success: function(res) {
+                    $(".jobObject").remove();
+                    $('#row').html(res);
+                }
+            });
+        });
+
+        $(".filter").change(function() {
             let experiences = [];
             let homeoffices = [];
+            let employmentTypes = [];
+            let salaryFrom = 0;
+            let salaryTo = 0;
 
             $('.experienceCheckbox').each(function(index, item) {
                 if (item.checked) {
                     experiences.push(item.id);
+
                 }
             });
 
@@ -170,6 +203,15 @@
                     homeoffices.push(item.id);
                 }
             });
+
+            $('.employmentTypeCheckbox').each(function(index, item) {
+                if (item.checked) {
+                    employmentTypes.push(item.id);
+                }
+            });
+
+            salaryFrom = $('#salaryFrom').val();
+            salaryTo = $('#salaryTo').val();
 
             $.ajax({
                 method: 'POST',
@@ -180,6 +222,9 @@
                     layout: 2,
                     experiences: experiences,
                     homeoffices: homeoffices,
+                    employmentTypes: employmentTypes,
+                    salaryFrom: salaryFrom,
+                    salaryTo: salaryTo,
                 },
                 success: function(res) {
                     $(".jobObject").remove();

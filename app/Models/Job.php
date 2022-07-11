@@ -25,5 +25,10 @@ class Job extends Model
         'expectation',
         'benefits'
     ];
+
+    public function getRouteKeyName()
+    {
+      return 'slug';
+    }
 }
 

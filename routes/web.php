@@ -18,8 +18,10 @@ use App\Http\Controllers\PageController;
 //     return view('welcome');
 // });
 
-Route::get('/', [PageController::class, 'getIndex']);
+Route::get('/', [PageController::class, 'getIndex'])->name('getIndex');
 Route::get('/index', [PageController::class, 'getIndex'])->name('getIndex');
+
+Route::get('/{slug}', [PageController::class, 'getJob'])->name('getJob');
 
 Route::get('/kontakt', [PageController::class, 'getContact']);
 Route::get('/referencie', [PageController::class, 'getReference']);
