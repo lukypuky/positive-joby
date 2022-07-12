@@ -206,6 +206,24 @@ class PageController extends Controller
     public function getJob($slug)
     {
         $job = Job::where('slug', $slug)->firstOrfail();
-        return view('job',['job' => $job]);
+        $allEmploymentTypes = Employment_type::all();
+        $jobEmploymentTypeIds = Job_employment_type::all();
+        $salaryTypes = Salary_type::all();
+
+        // $terms = Users_terms::where('users_terms.user_id', Auth::id())
+        // ->join('terms', 'terms.id', '=', 'users_terms.terms_id')
+        // ->join('courses_levels', 'courses_levels.id', '=', 'terms.courses_level_id')
+        // ->select(
+        //     'courses_levels.norm',
+        //     'courses_levels.title',
+        //     'terms.price',
+        //     'terms.price_vat',
+        //     'terms.currency',
+        //     'users_terms.created_at',
+        //     'users_terms.id'
+        // )
+        // ->get();
+
+        return view('job',['job' => $job, 'salaryTypes' => $salaryTypes, 'allEmploymentTypes' => $allEmploymentTypes, 'jobEmploymentTypes' => $jobEmploymentTypeIds]);
     }
 }
