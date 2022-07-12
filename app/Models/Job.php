@@ -22,6 +22,7 @@ class Job extends Model
         'salary_from',
         'salary_to',
         'description',
+        'salary_conditions',
         'expectation',
         'benefits'
     ];

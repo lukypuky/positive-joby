@@ -2,6 +2,10 @@ body {
     color: black;
 }
 
+textarea {
+    resize: none;
+}
+
 /* DLAZDICE */
 .jobTileObjectHeading {
     /* display: flex; */
@@ -335,4 +339,47 @@ button {
     color: #fff;
     background-color: #fc5506;
     border-color: #fc5506;
+}
+
+.pageContent {
+    text-align: center;
+    width: 55%;
+}
+
+.bottomMargin {
+    margin: 30px;
+}
+
+.jobPageHeaderInfo {
+    display: flex;
+    background-color: black;
+    color: #fff;
+    border-radius: 25px;
+    padding: 3px 20px;
+}
+
+.centerIcon {
+    align-self: center;
+}
+
+.orangeButtons {
+    border-radius: 25px;
+    padding: 10px 20px;
+}
+
+.jobInfoObject {
+    margin: 30px 0px;
+}
+
+.jobInfoHeading {
+    display: flex;
+}
+
+.jobInfoText {
+    padding: 10px 20px;
+}
+
+.jobInfoInput {
+    border-radius: 3px;
+    margin-bottom: 15px;
 }

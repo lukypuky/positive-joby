@@ -58,9 +58,11 @@
         <!-- Grid container -->
         <div class="container p-4 pb-0">
             <section>
-                <a href="#!" role="button" style="color: #868686; padding: 0px 15px;">Joby</a>
-                <a href="#!" role="button" style="color: #868686; padding: 0px 15px;">Referencie</a>
-                <a href="#!" role="button" style="color: #868686; padding: 0px 15px;">Kontakt</a>
+                <a href="{{ route('getIndex') }}" role="button" style="color: #868686; padding: 0px 15px;">Joby</a>
+                <a href="{{ route('getReference') }}" role="button"
+                    style="color: #868686; padding: 0px 15px;">Referencie</a>
+                <a href="{{ route('getContact') }}" role="button"
+                    style="color: #868686; padding: 0px 15px;">Kontakt</a>
             </section>
         </div>
         <!-- Grid container -->

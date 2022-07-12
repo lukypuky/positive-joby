@@ -10,6 +10,11 @@ use App\Models\Employment_type;
 use App\Models\Homeoffice;
 use App\Models\Salary_type;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactMail;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\Rules;
+use App\Models\Contact;
 
 class PageController extends Controller
 {
@@ -210,20 +215,42 @@ class PageController extends Controller
         $jobEmploymentTypeIds = Job_employment_type::all();
         $salaryTypes = Salary_type::all();
 
-        // $terms = Users_terms::where('users_terms.user_id', Auth::id())
-        // ->join('terms', 'terms.id', '=', 'users_terms.terms_id')
-        // ->join('courses_levels', 'courses_levels.id', '=', 'terms.courses_level_id')
-        // ->select(
-        //     'courses_levels.norm',
-        //     'courses_levels.title',
-        //     'terms.price',
-        //     'terms.price_vat',
-        //     'terms.currency',
-        //     'users_terms.created_at',
-        //     'users_terms.id'
-        // )
-        // ->get();
-
         return view('job',['job' => $job, 'salaryTypes' => $salaryTypes, 'allEmploymentTypes' => $allEmploymentTypes, 'jobEmploymentTypes' => $jobEmploymentTypeIds]);
+    }
+
+    public function sendMail(Request $request){
+        $data = [
+            'nameSurname' => $request->nameSurname,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'message' => $request->message,
+            'file' => $request->file('fileUpload')
+        ];
+
+        
+        // $input = $request->validate([
+        //     'nameSurname' => 'required',
+        //     'phone' => 'required',
+        //     'email' => 'requeired'
+        // ]);
+        
+        $email = 'lukash.baca@gmail.com';
+        \Mail::to("$email")->send(new ContactMail($data));
+
+        // Mail::send('email.contactMail', $data, function($message){
+        //     $message->attach($file);
+        //     $message->to($email);
+        // });
+
+        // Contact::create([
+        //     'contact_type' => $request->get('formType'), 
+        //     'id_job' => $request->get('job'),
+        //     'name_surname' => $request->get('nameSurname'),
+        //     'phone' => $request->get('phone'),
+        //     'email' => $request->get('email'),
+        //     'message' => $request->get('message'),
+        // ]);
+
+        return Redirect::back()->with('success', 'Žiadosť bola úspešne odoslaná.');
     }
 }

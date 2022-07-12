@@ -154,6 +154,12 @@ class JobListScreen extends Screen
                     ->render(function ($jobs) {
                         return $jobs->description;
                     }),
+                TD::make('Mzdové podmienky')
+                    ->sort()
+                    ->width('250px')
+                    ->render(function ($jobs) {
+                        return $jobs->salary_conditions;
+                    }),
                 TD::make('Očakávania')
                     ->sort()
                     ->width('250px')

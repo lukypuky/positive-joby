@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactMail;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,8 +26,9 @@ Route::get('/index', [PageController::class, 'getIndex'])->name('getIndex');
 
 Route::get('/{slug}', [PageController::class, 'getJob'])->name('getJob');
 
-Route::get('/kontakt', [PageController::class, 'getContact']);
-Route::get('/referencie', [PageController::class, 'getReference']);
+Route::get('/kontakt', [PageController::class, 'getContact'])->name('getContact');
+Route::get('/referencie', [PageController::class, 'getReference'])->name('getReference');
+Route::post('/sendMail', [PageController::class, 'sendMail'])->name('sendMail');
 
 Route::post('/jobs/search', [PageController::class,'searchJobs'])->name('searchJobs');
 Route::post('/jobs/layout', [PageController::class,'getJobLayout'])->name('getJobLayout');

@@ -26,6 +26,7 @@ return new class extends Migration
             $table->integer('salary_from');
             $table->integer('salary_to')->nullable();
             $table->text('description');
+            $table->text('salary_conditions');
             $table->text('expectation');
             $table->text('benefits');
             $table->timestamps();

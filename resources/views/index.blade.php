@@ -2,7 +2,7 @@
 @section('index')
     <?php $layoutValue = 0; ?>
 
-    <div class="container" style="text-align: center; width: 55%;">
+    <div class="container pageContent">
         <div style="margin-top: 60px;">
             <div>
                 {{-- image missing --}}

@@ -99,6 +99,9 @@ class JobCreateScreen extends Screen
                 TextArea::make('job.description')
                     ->title('Popis')
                     ->rows(5),
+                TextArea::make('job.salary_conditions')
+                    ->title('Mzdové podmienky')
+                    ->rows(5),
                 TextArea::make('job.expectation')
                     ->title('Očakávania')
                     ->rows(5),

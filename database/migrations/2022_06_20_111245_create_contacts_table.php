@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('phone');
             $table->string('email');
             $table->string('message');
-            $table->binary('attachment');
+            $table->binary('attachment')->nullable();
             $table->timestamps();
         });
     }
