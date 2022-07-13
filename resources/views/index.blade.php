@@ -1,9 +1,7 @@
 @extends('navbar')
 @section('index')
-    <?php $layoutValue = 0; ?>
-
     <div class="container pageContent">
-        <div style="margin-top: 60px;">
+        <div>
             <div>
                 {{-- image missing --}}
             </div>

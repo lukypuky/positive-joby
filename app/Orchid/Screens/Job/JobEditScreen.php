@@ -144,7 +144,7 @@ class JobEditScreen extends Screen
             $tmpNewJobEmploymentType->save();
         }
 
-        Alert::info('Úspešne ste pridali nový záznam.');
+        Alert::info('Úspešne ste upravili záznam.');
         return redirect()->route('platform.job.list');
     }
 

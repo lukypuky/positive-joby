@@ -4,8 +4,7 @@
             <div style="text-align: -webkit-center;">
                 <div class="jobRowObjectHeading">
                     <div class="jobRowObjectHeadingImage">
-                        <img src="/img/job.png" alt=">User icons created by Freepik - Flaticon" width="30"
-                            height="30">
+                        <img src="/img/job.png" alt="#" width="30" height="30">
                     </div>
                     <div class="jobRowObjectHeadingImageObject">
                         <h4 class="jobRowObjectHeadingText">{{ $job->position_name }}</h4>

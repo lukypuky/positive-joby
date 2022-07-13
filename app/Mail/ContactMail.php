@@ -33,10 +33,17 @@ class ContactMail extends Mailable
         $name = $this->mailData['nameSurname'];
         $phone = $this->mailData['phone'];
 
-        return $this->subject('Kontaktný formulár')
-                    ->view('email.contactMail', $this->mailData)
-                    ->attach($this->mailData['file']->getRealPath(),[
-                        'as' => $this->mailData['file']->getClientOriginalName()
-                    ]);
+        if($this->mailData['file']){
+            return $this->subject('Kontaktný formulár')
+            ->view('email.contactMail', $this->mailData)
+            ->attach($this->mailData['file']->getRealPath(),[
+                'as' => $this->mailData['file']->getClientOriginalName()
+            ]);
+        }
+        else{
+            return $this->subject('Kontaktný formulár')
+            ->view('email.contactMail', $this->mailData);
+        }
+
     }
 }

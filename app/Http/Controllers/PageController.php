@@ -15,11 +15,11 @@ use App\Mail\ContactMail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\Rules;
 use App\Models\Contact;
+use App\Models\Reference;
 
 class PageController extends Controller
 {
-    public function getIndex()
-    {   
+    public function getIndex(){   
         $jobs = Job::orderBy('position_name', 'asc')->get();
         $allEmploymentTypes = Employment_type::all();
         $experiences = Experience::all();
@@ -32,13 +32,12 @@ class PageController extends Controller
     }
 
     public function getContact(){
-        
         return view('/contact');
     }
 
     public function getReference(){
-        
-        return view('/reference');
+        $references = Reference::all();
+        return view('/reference', ['references' => $references]);
     }
 
     public function renderLayout($layoutType, $jobs, $allEmploymentTypes, $jobEmploymentTypeIds, $salaryTypes){
@@ -227,30 +226,32 @@ class PageController extends Controller
             'file' => $request->file('fileUpload')
         ];
 
-        
-        // $input = $request->validate([
-        //     'nameSurname' => 'required',
-        //     'phone' => 'required',
-        //     'email' => 'requeired'
-        // ]);
-        
+        $input = $request->validate([
+            'nameSurname' => ['required', 'string', 'max:255'],
+            'phone' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:8'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'message' => 'required',
+            'conditions' => 'required',
+        ]);
+
+        if($request->file('fileUpload')){
+            if($request->file('fileUpload')->getSize() > 10000000){
+                return Redirect::back()->with('failEmail', 'Príloha musí mať menej ako 10MB.');
+            }
+        }
+
         $email = 'lukash.baca@gmail.com';
         \Mail::to("$email")->send(new ContactMail($data));
 
-        // Mail::send('email.contactMail', $data, function($message){
-        //     $message->attach($file);
-        //     $message->to($email);
-        // });
+        Contact::create([
+            'contact_type' => $request->get('formType'), 
+            'id_job' => $request->get('job'),
+            'name_surname' => $request->get('nameSurname'),
+            'phone' => $request->get('phone'),
+            'email' => $request->get('email'),
+            'message' => $request->get('message'),
+        ]);
 
-        // Contact::create([
-        //     'contact_type' => $request->get('formType'), 
-        //     'id_job' => $request->get('job'),
-        //     'name_surname' => $request->get('nameSurname'),
-        //     'phone' => $request->get('phone'),
-        //     'email' => $request->get('email'),
-        //     'message' => $request->get('message'),
-        // ]);
-
-        return Redirect::back()->with('success', 'Žiadosť bola úspešne odoslaná.');
+        return Redirect::back()->with('successEmail', 'Žiadosť bola úspešne odoslaná.');
     }
 }

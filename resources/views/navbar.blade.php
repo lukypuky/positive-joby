@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/css/style.css" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    {{-- <script src="https://www.google.com/recaptcha/api.js"></script> kvoli posielaniu mailov zakomentovane --}}
     <script src='/js/script.js' type="text/javascript"></script>
     <title>PositiveJoby</title>
 </head>
@@ -22,7 +23,7 @@
 <body>
     <div class="header">
         <nav class="navbar navbar-expand-sm navbar-light" style="padding: 25px;">
-            <div class="container-fluid" style="padding: 0px 40px;">
+            <div class="container-fluid">
                 <a class="navbar-brand" href="#">
                     <img src="/img/logo.positive.png" alt="" width="150" height="30">
                 </a>
@@ -33,15 +34,17 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                     <ul class="navbar-nav ">
-                        <li class="nav-item" style="padding: 0px 15px;">
-                            <a class="nav-link active" aria-current="page"
-                                href="{{ route('getIndex') }}"><strong>Joby</strong></a>
+                        <li class="nav-item">
+                            <a class="nav-link {{ Route::currentRouteNamed('getIndex') ? 'active' : '' }}"
+                                aria-current="page" href="{{ route('getIndex') }}"><strong>Joby</strong></a>
                         </li>
-                        <li class="nav-item" style="padding: 0px 15px;">
-                            <a class="nav-link" aria-current="page" href="/referencie"><strong>Referencie</strong></a>
+                        <li class="nav-item">
+                            <a class="nav-link {{ Route::currentRouteNamed('getReference') ? 'active' : '' }}"
+                                aria-current="page" href="{{ route('getReference') }}"><strong>Referencie</strong></a>
                         </li>
-                        <li class="nav-item" style="padding: 0px 15px;">
-                            <a class="nav-link" aria-current="page" href="/kontakt"><strong>Kontakt</strong></a>
+                        <li class="nav-item">
+                            <a class="nav-link {{ Route::currentRouteNamed('getContact') ? 'active' : '' }}"
+                                aria-current="page" href="{{ route('getContact') }}"><strong>Kontakt</strong></a>
                         </li>
                     </ul>
                 </div>

@@ -1,9 +1,9 @@
-body {
-    color: black;
+html {
+    scroll-behavior: smooth;
 }
 
-textarea {
-    resize: none;
+body {
+    color: black;
 }
 
 /* DLAZDICE */
@@ -99,6 +99,18 @@ textarea {
 }
 
 /* ALL */
+.content {
+    margin-bottom: 60px;
+}
+
+textarea {
+    resize: none;
+}
+
+.nav-item {
+    padding: 0px 15px;
+}
+
 .jobObjectFooterText {
     font-size: 15px;
 }
@@ -120,7 +132,6 @@ textarea {
     border-radius: 10px;
 }
 
-
 .orangeText {
     color: #fc5506;
 }
@@ -135,6 +146,11 @@ textarea {
 
 .filterBackgroud {
     background-color: #f8f4f4;
+}
+
+.checkboxMargin:focus {
+    box-shadow: none;
+    border: 1px solid #fc5506;
 }
 
 .grid {
@@ -213,7 +229,6 @@ textarea {
     border: 1px solid #d5d5d5;
     font-style: italic;
 }
-
 
 .search input:focus {
     box-shadow: none;
@@ -343,7 +358,8 @@ button {
 
 .pageContent {
     text-align: center;
-    width: 55%;
+    width: 60%;
+    margin-top: 60px;
 }
 
 .bottomMargin {
@@ -364,7 +380,7 @@ button {
 
 .orangeButtons {
     border-radius: 25px;
-    padding: 10px 20px;
+    padding: 10px 35px;
 }
 
 .jobInfoObject {
@@ -382,4 +398,104 @@ button {
 .jobInfoInput {
     border-radius: 3px;
     margin-bottom: 15px;
+}
+
+.jobInfoInput:focus {
+    box-shadow: none;
+    border: 1px solid #fc5506;
+}
+
+.jobInfoTextArea {
+    border-radius: 3px;
+    height: 145px;
+}
+
+.contactFormAttachment {
+    margin-bottom: 30px;
+}
+
+.contactFormAttachmentBtn {
+    cursor: pointer;
+}
+
+.contactFormAttachmentText {
+    margin-left: 30px;
+}
+
+.form-check-input:checked {
+    background-color: #fc5506;
+    border-color: #fc5506;
+}
+
+.formInputs {
+    display: flex;
+    justify-content: center;
+}
+
+.img_set {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    /* remove extra space below image */
+}
+
+.pageSubHeading {
+    margin-bottom: 60px;
+}
+
+.referenceRow {
+    margin-bottom: 30px;
+    display: flex;
+}
+
+.referenceRowLeft {
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.referenceRowRight {
+    text-align: left;
+}
+
+.contact {
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.contactObjectImage {
+    height: 85px;
+    width: 85px;
+    border-radius: 50%;
+    background-color: #f8f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.contactPageSubHeading {
+    margin-bottom: 30px;
+}
+
+.contactInfo {
+    margin-bottom: 100px;
+}
+
+.contact:hover .inner {
+    background-color: #ffddcc;
+}
+
+.contact:hover .innerText {
+    background-color: transparent;
+    color: #fc5506;
+    font-weight: bold;
+}
+
+.contactPageInfo {
+    text-align: -webkit-center;
+}
+
+.contactPageForm {
+    padding: 10px 20px;
+    text-align: left;
 }

@@ -1,7 +1,7 @@
 @extends('navbar')
 @section('job')
     <div class="container pageContent">
-        <div style="margin-top: 60px;">
+        <div>
             <div>
                 {{-- image missing --}}
             </div>
@@ -42,7 +42,7 @@
 
                     </div>
                     <div class="flex-items">
-                        <button class="btn btn-primary orangeObject orangeButtons">MÁM
+                        <button class="btn btn-primary orangeObject orangeButtons" id="toFormBtn">MÁM
                             ZÁUJEM</button>
                     </div>
                 </div>
@@ -100,59 +100,58 @@
                 </div>
                 <div class="jobInfoText">
                     <div>
-                        <div>
-                            <div style="margin-bottom: 15px;">Máš záujem o toto miesto? Vyplň formulár a budeme ťa
-                                kontaktovať.</div>
-                            <form action="{{ route('sendMail') }}" method="POST" enctype="multipart/form-data">
-                                @csrf
+                        <div style="margin-bottom: 15px;">Máš záujem o toto miesto? Vyplň formulár a budeme ťa
+                            kontaktovať.</div>
+                        <form action="{{ route('sendMail') }}" method="POST" enctype="multipart/form-data"
+                            id="contactForm">
+                            @csrf
 
-                                <input type="hidden" name="job" value="{{ $job->id }}">
-                                <input type="hidden" name="formType" value="1">
+                            <input type="hidden" name="job" value="{{ $job->id }}">
+                            <input type="hidden" name="formType" value="1">
 
-                                <div class="row" style="display: flex; justify-content: center;">
-                                    <div class="col col-12 col-sm-12 col-md-4 col-lg-4">
-                                        <div>
-                                            <input type="text" class="form-control jobInfoInput" id="nameSurname"
-                                                name="nameSurname" placeholder="Meno a priezvisko">
-                                        </div>
-                                        <div>
-                                            <input type="text" class="form-control jobInfoInput" id="phone"
-                                                name="phone" placeholder="Telefón">
-                                        </div>
-                                        <div>
-                                            <input type="email" class="form-control jobInfoInput" id="email"
-                                                name="email" placeholder="Email">
-                                        </div>
+                            <div class="row formInputs">
+                                <div class="col col-12 col-sm-12 col-md-4 col-lg-4">
+                                    <div>
+                                        <input type="text" class="form-control jobInfoInput" id="nameSurname"
+                                            name="nameSurname" placeholder="Meno a priezvisko">
                                     </div>
-                                    <div class="col col-12 col-sm-12 col-md-8 col-lg-8">
-                                        <div>
-                                            <textarea class="form-control" placeholder="Prečo práve ty?" name="message"
-                                                style="border-radius: 3px;
-                                            height: 145px;"></textarea>
-                                        </div>
+                                    <div>
+                                        <input type="text" class="form-control jobInfoInput" id="phone"
+                                            name="phone" placeholder="Telefón">
+                                    </div>
+                                    <div>
+                                        <input type="email" class="form-control jobInfoInput" id="email"
+                                            name="email" placeholder="Email">
                                     </div>
                                 </div>
-                                <div style="margin-bottom: 30px;">
-                                    <input type="file" name="fileUpload" hidden id="fileUpload">
-                                    <label for="fileUpload" style="cursor: pointer;"><i
-                                            class="fa fa-user-o jobObjectFooterImage"></i>Pridať
-                                        prílohu</label>
-                                    <span id="fileChosen" style="margin-left: 30px;"></span>
+                                <div class="col col-12 col-sm-12 col-md-8 col-lg-8">
+                                    <div>
+                                        <textarea class="form-control jobInfoInput jobInfoTextArea" placeholder="Prečo práve ty?" name="message" required></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="contactFormAttachment">
+                                <input type="file" name="fileUpload" hidden id="fileUpload">
+                                <label for="fileUpload" class="contactFormAttachmentBtn"><i
+                                        class="fa fa-user-o jobObjectFooterImage"></i>Pridať
+                                    prílohu</label>
+                                <span id="fileChosen" class="contactFormAttachmentText"></span>
+                            </div>
+                            <div>
+                                <div>
+                                    <button class="btn btn-primary orangeObject orangeButtons g-recaptcha"
+                                        data-sitekey="reCAPTCHA_site_key" data-callback='onSubmit'
+                                        data-action='submit'>ODOSLAŤ ŽIADOSŤ</button>
                                 </div>
                                 <div>
-                                    <div>
-                                        <button class="btn btn-primary orangeObject orangeButtons">ODOSLAŤ ŽIADOSŤ</button>
-                                    </div>
-                                    <div>
-                                        <input class="form-check-input checkboxMargin" type="checkbox"
-                                            id="conditionsCheckBox">
-                                        <label class="form-check-label" for="flexCheckDefault">Vyhlasujem, že som sa
-                                            oboznámil s
-                                            <a href="#">Podmienkami spracúvania a ochrany osobných údajov</a></label>
-                                    </div>
+                                    <input class="form-check-input checkboxMargin jobInfoInput" type="checkbox"
+                                        name="conditions" id="conditionsCheckBox" required>
+                                    <label class="form-check-label" for="flexCheckDefault">Vyhlasujem, že som sa
+                                        oboznámil s
+                                        <a href="#">Podmienkami spracúvania a ochrany osobných údajov</a></label>
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -167,5 +166,16 @@
         actualBtn.addEventListener('change', function() {
             fileChosen.textContent = this.files[0].name
         })
+
+        function onSubmit(token) {
+            document.getElementById("contactForm").submit();
+        }
+
+
+        $("#toFormBtn").click(function() {
+            $('html, body').animate({
+                scrollTop: $("#contactForm").offset().top
+            }, 10);
+        });
     </script>
 @endsection
