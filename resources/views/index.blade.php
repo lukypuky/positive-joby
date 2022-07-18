@@ -34,14 +34,15 @@
                         </a>
 
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li><a class="dropdown-item" href="#" id="ascendingLayout">Názvu - vzostupne</a></li>
+                            <li><a class="dropdown-item" href="#" id="descendingLayout">Názvu - zostupne</a></li>
                         </ul>
                     </div>
                     <div class="layoutButtons">
-                        <button id="toTilesButton" class="layoutButton"><i class="fa fa-th-large"></i></button>
-                        <button id="toRowsButton" class="layoutButton"><i class="fa fa-list"></i></button>
+                        <button id="toTilesButton" name="toTilesButton" class="layoutButton filter" value="1"><i
+                                class="fa fa-th-large"></i></button>
+                        <button id="toRowsButton" name="toRowsButton" class="layoutButton filter" value="2"><i
+                                class="fa fa-list"></i></button>
                     </div>
                 </div>
             </div>
@@ -55,9 +56,11 @@
                         <div style="padding: 1rem 1.25rem;">
                             <form style="display: flex;">
                                 <label for="salaryFrom">od</label>
-                                <input type="number" id="salaryFrom" name="salaryFrom" class="salaryWidth filter">
+                                <input type="number" id="salaryFrom" name="salaryFrom" class="salaryWidth filter"
+                                    onchange="filterJobs()">
                                 <label for="salaryTo">do</label>
-                                <input type="number" id="salaryTo" name="salaryTo" class="salaryWidth filter">
+                                <input type="number" id="salaryTo" name="salaryTo" class="salaryWidth filter"
+                                    onchange="filterJobs()">
                             </form>
                         </div>
                     </div>
@@ -75,7 +78,7 @@
                                 @foreach ($allEmploymentTypes as $employmentType)
                                     <div>
                                         <input class="form-check-input checkboxMargin employmentTypeCheckbox filter"
-                                            type="checkbox" id="{{ $employmentType->id }}">
+                                            type="checkbox" id="{{ $employmentType->id }}" onchange="filterJobs()">
                                         <label class="form-check-label" for="flexCheckDefault">
                                             {{ $employmentType->name }}
                                         </label>
@@ -98,7 +101,7 @@
                                 @foreach ($experiences as $experience)
                                     <div>
                                         <input class="form-check-input checkboxMargin experienceCheckbox filter"
-                                            type="checkbox" id=" {{ $experience->name }} ">
+                                            type="checkbox" id="{{ $experience->name }}" onchange="filterJobs()">
                                         <label class="form-check-label" for="flexCheckDefault">
                                             {{ $experience->name }}
                                         </label>
@@ -121,7 +124,7 @@
                                 @foreach ($homeoffices as $homeoffice)
                                     <div>
                                         <input class="form-check-input checkboxMargin homeofficeCheckbox filter"
-                                            type="checkbox" id="{{ $homeoffice->name }}">
+                                            type="checkbox" id="{{ $homeoffice->name }}" onchange="filterJobs()">
                                         <label class="form-check-label" for="flexCheckDefault">
                                             {{ $homeoffice->name }}
                                         </label>
@@ -152,7 +155,10 @@
     </div>
 
     <script type="text/javascript">
-        // filter
+        let layout = 2; //1 = tile, 2 = row
+        let order = 1; //1 = asc, 2 = desc
+
+        //reset filtra
         $("#resetFilter").on("click", function(e) {
             e.preventDefault();
 
@@ -168,7 +174,8 @@
                 dataType: 'html',
                 data: {
                     '_token': '{{ csrf_token() }}',
-                    layout: 2,
+                    layout: layout,
+                    order: order,
                     experiences: [],
                     homeoffices: [],
                     employmentTypes: [],
@@ -182,7 +189,34 @@
             });
         });
 
-        $(".filter").change(function() {
+        //zobrazenie jobov v podobe riadkov
+        $("#toRowsButton").on("click", function(e) {
+            e.preventDefault();
+            layout = $(this).val();
+            filterJobs();
+        });
+
+        // zobrazenie jobov v podobe dlazdic
+        $("#toTilesButton").on("click", function(e) {
+            e.preventDefault();
+            layout = $(this).val();
+            filterJobs();
+        });
+
+        $("#ascendingLayout").on("click", function(e) {
+            e.preventDefault();
+            order = 1;
+            filterJobs();
+        });
+
+        $("#descendingLayout").on("click", function(e) {
+            e.preventDefault();
+            order = 2;
+            filterJobs();
+        });
+
+        //filter
+        function filterJobs() {
             let experiences = [];
             let homeoffices = [];
             let employmentTypes = [];
@@ -192,7 +226,6 @@
             $('.experienceCheckbox').each(function(index, item) {
                 if (item.checked) {
                     experiences.push(item.id);
-
                 }
             });
 
@@ -217,7 +250,8 @@
                 dataType: 'html',
                 data: {
                     '_token': '{{ csrf_token() }}',
-                    layout: 2,
+                    layout: layout,
+                    order: order,
                     experiences: experiences,
                     homeoffices: homeoffices,
                     employmentTypes: employmentTypes,
@@ -229,7 +263,7 @@
                     $('#row').html(res);
                 }
             });
-        });
+        }
 
         // defaultne zobrazenie jobov
         $(document).ready(function() {
@@ -240,45 +274,8 @@
                 dataType: 'html',
                 data: {
                     '_token': '{{ csrf_token() }}',
-                    layout: 2,
-                },
-                success: function(res) {
-                    $(".jobObject").remove();
-                    $('#row').html(res);
-                }
-            });
-        });
-
-        // zobrazenie jobov v podobe dlazdic
-        $("#toTilesButton").on("click", function(e) {
-            e.preventDefault();
-
-            $.ajax({
-                method: 'POST',
-                url: "{{ route('getJobLayout') }}",
-                dataType: 'html',
-                data: {
-                    '_token': '{{ csrf_token() }}',
-                    layout: 1,
-                },
-                success: function(res) {
-                    $(".jobObject").remove();
-                    $('#row').html(res);
-                }
-            });
-        });
-
-        //zobrazenie jobov v podobe riadkov
-        $("#toRowsButton").on("click", function(e) {
-            e.preventDefault();
-
-            $.ajax({
-                method: 'POST',
-                url: "{{ route('getJobLayout') }}",
-                dataType: 'html',
-                data: {
-                    '_token': '{{ csrf_token() }}',
-                    layout: 2,
+                    layout: layout,
+                    order: order,
                 },
                 success: function(res) {
                     $(".jobObject").remove();
@@ -301,6 +298,7 @@
                         '_token': '{{ csrf_token() }}',
                         searchRequest: searchRequest,
                         layout: 1,
+                        order: order,
                     },
                     success: function(res) {
                         $(".jobObject").remove();
@@ -316,6 +314,7 @@
                         '_token': '{{ csrf_token() }}',
                         searchRequest: searchRequest,
                         layout: 2,
+                        order: order,
                     },
                     success: function(res) {
                         $(".jobObject").remove();
