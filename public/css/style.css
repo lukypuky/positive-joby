@@ -499,3 +499,13 @@ button {
     padding: 10px 20px;
     text-align: left;
 }
+
+.flash_message {
+    position: fixed;
+    bottom: 1%;
+    right: 1%;
+    background-color: #fc5506;
+    color: #fff;
+    padding: 0.5% 1%;
+    border-radius: 20px;
+}

@@ -11,7 +11,7 @@
             <div class="row contactPageInfo">
                 <div class="col col-sm-12 col-md-4 col-lg-4 contact">
                     <div class="contactObjectImage inner">
-                        <img src="/img/job.png" alt="#" width="30" height="30">
+                        <i class="fa fa-phone fa-3x" aria-hidden="true"></i>
                     </div>
                     <div class="inner innerText">
                         <div class="text_blue">+421 902 600 700</div>
@@ -19,7 +19,7 @@
                 </div>
                 <div class="col col-sm-12 col-md-4 col-lg-4 contact">
                     <div class="contactObjectImage inner">
-                        <img src="/img/job.png" alt="#" width="30" height="30">
+                        <i class="fa fa-envelope-o fa-3x" aria-hidden="true"></i>
                     </div>
                     <div class="inner innerText">
                         <div class="text_blue">info@positive.sk</div>
@@ -27,7 +27,7 @@
                 </div>
                 <div class="col col-sm-12 col-md-4 col-lg-4 contact">
                     <div class="contactObjectImage inner">
-                        <img src="/img/job.png" alt="#" width="30" height="30">
+                        <i class="fa fa-map-marker fa-3x" aria-hidden="true"></i>
                     </div>
                     <div class="inner innerText">
                         <div class="text_blue">Škultétyho 18, Bratislava</div>

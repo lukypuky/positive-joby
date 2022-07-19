@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ContactMail extends Mailable
+class ContactMailToUser extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -30,20 +30,16 @@ class ContactMail extends Mailable
      */
     public function build()
     {
-        $name = $this->mailData['nameSurname'];
-        $phone = $this->mailData['phone'];
-
         if($this->mailData['file']){
-            return $this->subject('Kontaktný formulár')
-            ->view('email.contactMail', $this->mailData)
+            return $this->subject('Positive s.r.o.')
+            ->view('email.contactMailToUser', $this->mailData)
             ->attach($this->mailData['file']->getRealPath(),[
                 'as' => $this->mailData['file']->getClientOriginalName()
             ]);
         }
         else{
-            return $this->subject('Kontaktný formulár')
-            ->view('email.contactMail', $this->mailData);
+            return $this->subject('Positive s.r.o.')
+            ->view('email.contactMailToUser', $this->mailData);
         }
-
     }
 }

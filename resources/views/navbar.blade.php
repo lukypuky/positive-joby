@@ -6,16 +6,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
         integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
         integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous">
     </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    {{-- <script src="https://www.google.com/recaptcha/api.js"></script> kvoli posielaniu mailov zakomentovane --}}
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    {{-- zakomentovane kvoli posielaniu mailov --}}
+    <script src="https://www.google.com/recaptcha/api.js"></script>
     <script src='/js/script.js' type="text/javascript"></script>
     <title>PositiveJoby</title>
 </head>
@@ -57,6 +59,21 @@
         @yield('reference')
         @yield('job')
     </div>
+
+    @if (session()->has('failEmail'))
+        <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 4000)" x-show="show" class="flash_message">
+            <span>{{ session('failEmail') }}</span>
+        </div>
+    @elseif(session()->has('successEmail'))
+        <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 4000)" x-show="show" class="flash_message">
+            <span>{{ session('successEmail') }}</span>
+        </div>
+    @elseif(session()->has('successJobEmail'))
+        <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 4000)" x-show="show" class="flash_message">
+            <span>{{ session('successJobEmail') }}</span>
+        </div>
+    @endif
+
     <footer class="text-center" style="background-color: #f5f4f2; color: #9f9f9e;">
         <!-- Grid container -->
         <div class="container p-4 pb-0">

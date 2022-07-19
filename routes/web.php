@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\MailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +23,7 @@ Route::get('/referencie', [PageController::class, 'getReference'])->name('getRef
 
 Route::get('/{slug}', [PageController::class, 'getJob'])->name('getJob');
 
-Route::post('/sendMail', [PageController::class, 'sendMail'])->name('sendMail');
+Route::post('/sendMail', [MailController::class, 'sendMail'])->name('sendMail');
 Route::post('/jobs/search', [PageController::class,'searchJobs'])->name('searchJobs');
 Route::post('/jobs/layout', [PageController::class,'getJobLayout'])->name('getJobLayout');
 Route::post('/jobs/filter', [PageController::class,'getJobsFiltred'])->name('getJobFiltred');
