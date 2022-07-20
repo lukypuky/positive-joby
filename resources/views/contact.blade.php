@@ -1,15 +1,15 @@
 @extends('navbar')
 @section('contact')
-    <div style="text-align: center; background-color: #f5f4f2; padding: 30px;">
+    <div class="pageHeading">
         <h1>Kontakt</h1>
     </div>
     <div class="container pageContent">
         <div class="contactInfo">
             <div class="contactPageSubHeading">
-                <h2>Sme tu pre Vás v pracovnej dobre od 8:00 do 15:30</h2>
+                <h2>Sme tu pre Vás v pracovnej dobe od 8:00 do 15:30</h2>
             </div>
             <div class="row contactPageInfo">
-                <div class="col col-sm-12 col-md-4 col-lg-4 contact">
+                <div class="col-12 col-sm-12 col-md-4 col-lg-4 contact">
                     <div class="contactObjectImage inner">
                         <i class="fa fa-phone fa-3x" aria-hidden="true"></i>
                     </div>
@@ -17,7 +17,7 @@
                         <div class="text_blue">+421 902 600 700</div>
                     </div>
                 </div>
-                <div class="col col-sm-12 col-md-4 col-lg-4 contact">
+                <div class="col-12 col-sm-12 col-md-4 col-lg-4 contact">
                     <div class="contactObjectImage inner">
                         <i class="fa fa-envelope-o fa-3x" aria-hidden="true"></i>
                     </div>
@@ -25,7 +25,7 @@
                         <div class="text_blue">info@positive.sk</div>
                     </div>
                 </div>
-                <div class="col col-sm-12 col-md-4 col-lg-4 contact">
+                <div class="col-12 col-sm-12 col-md-4 col-lg-4 contact">
                     <div class="contactObjectImage inner">
                         <i class="fa fa-map-marker fa-3x" aria-hidden="true"></i>
                     </div>
@@ -49,21 +49,21 @@
                     <div class="row formInputs">
                         <div class="col col-12 col-sm-12 col-md-4 col-lg-4">
                             <div>
-                                <input type="text" class="form-control jobInfoInput" id="nameSurname" name="nameSurname"
-                                    placeholder="Meno a priezvisko">
+                                <input type="text" class="form-control rounded jobInfoInput" id="nameSurname"
+                                    name="nameSurname" placeholder="Meno a priezvisko">
                             </div>
                             <div>
-                                <input type="text" class="form-control jobInfoInput" id="phone" name="phone"
-                                    placeholder="Telefón">
+                                <input type="text" class="form-control rounded jobInfoInput" id="phone"
+                                    name="phone" placeholder="Telefón">
                             </div>
                             <div>
-                                <input type="email" class="form-control jobInfoInput" id="email" name="email"
-                                    placeholder="Email">
+                                <input type="email" class="form-control rounded jobInfoInput" id="email"
+                                    name="email" placeholder="Email">
                             </div>
                         </div>
                         <div class="col col-12 col-sm-12 col-md-8 col-lg-8">
                             <div>
-                                <textarea class="form-control jobInfoInput jobInfoTextArea"
+                                <textarea class="form-control rounded jobInfoInput jobInfoTextArea"
                                     placeholder="Dobrý deň, mám záujem o spoluprácu.&#10;Kontaktujte ma prosím." name="message" required></textarea>
                             </div>
                         </div>

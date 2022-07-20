@@ -1,7 +1,7 @@
 @foreach ($jobs as $job)
-    <div class="col col-sm-12 col-md-12 col-lg-12 jobObject staticBorder">
-        <a href="/{{ $job->slug }}" style="color: black; text-decoration: none;">
-            <div style="text-align: -webkit-center;">
+    <div class="col col-sm-12 col-md-12 col-lg-12 jobObject border rounded">
+        <a href="/{{ $job->slug }}" class="jobObjectLink">
+            <div class="jobObjectHead">
                 <div class="jobRowObjectHeading">
                     <div class="jobRowObjectHeadingImage">
                         <img src="/img/job.png" alt="#" width="30" height="30">

@@ -46,7 +46,7 @@ class MailController extends Controller
         ]);
 
         if($request->file('fileUpload')){
-            if($request->file('fileUpload')->getSize() > 10){
+            if($request->file('fileUpload')->getSize() > 10000000){
                 return Redirect::back()->with('failEmail', 'Príloha musí mať menej ako 10MB.');
             }
         }

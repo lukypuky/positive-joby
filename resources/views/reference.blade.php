@@ -1,6 +1,6 @@
 @extends('navbar')
 @section('reference')
-    <div style="text-align: center; background-color: #f5f4f2; padding: 30px;">
+    <div class="pageHeading">
         <h1>Referencie</h1>
     </div>
     <div class="container pageContent">

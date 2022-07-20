@@ -110,84 +110,12 @@ class PageController extends Controller
             }
         }
 
-        // DB::enableQueryLog();
-        if(!$salaryToArray){
-            if($experiencesArray && !$homeofficesArray && !$employmentTypesArray && !$salaryFromArray){
-                $jobs = Job::whereIn('id_experience', $experiencesArray)->get();
-            }
-            elseif (!$experiencesArray && $homeofficesArray && !$employmentTypesArray && !$salaryFromArray) {
-                $jobs = Job::whereIn('id_homeoffice', $homeofficesArray)->get();
-            }
-            elseif (!$experiencesArray && !$homeofficesArray && $employmentTypesArray && !$salaryFromArray) {
-                $jobs = Job::whereIn('id', $employmentTypesArray)->get();
-            }
-            elseif (!$experiencesArray && !$homeofficesArray && !$employmentTypesArray && $salaryFromArray) {
-                $jobs = Job::whereIn('id', $salaryFromArray)->get();
-            }
-            elseif ($experiencesArray && $homeofficesArray && !$employmentTypesArray && !$salaryFromArray) {
-                $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')
-                ->whereIn('id_homeoffice', $homeofficesArray)
-                ->get();
-            }
-            elseif ($experiencesArray && !$homeofficesArray && $employmentTypesArray && !$salaryFromArray) {
-                $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')
-                ->whereIn('id', $employmentTypesArray)
-                ->get();
-            }
-            elseif ($experiencesArray && !$homeofficesArray && !$employmentTypesArray && $salaryFromArray) {
-                $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')
-                ->whereIn('id', $salaryFromArray)
-                ->get();
-            }
-            elseif ($experiencesArray && $homeofficesArray && $employmentTypesArray && !$salaryFromArray) {
-                $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')
-                ->whereIn('id_homeoffice', $homeofficesArray, 'and')
-                ->whereIn('id', $employmentTypesArray)
-                ->get();
-            }
-            elseif ($experiencesArray && $homeofficesArray && !$employmentTypesArray && $salaryFromArray) {
-                $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')
-                ->whereIn('id_homeoffice', $homeofficesArray, 'and')
-                ->whereIn('id', $salaryFromArray)
-                ->get();
-            }
-            elseif ($experiencesArray && !$homeofficesArray && $employmentTypesArray && $salaryFromArray) {
-                $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')
-                ->whereIn('id', $employmentTypesArray, 'and')
-                ->whereIn('id', $salaryFromArray)
-                ->get();
-            }
-            elseif (!$experiencesArray && $homeofficesArray && $employmentTypesArray && !$salaryFromArray) {
-                $jobs = Job::whereIn('id', $employmentTypesArray, 'or')
-                ->whereIn('id_homeoffice', $homeofficesArray)
-                ->get();
-            }
-            elseif (!$experiencesArray && !$homeofficesArray && $employmentTypesArray && $salaryFromArray) {
-                $jobs = Job::whereIn('id', $employmentTypesArray, 'or')
-                ->whereIn('id', $salaryFromArray)
-                ->get();
-            }
-            elseif (!$experiencesArray && $homeofficesArray && $employmentTypesArray && $salaryFromArray) {
-                $jobs = Job::whereIn('id', $employmentTypesArray, 'or')
-                ->whereIn('id_homeoffice', $homeofficesArray, 'and')
-                ->whereIn('id', $salaryFromArray)
-                ->get();
-            }
-            elseif (!$experiencesArray && $homeofficesArray && !$employmentTypesArray && $salaryFromArray) {
-                $jobs = Job::whereIn('id_homeoffice', $homeofficesArray, 'or')
-                ->whereIn('id', $salaryFromArray)
-                ->get();
-            }
-            elseif ($experiencesArray && $homeofficesArray && $employmentTypesArray && $salaryFromArray){ 
-                $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')
-                ->whereIn('id_homeoffice', $homeofficesArray, 'and')
-                ->whereIn('id', $employmentTypesArray, 'and')
-                ->whereIn('id', $$salaryFromArray)
-                ->get();
-            }
-            else{
-                $jobs = Job::orderBy('position_name', 'asc')->get();
-            }
+        if(empty($request->get('salaryTo')) == true){
+            $jobs = $this->filerJobsWithoutToSalary($experiencesArray, $homeofficesArray, $employmentTypesArray, $salaryFromArray);
+        }
+        else{
+            $jobs = $this->filerJobsWithToSalary($experiencesArray, $homeofficesArray, $employmentTypesArray, $salaryFromArray, $salaryToArray);
+            return $jobs; //docasne
         }
 
         if($order == 2){
@@ -202,10 +130,6 @@ class PageController extends Controller
             $columns = array_column($jobs, 'position_name');
             array_multisort($columns, SORT_ASC, $jobs);
         }
-
-        // $query = DB::getQueryLog();
-        // $query = end($query);
-        // var_dump($query);
             
         $allEmploymentTypes = Employment_type::all();
         $jobEmploymentTypeIds = Job_employment_type::all();
@@ -223,5 +147,109 @@ class PageController extends Controller
         $salaryTypes = Salary_type::all();
 
         return view('job',['job' => $job, 'salaryTypes' => $salaryTypes, 'allEmploymentTypes' => $allEmploymentTypes, 'jobEmploymentTypes' => $jobEmploymentTypeIds]);
+    }
+
+    public function filerJobsWithToSalary($experiencesArray, $homeofficesArray, $employmentTypesArray, $salaryFromArray, $salaryToArray){
+        // if($experiencesArray && !$homeofficesArray && !$employmentTypesArray && !$salaryFromArray && !$salaryToArray){
+        //     $jobs = Job::whereIn('id_experience', $experiencesArray)->get();
+        // }
+        // elseif (!$experiencesArray && $homeofficesArray && !$employmentTypesArray && !$salaryFromArray && !$salaryToArray) {
+        //     $jobs = Job::whereIn('id_homeoffice', $homeofficesArray)->get();
+        // }
+        // elseif (!$experiencesArray && !$homeofficesArray && $employmentTypesArray && !$salaryFromArray && !$salaryToArray) {
+        //     $jobs = Job::whereIn('id', $employmentTypesArray)->get();
+        // }
+        // elseif (!$experiencesArray && !$homeofficesArray && !$employmentTypesArray && $salaryFromArray && !$salaryToArray) {
+        //     $jobs = Job::whereIn('id', $salaryFromArray)->get();
+        // }
+        // elseif (!$experiencesArray && !$homeofficesArray && !$employmentTypesArray && !$salaryFromArray && $salaryToArray) {
+        //     $jobs = Job::whereIn('id', $salaryToArray)->get();
+        // }
+        // else{
+        //     $jobs = Job::orderBy('position_name', 'asc')->get();
+        // }
+
+        return "zatial daco";
+    }
+
+    public function filerJobsWithoutToSalary($experiencesArray, $homeofficesArray, $employmentTypesArray, $salaryFromArray){
+        if($experiencesArray && !$homeofficesArray && !$employmentTypesArray && !$salaryFromArray){
+            $jobs = Job::whereIn('id_experience', $experiencesArray)->get();
+        }
+        elseif (!$experiencesArray && $homeofficesArray && !$employmentTypesArray && !$salaryFromArray) {
+            $jobs = Job::whereIn('id_homeoffice', $homeofficesArray)->get();
+        }
+        elseif (!$experiencesArray && !$homeofficesArray && $employmentTypesArray && !$salaryFromArray) {
+            $jobs = Job::whereIn('id', $employmentTypesArray)->get();
+        }
+        elseif (!$experiencesArray && !$homeofficesArray && !$employmentTypesArray && $salaryFromArray) {
+            $jobs = Job::whereIn('id', $salaryFromArray)->get();
+        }
+        elseif ($experiencesArray && $homeofficesArray && !$employmentTypesArray && !$salaryFromArray) {
+            $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')
+            ->whereIn('id_homeoffice', $homeofficesArray)
+            ->get();
+        }
+        elseif ($experiencesArray && !$homeofficesArray && $employmentTypesArray && !$salaryFromArray) {
+            $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')
+            ->whereIn('id', $employmentTypesArray)
+            ->get();
+        }
+        elseif ($experiencesArray && !$homeofficesArray && !$employmentTypesArray && $salaryFromArray) {
+            $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')
+            ->whereIn('id', $salaryFromArray)
+            ->get();
+        }
+        elseif ($experiencesArray && $homeofficesArray && $employmentTypesArray && !$salaryFromArray) {
+            $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')
+            ->whereIn('id_homeoffice', $homeofficesArray, 'and')
+            ->whereIn('id', $employmentTypesArray)
+            ->get();
+        }
+        elseif ($experiencesArray && $homeofficesArray && !$employmentTypesArray && $salaryFromArray) {
+            $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')
+            ->whereIn('id_homeoffice', $homeofficesArray, 'and')
+            ->whereIn('id', $salaryFromArray)
+            ->get();
+        }
+        elseif ($experiencesArray && !$homeofficesArray && $employmentTypesArray && $salaryFromArray) {
+            $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')
+            ->whereIn('id', $employmentTypesArray, 'and')
+            ->whereIn('id', $salaryFromArray)
+            ->get();
+        }
+        elseif (!$experiencesArray && $homeofficesArray && $employmentTypesArray && !$salaryFromArray) {
+            $jobs = Job::whereIn('id', $employmentTypesArray, 'or')
+            ->whereIn('id_homeoffice', $homeofficesArray)
+            ->get();
+        }
+        elseif (!$experiencesArray && !$homeofficesArray && $employmentTypesArray && $salaryFromArray) {
+            $jobs = Job::whereIn('id', $employmentTypesArray, 'or')
+            ->whereIn('id', $salaryFromArray)
+            ->get();
+        }
+        elseif (!$experiencesArray && $homeofficesArray && $employmentTypesArray && $salaryFromArray) {
+            $jobs = Job::whereIn('id', $employmentTypesArray, 'or')
+            ->whereIn('id_homeoffice', $homeofficesArray, 'and')
+            ->whereIn('id', $salaryFromArray)
+            ->get();
+        }
+        elseif (!$experiencesArray && $homeofficesArray && !$employmentTypesArray && $salaryFromArray) {
+            $jobs = Job::whereIn('id_homeoffice', $homeofficesArray, 'or')
+            ->whereIn('id', $salaryFromArray)
+            ->get();
+        }
+        elseif ($experiencesArray && $homeofficesArray && $employmentTypesArray && $salaryFromArray){ 
+            $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')
+            ->whereIn('id_homeoffice', $homeofficesArray, 'and')
+            ->whereIn('id', $employmentTypesArray, 'and')
+            ->whereIn('id', $$salaryFromArray)
+            ->get();
+        }
+        else{
+            $jobs = Job::orderBy('position_name', 'asc')->get();
+        }
+
+        return $jobs;
     }
 }

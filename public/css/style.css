@@ -77,6 +77,7 @@ body {
 .jobRowObjectFooter {
     display: flex;
     justify-content: end;
+    margin-top: 10px;
 }
 
 .jobRowObjectFooterSectionObject {
@@ -116,20 +117,9 @@ textarea {
 }
 
 .jobObject {
-    border: 1px solid #d5d5d5;
-    border-radius: 10px;
     cursor: pointer;
     margin-bottom: 10px;
     padding: 15px;
-}
-
-.jobObject:hover {
-    border-color: #fc5506;
-}
-
-.staticBorder {
-    border: 1px solid #d5d5d5;
-    border-radius: 10px;
 }
 
 .orangeText {
@@ -153,18 +143,12 @@ textarea {
     border: 1px solid #fc5506;
 }
 
-.grid {
-    padding: 25px;
-    margin: 0% 1.5% 2.8% 0%;
-    width: 40%;
-}
-
 .homePagePadding {
     padding: 11px;
 }
 
 .accordionItem {
-    margin: 2.8% 0 2.8% 0;
+    margin: 10px 0 10px 0;
 }
 
 .checkboxMargin {
@@ -173,7 +157,6 @@ textarea {
 
 .salaryWidth {
     width: 25%;
-    border-radius: 5px;
     margin: 0px 5px;
 }
 
@@ -188,51 +171,17 @@ textarea {
     text-align: left;
 }
 
-.form-inline {
-    display: flex;
-    flex-flow: row wrap;
-    align-items: center;
-}
-
-.form-inline label {
-    margin: 5px 10px 5px 0;
-}
-
-.form-inline input {
-    vertical-align: middle;
-    margin: 5px 10px 5px 0;
-    padding: 10px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-}
-
-.form-inline button {
-    padding: 10px 20px;
-    background-color: dodgerblue;
-    border: 1px solid #ddd;
-    color: white;
-    cursor: pointer;
-}
-
 .search {
     position: relative;
     box-shadow: 0 0 40px rgba(51, 51, 51, .1);
-    margin-left: 10px;
     padding: 20px;
     background-color: #ffddcc;
-    border-radius: 10px;
 }
 
 .search input {
     height: 50px;
     text-indent: 25px;
-    border: 1px solid #d5d5d5;
     font-style: italic;
-}
-
-.search input:focus {
-    box-shadow: none;
-    border: 1px solid #fc5506;
 }
 
 .search .fa-search {
@@ -253,16 +202,16 @@ textarea {
     right: 21px;
     height: 50px;
     width: 55px;
-    border-radius: 0px 10px 10px 0px;
+    border-radius: 0px 0.25rem 0.25rem 0px;
 }
 
 .btn-primary {
     border-color: #fc5506;
 }
 
-.form-control {
+/* .form-control {
     border-radius: 10px;
-}
+} */
 
 .btn:hover {
     background-color: #e34a02;
@@ -387,6 +336,10 @@ button {
     margin: 30px 0px;
 }
 
+.jobInfoObjects {
+    text-align: left;
+}
+
 .jobInfoHeading {
     display: flex;
 }
@@ -396,7 +349,7 @@ button {
 }
 
 .jobInfoInput {
-    border-radius: 3px;
+    border: 2px solid #d5d5d5;
     margin-bottom: 15px;
 }
 
@@ -407,7 +360,7 @@ button {
 
 .jobInfoTextArea {
     border-radius: 3px;
-    height: 145px;
+    height: 150px;
 }
 
 .contactFormAttachment {
@@ -508,4 +461,73 @@ button {
     color: #fff;
     padding: 0.5% 1%;
     border-radius: 20px;
+}
+
+.pageHeading {
+    text-align: center;
+    background-color: #f5f4f2;
+    padding: 30px;
+}
+
+.accordion-button:not(.collapsed) {
+    color: black;
+    background-color: #f8f4f4;
+    box-shadow: none;
+}
+
+.accordion-button:not(.collapsed)::after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000000'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+    transform: rotate(-180deg);
+}
+
+.rounded {
+    border-radius: 0.25rem !important;
+}
+
+.border {
+    border: 1px solid #d5d5d5 !important;
+}
+
+.jobObject:hover {
+    border: 1px solid #fc5506 !important;
+}
+
+.search input:focus {
+    box-shadow: none;
+    border: 1px solid #fc5506 !important;
+}
+
+.jobObjectHead {
+    text-align: -webkit-center;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+a:hover {
+    color: black;
+    text-decoration: none;
+}
+
+.jobInfoFormText {
+    margin-bottom: 15px;
+}
+
+.jobInfoBackButton {
+    text-align: left;
+    margin-bottom: 30px;
+}
+
+.jobInfoTitle {
+    margin-bottom: 30px;
+}
+
+.jobInfoSubTitle {
+    align-items: center;
+}
+
+.g-custom {
+    --bs-gutter-x: 0rem;
 }

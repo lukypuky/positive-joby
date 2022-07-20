@@ -1,7 +1,7 @@
 @extends('navbar')
 @section('index')
     <div class="container pageContent">
-        <div>
+        <div style="border: 1px solid black;">
             <div>
                 {{-- image missing --}}
             </div>
@@ -9,16 +9,16 @@
                 <h1><span class="orangeText">Pridaj sa k nám!</span> Čaká ťa skvelý job</h1>
             </div>
             <div>
-                <div class="search">
+                <div class="search rounded">
                     <i class="fa fa-user-o"></i>
-                    <input type="text" class="form-control" id="searchJobs" placeholder="Vyhľadať pozíciu">
+                    <input type="text" class="form-control border rounded" id="searchJobs" placeholder="Vyhľadať pozíciu">
                     <button class="btn btn-primary orangeObject" id="searchJobsButton"><i class="fa fa-search"></i></button>
                 </div>
             </div>
         </div>
-        <div>
-            <div class="flex2" style="margin-left: 15px; align-items: center; margin-top: 25px; margin-bottom: 5px;">
-                <div class="flex-items">
+        <div style="border: 1px solid black;">
+            <div class="row g-custom" style="align-items: center; margin-top: 25px; width: 100%;">
+                <div class="col col-12 col-sm-12 col-md-4 col-lg-4">
                     <button style="display: flex; background: transparent;" id="resetFilter">
                         <div><img src="/img/reset.png" alt="#" width="30" height="30"></div>
                         <div style="align-self: center;">
@@ -26,7 +26,8 @@
                         </div>
                     </button>
                 </div>
-                <div class="flex-items">
+                <div class="col col-12 col-sm-12 col-md-8 col-lg-8"
+                    style="justify-content: right; display: flex; padding: 10px;">
                     <div class="dropdown">
                         <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                             data-bs-toggle="dropdown" aria-expanded="false">
@@ -46,9 +47,10 @@
                     </div>
                 </div>
             </div>
-            <div style="display: flex;">
-                <div class="accordion homePagePadding" id="accordionExample" style=" width:30%;">
-                    <div class="filterBackgroud staticBorder">
+
+            <div class="row g-custom" style="width: 100%;">
+                <div class=" homePagePadding col-12 col-sm-12 col-md-12 col-lg-4" id="accordionExample">
+                    <div class="filterBackgroud border rounded">
                         <div>
                             <h2 class="salaryHeading"><strong>Plat</strong></h2>
                         </div>
@@ -56,24 +58,24 @@
                         <div style="padding: 1rem 1.25rem;">
                             <form style="display: flex;">
                                 <label for="salaryFrom">od</label>
-                                <input type="number" id="salaryFrom" name="salaryFrom" class="salaryWidth filter"
-                                    onchange="filterJobs()">
+                                <input type="number" id="salaryFrom" name="salaryFrom"
+                                    class="salaryWidth border rounded filter" onchange="filterJobs()">
                                 <label for="salaryTo">do</label>
-                                <input type="number" id="salaryTo" name="salaryTo" class="salaryWidth filter"
-                                    onchange="filterJobs()">
+                                <input type="number" id="salaryTo" name="salaryTo"
+                                    class="salaryWidth border rounded filter" onchange="filterJobs()">
                             </form>
                         </div>
                     </div>
-                    <div class="accordion-item accordionItem staticBorder">
-                        <h2 class="accordion-header" id="headingOne">
-                            <button class="accordion-button collapsed filterBackgroud" type="button"
-                                data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true"
-                                aria-controls="collapseOne">
+                    <div class="accordion-item accordionItem border rounded">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                            <button class="accordion-button filterBackgroud" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                                aria-controls="panelsStayOpen-collapseOne">
                                 <strong>Druh pracovného pomeru</strong>
                             </button>
                         </h2>
-                        <div id="collapseOne" class="accordion-collapse collapse show filterBackgroud"
-                            aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse filterBackgroud show"
+                            aria-labelledby="panelsStayOpen-headingOne">
                             <div class="accordion-body" style="text-align:left">
                                 @foreach ($allEmploymentTypes as $employmentType)
                                     <div>
@@ -87,16 +89,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="accordion-item accordionItem staticBorder">
-                        <h2 class="accordion-header" id="headingTwo">
-                            <button class="accordion-button collapsed filterBackgroud" type="button"
-                                data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true"
-                                aria-controls="collapseTwo">
+                    <div class="accordion-item accordionItem border rounded">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                            <button class="accordion-button filterBackgroud" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true"
+                                aria-controls="panelsStayOpen-collapseTwo">
                                 <strong>Skúsenosti</strong>
                             </button>
                         </h2>
-                        <div id="collapseTwo" class="accordion-collapse collapse show filterBackgroud"
-                            aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse filterBackgroud show"
+                            aria-labelledby="panelsStayOpen-headingTwo">
                             <div class="accordion-body" style="text-align:left">
                                 @foreach ($experiences as $experience)
                                     <div>
@@ -110,16 +112,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="accordion-item accordionItem staticBorder">
-                        <h2 class="accordion-header" id="headingThree">
-                            <button class="accordion-button collapsed filterBackgroud" type="button"
-                                data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true"
-                                aria-controls="collapseThree">
+                    <div class="accordion-item accordionItem border rounded">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                            <button class="accordion-button filterBackgroud" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+                                aria-controls="panelsStayOpen-collapseThree">
                                 <strong>Práca z domu</strong>
                             </button>
                         </h2>
-                        <div id="collapseThree" class="accordion-collapse collapse show filterBackgroud"
-                            aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse filterBackgroud show"
+                            aria-labelledby="panelsStayOpen-headingThree">
                             <div class="accordion-body" style="text-align:left">
                                 @foreach ($homeoffices as $homeoffice)
                                     <div>
@@ -134,9 +136,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="homePagePadding" style="width:70%;">
+                <div class="homePagePadding col-12 col-sm-12 col-md-12 col-lg-8">
                     <div>
-                        <div class="row" id="row">
+                        <div class="row g-custom" id="row">
                         </div>
 
                         {{-- @if ($jobs->count())

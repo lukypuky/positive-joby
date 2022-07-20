@@ -17,7 +17,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     {{-- zakomentovane kvoli posielaniu mailov --}}
-    <script src="https://www.google.com/recaptcha/api.js"></script>
+    {{-- <script src="https://www.google.com/recaptcha/api.js"></script> --}}
     <script src='/js/script.js' type="text/javascript"></script>
     <title>PositiveJoby</title>
 </head>
@@ -26,7 +26,7 @@
     <div class="header">
         <nav class="navbar navbar-expand-sm navbar-light" style="padding: 25px;">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="{{ route('getIndex') }}">
                     <img src="/img/logo.positive.png" alt="" width="150" height="30">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -37,8 +37,13 @@
                 <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                     <ul class="navbar-nav ">
                         <li class="nav-item">
-                            <a class="nav-link {{ Route::currentRouteNamed('getIndex') ? 'active' : '' }}"
-                                aria-current="page" href="{{ route('getIndex') }}"><strong>Joby</strong></a>
+                            @if (Route::currentRouteNamed('getIndex') || Route::currentRouteNamed('getJob'))
+                                <a class="nav-link active" aria-current="page"
+                                    href="{{ route('getIndex') }}"><strong>Joby</strong></a>
+                            @else
+                                <a class="nav-link" aria-current="page"
+                                    href="{{ route('getIndex') }}"><strong>Joby</strong></a>
+                            @endif
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ Route::currentRouteNamed('getReference') ? 'active' : '' }}"

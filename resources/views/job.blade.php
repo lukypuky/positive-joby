@@ -5,16 +5,16 @@
             <div>
                 {{-- image missing --}}
             </div>
-            <div style="text-align: left; margin-bottom: 30px;">
-                <a href="{{ route('getIndex') }}" style="color: black; text-decoration: none;"><i
-                        class="fa fa-arrow-left jobObjectFooterImage" aria-hidden="true"></i>Späť na ponuku jobov</a>
+            <div class="jobInfoBackButton">
+                <a href="{{ route('getIndex') }}"><i class="fa fa-arrow-left jobObjectFooterImage"
+                        aria-hidden="true"></i>Späť na ponuku jobov</a>
             </div>
-            <div style="margin-bottom: 30px;">
+            <div class="jobInfoTitle">
                 <h1>{{ $job->position_name }}</h1>
             </div>
             <div>
                 <div class="flex2">
-                    <div class="flex-items" style="align-items: center;">
+                    <div class="flex-items jobInfoSubTitle">
                         <div class="jobObjectFooterImage jobPageHeaderInfo">
                             <i class="fa fa-briefcase jobObjectFooterImage centerIcon" aria-hidden="true"></i>
                             @foreach ($jobEmploymentTypes as $jobEmploymentType)
@@ -48,7 +48,7 @@
                 </div>
             </div>
         </div>
-        <div style="text-align: left;">
+        <div class="jobInfoObjects">
             <div class="jobInfoObject">
                 <div class="jobInfoHeading">
                     <i class="fa fa-eur jobObjectFooterImage centerIcon" aria-hidden="true"></i>
@@ -100,7 +100,7 @@
                 </div>
                 <div class="jobInfoText">
                     <div>
-                        <div style="margin-bottom: 15px;">Máš záujem o toto miesto? Vyplň formulár a budeme ťa
+                        <div class="jobInfoFormText">Máš záujem o toto miesto? Vyplň formulár a budeme ťa
                             kontaktovať.</div>
                         <form action="{{ route('sendMail') }}" method="POST" enctype="multipart/form-data"
                             id="contactForm">
@@ -112,21 +112,22 @@
                             <div class="row formInputs">
                                 <div class="col col-12 col-sm-12 col-md-4 col-lg-4">
                                     <div>
-                                        <input type="text" class="form-control jobInfoInput" id="nameSurname"
+                                        <input type="text" class="form-control rounded jobInfoInput" id="nameSurname"
                                             name="nameSurname" placeholder="Meno a priezvisko">
                                     </div>
                                     <div>
-                                        <input type="text" class="form-control jobInfoInput" id="phone"
+                                        <input type="text" class="form-control rounded jobInfoInput" id="phone"
                                             name="phone" placeholder="Telefón">
                                     </div>
                                     <div>
-                                        <input type="email" class="form-control jobInfoInput" id="email"
+                                        <input type="email" class="form-control rounded jobInfoInput" id="email"
                                             name="email" placeholder="Email">
                                     </div>
                                 </div>
                                 <div class="col col-12 col-sm-12 col-md-8 col-lg-8">
                                     <div>
-                                        <textarea class="form-control jobInfoInput jobInfoTextArea" placeholder="Prečo práve ty?" name="message" required></textarea>
+                                        <textarea class="form-control rounded jobInfoInput jobInfoTextArea" placeholder="Prečo práve ty?" name="message"
+                                            required></textarea>
                                     </div>
                                 </div>
                             </div>
