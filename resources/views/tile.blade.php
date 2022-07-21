@@ -1,5 +1,5 @@
 @foreach ($jobs as $job)
-    <div class="col col-sm-12 col-md-6 col-lg-6 jobObject border rounded">
+    <div class="col-sm-12 col-md-6 col-lg-6 jobObject border rounded">
         <a href="/{{ $job->slug }}" class="jobObjectLink">
             <div class="jobObjectHead">
                 <div class="jobTileObjectHeading">

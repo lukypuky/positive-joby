@@ -1,7 +1,7 @@
 @extends('navbar')
 @section('index')
     <div class="container pageContent">
-        <div style="border: 1px solid black;">
+        <div>
             <div>
                 {{-- image missing --}}
             </div>
@@ -16,18 +16,17 @@
                 </div>
             </div>
         </div>
-        <div style="border: 1px solid black;">
-            <div class="row g-custom" style="align-items: center; margin-top: 25px; width: 100%;">
-                <div class="col col-12 col-sm-12 col-md-4 col-lg-4">
-                    <button style="display: flex; background: transparent;" id="resetFilter">
+        <div>
+            <div class="row g-custom jobsHeadingButtons">
+                <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+                    <button class="jobHeadingResetButton" id="resetFilter">
                         <div><img src="/img/reset.png" alt="#" width="30" height="30"></div>
-                        <div style="align-self: center;">
+                        <div class="jobHeadingResetButtonText">
                             Resetovať filter
                         </div>
                     </button>
                 </div>
-                <div class="col col-12 col-sm-12 col-md-8 col-lg-8"
-                    style="justify-content: right; display: flex; padding: 10px;">
+                <div class="col-12 col-sm-12 col-md-8 col-lg-8 jobHeadingDropdown">
                     <div class="dropdown">
                         <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                             data-bs-toggle="dropdown" aria-expanded="false">
@@ -48,15 +47,15 @@
                 </div>
             </div>
 
-            <div class="row g-custom" style="width: 100%;">
+            <div class="row g-custom jobFilter">
                 <div class=" homePagePadding col-12 col-sm-12 col-md-12 col-lg-4" id="accordionExample">
                     <div class="filterBackgroud border rounded">
                         <div>
                             <h2 class="salaryHeading"><strong>Plat</strong></h2>
                         </div>
 
-                        <div style="padding: 1rem 1.25rem;">
-                            <form style="display: flex;">
+                        <div class="jobSalary">
+                            <form class="jobSalaryForm">
                                 <label for="salaryFrom">od</label>
                                 <input type="number" id="salaryFrom" name="salaryFrom"
                                     class="salaryWidth border rounded filter" onchange="filterJobs()">
@@ -76,7 +75,7 @@
                         </h2>
                         <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse filterBackgroud show"
                             aria-labelledby="panelsStayOpen-headingOne">
-                            <div class="accordion-body" style="text-align:left">
+                            <div class="accordion-body accordionBody">
                                 @foreach ($allEmploymentTypes as $employmentType)
                                     <div>
                                         <input class="form-check-input checkboxMargin employmentTypeCheckbox filter"
@@ -99,7 +98,7 @@
                         </h2>
                         <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse filterBackgroud show"
                             aria-labelledby="panelsStayOpen-headingTwo">
-                            <div class="accordion-body" style="text-align:left">
+                            <div class="accordion-body accordionBody">
                                 @foreach ($experiences as $experience)
                                     <div>
                                         <input class="form-check-input checkboxMargin experienceCheckbox filter"
@@ -122,7 +121,7 @@
                         </h2>
                         <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse filterBackgroud show"
                             aria-labelledby="panelsStayOpen-headingThree">
-                            <div class="accordion-body" style="text-align:left">
+                            <div class="accordion-body accordionBody">
                                 @foreach ($homeoffices as $homeoffice)
                                     <div>
                                         <input class="form-check-input checkboxMargin homeofficeCheckbox filter"

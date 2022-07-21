@@ -88,6 +88,7 @@ body {
     padding: 5px 15px;
     width: fit-content;
     margin-right: 15px;
+    margin-bottom: 10px;
 }
 
 .jobObjectFooterSection {
@@ -530,4 +531,41 @@ a:hover {
 
 .g-custom {
     --bs-gutter-x: 0rem;
+}
+
+.jobsHeadingButtons {
+    align-items: center;
+    margin-top: 25px;
+    width: 100%;
+}
+
+.jobHeadingResetButton {
+    display: flex;
+    background: transparent;
+}
+
+.jobHeadingResetButtonText {
+    align-self: center;
+}
+
+.jobHeadingDropdown {
+    justify-content: right;
+    display: flex;
+    padding: 10px;
+}
+
+.jobFilter {
+    width: 100%;
+}
+
+.jobSalary {
+    padding: 1rem 1.25rem;
+}
+
+.jobSalaryForm {
+    display: flex;
+}
+
+.accordionBody {
+    text-align: left;
 }

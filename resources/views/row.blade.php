@@ -1,5 +1,5 @@
 @foreach ($jobs as $job)
-    <div class="col col-sm-12 col-md-12 col-lg-12 jobObject border rounded">
+    <div class="col-sm-12 col-md-12 col-lg-12 jobObject border rounded">
         <a href="/{{ $job->slug }}" class="jobObjectLink">
             <div class="jobObjectHead">
                 <div class="jobRowObjectHeading">
@@ -11,8 +11,8 @@
                     </div>
                 </div>
             </div>
-            <div class="jobRowObjectFooter">
-                <div class="jobRowObjectFooterSectionObject">
+            <div class="jobRowObjectFooter row">
+                <div class="jobRowObjectFooterSectionObject col-12 col-12 col-sm-12 col-md-4 col-lg-4">
                     <div class="jobObjectFooterSection">
                         <i class="fa fa-briefcase jobObjectFooterImage" aria-hidden="true"></i>
                         <div class="jobObjectFooterText">
@@ -28,7 +28,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="jobRowObjectFooterSectionObject">
+                <div class="jobRowObjectFooterSectionObject col-12 col-12 col-sm-12 col-md-4 col-lg-4">
                     <div class="jobObjectFooterSection jobObjectFooterText">
                         <i class="fa fa-eur jobObjectFooterImage" aria-hidden="true"></i>
                         @foreach ($salaryTypes as $salaryType)

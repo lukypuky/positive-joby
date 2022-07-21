@@ -47,7 +47,7 @@
                     <input type="hidden" name="formType" value="2">
 
                     <div class="row formInputs">
-                        <div class="col col-12 col-sm-12 col-md-4 col-lg-4">
+                        <div class="col-12 col-sm-12 col-md-4 col-lg-4">
                             <div>
                                 <input type="text" class="form-control rounded jobInfoInput" id="nameSurname"
                                     name="nameSurname" placeholder="Meno a priezvisko">
@@ -61,7 +61,7 @@
                                     name="email" placeholder="Email">
                             </div>
                         </div>
-                        <div class="col col-12 col-sm-12 col-md-8 col-lg-8">
+                        <div class="col-12 col-sm-12 col-md-8 col-lg-8">
                             <div>
                                 <textarea class="form-control rounded jobInfoInput jobInfoTextArea"
                                     placeholder="Dobrý deň, mám záujem o spoluprácu.&#10;Kontaktujte ma prosím." name="message" required></textarea>
