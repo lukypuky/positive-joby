@@ -24,10 +24,10 @@
 
 <body>
     <div class="header">
-        <nav class="navbar navbar-expand-sm navbar-light" style="padding: 25px;">
+        <nav class="navbar navbar-expand-sm navbar-light pageNavbar">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{{ route('getIndex') }}">
-                    <img src="/img/logo.positive.png" alt="" width="150" height="30">
+                    <img src="/img/logo.positive.png" alt="Positive s.r.o. logo" class="positiveLogo">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -38,20 +38,20 @@
                     <ul class="navbar-nav ">
                         <li class="nav-item">
                             @if (Route::currentRouteNamed('getIndex') || Route::currentRouteNamed('getJob'))
-                                <a class="nav-link active" aria-current="page"
+                                <a class="active" aria-current="page"
                                     href="{{ route('getIndex') }}"><strong>Joby</strong></a>
                             @else
-                                <a class="nav-link" aria-current="page"
+                                <a class="" aria-current="page"
                                     href="{{ route('getIndex') }}"><strong>Joby</strong></a>
                             @endif
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ Route::currentRouteNamed('getReference') ? 'active' : '' }}"
+                            <a class="{{ Route::currentRouteNamed('getReference') ? 'active' : '' }}"
                                 aria-current="page" href="{{ route('getReference') }}"><strong>Referencie</strong></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ Route::currentRouteNamed('getContact') ? 'active' : '' }}"
-                                aria-current="page" href="{{ route('getContact') }}"><strong>Kontakt</strong></a>
+                            <a class="{{ Route::currentRouteNamed('getContact') ? 'active' : '' }}" aria-current="page"
+                                href="{{ route('getContact') }}"><strong>Kontakt</strong></a>
                         </li>
                     </ul>
                 </div>
@@ -79,15 +79,13 @@
         </div>
     @endif
 
-    <footer class="text-center" style="background-color: #f5f4f2; color: #9f9f9e;">
+    <footer class="text-center pageFooter">
         <!-- Grid container -->
         <div class="container p-4 pb-0">
             <section>
-                <a href="{{ route('getIndex') }}" role="button" style="color: #868686; padding: 0px 15px;">Joby</a>
-                <a href="{{ route('getReference') }}" role="button"
-                    style="color: #868686; padding: 0px 15px;">Referencie</a>
-                <a href="{{ route('getContact') }}" role="button"
-                    style="color: #868686; padding: 0px 15px;">Kontakt</a>
+                <a href="{{ route('getIndex') }}" role="button" class="footerButton">Joby</a>
+                <a href="{{ route('getReference') }}" role="button" class="footerButton">Referencie</a>
+                <a href="{{ route('getContact') }}" role="button" class="footerButton">Kontakt</a>
             </section>
         </div>
         <!-- Grid container -->

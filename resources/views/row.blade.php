@@ -1,10 +1,10 @@
 @foreach ($jobs as $job)
-    <div class="col-sm-12 col-md-12 col-lg-12 jobObject border rounded">
+    <div class="col-sm-12 col-md-12 col-lg-12 jobObject objectBorder roundedCorners">
         <a href="/{{ $job->slug }}" class="jobObjectLink">
             <div class="jobObjectHead">
                 <div class="jobRowObjectHeading">
                     <div class="jobRowObjectHeadingImage">
-                        <img src="/img/job.png" alt="#" width="30" height="30">
+                        <img src="/img/job.png" alt="{{ $job->position_name }}" class="jobImage">
                     </div>
                     <div class="jobRowObjectHeadingImageObject">
                         <h4 class="jobRowObjectHeadingText">{{ $job->position_name }}</h4>

@@ -27,3 +27,7 @@ Route::post('/sendMail', [MailController::class, 'sendMail'])->name('sendMail');
 Route::post('/jobs/search', [PageController::class,'searchJobs'])->name('searchJobs');
 Route::post('/jobs/layout', [PageController::class,'getJobLayout'])->name('getJobLayout');
 Route::post('/jobs/filter', [PageController::class,'getJobsFiltred'])->name('getJobFiltred');
+
+Route::fallback(function(){
+    abort(404);
+});

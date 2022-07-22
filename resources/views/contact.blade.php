@@ -9,28 +9,28 @@
                 <h2>Sme tu pre Vás v pracovnej dobe od 8:00 do 15:30</h2>
             </div>
             <div class="row contactPageInfo">
-                <div class="col-12 col-sm-12 col-md-4 col-lg-4 contact">
+                <a href="tel:+421902600700" class="col-12 col-sm-12 col-md-4 col-lg-4 contact">
                     <div class="contactObjectImage inner">
                         <i class="fa fa-phone fa-3x" aria-hidden="true"></i>
                     </div>
                     <div class="inner innerText">
-                        <div class="text_blue">+421 902 600 700</div>
+                        <div>+421 902 600 700</div>
                     </div>
-                </div>
-                <div class="col-12 col-sm-12 col-md-4 col-lg-4 contact">
+                </a>
+                <a href="mailto:info@positive.sk" class="col-12 col-sm-12 col-md-4 col-lg-4 contact">
                     <div class="contactObjectImage inner">
                         <i class="fa fa-envelope-o fa-3x" aria-hidden="true"></i>
                     </div>
                     <div class="inner innerText">
-                        <div class="text_blue">info@positive.sk</div>
+                        <div>info@positive.sk</div>
                     </div>
-                </div>
+                </a>
                 <div class="col-12 col-sm-12 col-md-4 col-lg-4 contact">
                     <div class="contactObjectImage inner">
                         <i class="fa fa-map-marker fa-3x" aria-hidden="true"></i>
                     </div>
                     <div class="inner innerText">
-                        <div class="text_blue">Škultétyho 18, Bratislava</div>
+                        <div>Škultétyho 18, Bratislava</div>
                     </div>
                 </div>
             </div>
@@ -49,22 +49,31 @@
                     <div class="row formInputs">
                         <div class="col-12 col-sm-12 col-md-4 col-lg-4">
                             <div>
-                                <input type="text" class="form-control rounded jobInfoInput" id="nameSurname"
-                                    name="nameSurname" placeholder="Meno a priezvisko">
+                                <input type="text" class="form-control roundedCorners jobInfoInput" id="nameSurname"
+                                    name="nameSurname" placeholder="Meno a priezvisko" required>
                             </div>
                             <div>
-                                <input type="text" class="form-control rounded jobInfoInput" id="phone"
-                                    name="phone" placeholder="Telefón">
+                                <input type="text" class="form-control roundedCorners jobInfoInput" id="phone"
+                                    name="phone" placeholder="Telefón" required>
+                                @error('phone')
+                                    <div class="formInputError">Zadajte platné telefónne číslo!</div>
+                                @enderror
                             </div>
                             <div>
-                                <input type="email" class="form-control rounded jobInfoInput" id="email"
-                                    name="email" placeholder="Email">
+                                <input type="email" class="form-control roundedCorners jobInfoInput" id="email"
+                                    name="email" placeholder="Email" required>
+                                @error('email')
+                                    <div class="formInputError">Zadajte platný email!</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-12 col-sm-12 col-md-8 col-lg-8">
                             <div>
-                                <textarea class="form-control rounded jobInfoInput jobInfoTextArea"
+                                <textarea class="form-control roundedCorners jobInfoInput jobInfoTextArea"
                                     placeholder="Dobrý deň, mám záujem o spoluprácu.&#10;Kontaktujte ma prosím." name="message" required></textarea>
+                                @error('message')
+                                    <div class="formInputError">Zadajte aspoň 6 znakov!</div>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -82,8 +91,8 @@
                                 data-action='submit'>ODOSLAŤ</button>
                         </div>
                         <div>
-                            <input class="form-check-input checkboxMargin jobInfoInput" type="checkbox" name="conditions"
-                                id="conditionsCheckBox" required>
+                            <input class="form-check-input checkboxMargin jobInfoInput conditionCheckbox" type="checkbox"
+                                name="conditions" id="conditionsCheckBox" required>
                             <label class="form-check-label" for="flexCheckDefault">Vyhlasujem, že som sa
                                 oboznámil s
                                 <a href="#">Podmienkami spracúvania a ochrany osobných údajov</a></label>

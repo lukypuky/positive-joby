@@ -37,6 +37,17 @@ class PageController extends Controller
     }
 
     public function renderLayout($layoutType, $jobs, $allEmploymentTypes, $jobEmploymentTypeIds, $salaryTypes){
+        if(is_array($jobs)){
+            if(empty($jobs)){
+                    return "Nenašli sa žiadne záznamy.";
+            }
+        }
+        else{
+            if($jobs->count() == 0){
+                return "Nenašli sa žiadne záznamy.";
+            }
+        }
+
         if($layoutType == 1){
             return view('tile', ['jobs' => $jobs, 'allEmploymentTypes' => $allEmploymentTypes, 'jobEmploymentTypes' => $jobEmploymentTypeIds, 'salaryTypes' => $salaryTypes]); 
         }
@@ -46,12 +57,15 @@ class PageController extends Controller
     }
 
     public function searchJobs(Request $request){
+        $order = $request->get('order');
         
-        $jobs = Job::where('position_name', 'like', '%' . $request->get('searchRequest') . '%')->get();
+        $searchedJobs = Job::where('position_name', 'like', '%' . $request->get('searchRequest') . '%')->orderBy('position_name', 'asc')->get();
         $allEmploymentTypes = Employment_type::all();
         $jobEmploymentTypeIds = Job_employment_type::all();
         $salaryTypes = Salary_type::all();
         $layoutType = $request->get('layout');
+
+        $jobs = $this->orderJobs($order, $searchedJobs);
 
         return $this->renderLayout($layoutType, $jobs, $allEmploymentTypes, $jobEmploymentTypeIds, $salaryTypes);
     }
@@ -122,6 +136,17 @@ class PageController extends Controller
             $jobs = $this->filerJobsWithToSalary($experiencesArray, $homeofficesArray, $employmentTypesArray, $salaryFromArray, $salaryToArray);
         }
 
+        $jobs = $this->orderJobs($order, $jobs);
+            
+        $allEmploymentTypes = Employment_type::all();
+        $jobEmploymentTypeIds = Job_employment_type::all();
+        $salaryTypes = Salary_type::all();
+        $layoutType = $request->get('layout');
+
+        return $this->renderLayout($layoutType, $jobs, $allEmploymentTypes, $jobEmploymentTypeIds, $salaryTypes);        
+    }
+
+    public function orderJobs($order, $jobs){
         if($order == 2){
             $jobs = json_decode($jobs);
 
@@ -134,13 +159,8 @@ class PageController extends Controller
             $columns = array_column($jobs, 'position_name');
             array_multisort($columns, SORT_ASC, $jobs);
         }
-            
-        $allEmploymentTypes = Employment_type::all();
-        $jobEmploymentTypeIds = Job_employment_type::all();
-        $salaryTypes = Salary_type::all();
-        $layoutType = $request->get('layout');
 
-        return $this->renderLayout($layoutType, $jobs, $allEmploymentTypes, $jobEmploymentTypeIds, $salaryTypes);        
+        return $jobs;
     }
 
     public function getJob($slug)

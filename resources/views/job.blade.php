@@ -1,13 +1,13 @@
 @extends('navbar')
 @section('job')
+    <div>
+        <img src="/img/jobs-banner.jpg" alt="Header image" class="pageImage">
+    </div>
     <div class="container pageContent">
-        <div>
-            <div>
-                {{-- image missing --}}
-            </div>
+        <div class="jobPageHeader">
             <div class="jobInfoBackButton">
-                <a href="{{ route('getIndex') }}"><i class="fa fa-arrow-left jobObjectFooterImage"
-                        aria-hidden="true"></i>Späť na ponuku jobov</a>
+                <a href="{{ route('getIndex') }}"><i class="fa fa-arrow-left jobObjectFooterImage" aria-hidden="true"></i>Späť
+                    na ponuku jobov</a>
             </div>
             <div class="jobInfoTitle">
                 <h1>{{ $job->position_name }}</h1>
@@ -112,22 +112,31 @@
                             <div class="row formInputs">
                                 <div class="col col-12 col-sm-12 col-md-4 col-lg-4">
                                     <div>
-                                        <input type="text" class="form-control rounded jobInfoInput" id="nameSurname"
-                                            name="nameSurname" placeholder="Meno a priezvisko">
+                                        <input type="text" class="form-control roundedCorners jobInfoInput"
+                                            id="nameSurname" name="nameSurname" placeholder="Meno a priezvisko" required>
                                     </div>
                                     <div>
-                                        <input type="text" class="form-control rounded jobInfoInput" id="phone"
-                                            name="phone" placeholder="Telefón">
+                                        <input type="text" class="form-control roundedCorners jobInfoInput"
+                                            id="phone" name="phone" placeholder="Telefón" required>
+                                        @error('phone')
+                                            <div class="formInputError">Zadajte platné telefónne číslo!</div>
+                                        @enderror
                                     </div>
                                     <div>
-                                        <input type="email" class="form-control rounded jobInfoInput" id="email"
-                                            name="email" placeholder="Email">
+                                        <input type="email" class="form-control roundedCorners jobInfoInput"
+                                            id="email" name="email" placeholder="Email" required>
+                                        @error('email')
+                                            <div class="formInputError">Zadajte platný email!</div>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col col-12 col-sm-12 col-md-8 col-lg-8">
                                     <div>
-                                        <textarea class="form-control rounded jobInfoInput jobInfoTextArea" placeholder="Prečo práve ty?" name="message"
+                                        <textarea class="form-control roundedCorners jobInfoInput jobInfoTextArea" placeholder="Prečo práve ty?" name="message"
                                             required></textarea>
+                                        @error('message')
+                                            <div class="formInputError">Zadajte aspoň 6 znakov!</div>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
@@ -145,8 +154,8 @@
                                         data-action='submit'>ODOSLAŤ ŽIADOSŤ</button>
                                 </div>
                                 <div>
-                                    <input class="form-check-input checkboxMargin jobInfoInput" type="checkbox"
-                                        name="conditions" id="conditionsCheckBox" required>
+                                    <input class="form-check-input checkboxMargin jobInfoInput conditionCheckbox"
+                                        type="checkbox" name="conditions" id="conditionsCheckBox" required>
                                     <label class="form-check-label" for="flexCheckDefault">Vyhlasujem, že som sa
                                         oboznámil s
                                         <a href="#">Podmienkami spracúvania a ochrany osobných údajov</a></label>

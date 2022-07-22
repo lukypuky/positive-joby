@@ -12,7 +12,7 @@
                 <div class="row referenceRow">
                     <div class="col col-12 col-sm-12 col-md-4 col-lg-4">
                         <div class="referenceRowLeft">
-                            <img src="{{ $reference->img_path }}" alt="" class="img_set">
+                            <img src="{{ $reference->img_path }}" alt="{{ $reference->name }}" class="img_set">
                             <div><strong>{{ $reference->name }}</strong></div>
                             <div>{{ $reference->company }}</div>
                         </div>

@@ -131,10 +131,6 @@ textarea {
     background-color: #fc5506;
 }
 
-.active {
-    color: #fc5506 !important;
-}
-
 .filterBackgroud {
     background-color: #f8f4f4;
 }
@@ -176,7 +172,7 @@ textarea {
     position: relative;
     box-shadow: 0 0 40px rgba(51, 51, 51, .1);
     padding: 20px;
-    background-color: #ffddcc;
+    background-color: rgba(255, 221, 204, 0.6);
 }
 
 .search input {
@@ -209,10 +205,6 @@ textarea {
 .btn-primary {
     border-color: #fc5506;
 }
-
-/* .form-control {
-    border-radius: 10px;
-} */
 
 .btn:hover {
     background-color: #e34a02;
@@ -351,7 +343,7 @@ button {
 
 .jobInfoInput {
     border: 2px solid #d5d5d5;
-    margin-bottom: 15px;
+    margin-top: 15px;
 }
 
 .jobInfoInput:focus {
@@ -365,6 +357,7 @@ button {
 }
 
 .contactFormAttachment {
+    margin-top: 15px;
     margin-bottom: 30px;
 }
 
@@ -481,21 +474,21 @@ button {
     transform: rotate(-180deg);
 }
 
-.rounded {
-    border-radius: 0.25rem !important;
+.roundedCorners {
+    border-radius: 0.25rem;
 }
 
-.border {
-    border: 1px solid #d5d5d5 !important;
+.objectBorder {
+    border: 1px solid #d5d5d5;
 }
 
 .jobObject:hover {
-    border: 1px solid #fc5506 !important;
+    border: 1px solid #fc5506;
 }
 
 .search input:focus {
     box-shadow: none;
-    border: 1px solid #fc5506 !important;
+    border: 1px solid #fc5506;
 }
 
 .jobObjectHead {
@@ -510,6 +503,14 @@ a {
 a:hover {
     color: black;
     text-decoration: none;
+}
+
+.active {
+    color: #fc5506;
+}
+
+.active:hover {
+    color: #fc5506;
 }
 
 .jobInfoFormText {
@@ -568,4 +569,76 @@ a:hover {
 
 .accordionBody {
     text-align: left;
+}
+
+.form-check-label,
+.form-check-input {
+    cursor: pointer;
+}
+
+.form-check-label:hover {
+    color: #fc5506;
+}
+
+.form-check-input:hover {
+    background-color: #ffddcc;
+}
+
+.form-check-input:checked:hover {
+    background-color: #fc5506;
+}
+
+.jobHeadingResetButton:hover {
+    background-color: #ffddcc;
+}
+
+.formInputError {
+    color: red;
+    margin-top: 5px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.conditionCheckbox {
+    margin-top: 5px;
+}
+
+.footerButton {
+    color: #868686;
+    padding: 0px 15px;
+}
+
+.pageFooter {
+    background-color: #f5f4f2;
+    color: #9f9f9e;
+}
+
+.pageNavbar {
+    padding: 25px;
+}
+
+.positiveLogo {
+    width: 150px;
+    height: 30px;
+}
+
+.jobImage {
+    width: 30px;
+    height: 30px;
+}
+
+.pageImage {
+    max-width: 100%;
+}
+
+.jobsPageHeader {
+    margin-top: -185px;
+}
+
+.jobPageHeader {
+    margin-top: -255px;
+}
+
+.accordion-item:not(:first-of-type) {
+    border: 1px solid #d5d5d5;
 }

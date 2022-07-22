@@ -1,17 +1,18 @@
 @extends('navbar')
 @section('index')
+    <div>
+        <img src="/img/jobs-banner.jpg" alt="Header image" class="pageImage">
+    </div>
     <div class="container pageContent">
-        <div>
-            <div>
-                {{-- image missing --}}
-            </div>
-            <div style="margin-bottom: 30px;">
+        <div class="jobsPageHeader">
+            <div class="jobInfoTitle">
                 <h1><span class="orangeText">Pridaj sa k nám!</span> Čaká ťa skvelý job</h1>
             </div>
             <div>
-                <div class="search rounded">
+                <div class="search roundedCorners">
                     <i class="fa fa-user-o"></i>
-                    <input type="text" class="form-control border rounded" id="searchJobs" placeholder="Vyhľadať pozíciu">
+                    <input type="text" class="form-control objectBorder roundedCorners" id="searchJobs"
+                        placeholder="Vyhľadať pozíciu">
                     <button class="btn btn-primary orangeObject" id="searchJobsButton"><i class="fa fa-search"></i></button>
                 </div>
             </div>
@@ -19,8 +20,8 @@
         <div>
             <div class="row g-custom jobsHeadingButtons">
                 <div class="col-12 col-sm-12 col-md-4 col-lg-4">
-                    <button class="jobHeadingResetButton" id="resetFilter">
-                        <div><img src="/img/reset.png" alt="#" width="30" height="30"></div>
+                    <button class="jobHeadingResetButton roundedCorners" id="resetFilter">
+                        <div><img src="/img/reset.png" alt="Reset filter button" width="30" height="30"></div>
                         <div class="jobHeadingResetButtonText">
                             Resetovať filter
                         </div>
@@ -39,17 +40,17 @@
                         </ul>
                     </div>
                     <div class="layoutButtons">
-                        <button id="toTilesButton" name="toTilesButton" class="layoutButton filter" value="1"><i
-                                class="fa fa-th-large"></i></button>
-                        <button id="toRowsButton" name="toRowsButton" class="layoutButton filter" value="2"><i
-                                class="fa fa-list"></i></button>
+                        <button id="toTilesButton" name="toTilesButton" class="layoutButton filter roundedCorners"
+                            value="1"><i class="fa fa-th-large"></i></button>
+                        <button id="toRowsButton" name="toRowsButton" class="layoutButton filter roundedCorners"
+                            value="2"><i class="fa fa-list"></i></button>
                     </div>
                 </div>
             </div>
 
             <div class="row g-custom jobFilter">
                 <div class=" homePagePadding col-12 col-sm-12 col-md-12 col-lg-4" id="accordionExample">
-                    <div class="filterBackgroud border rounded">
+                    <div class="filterBackgroud objectBorder roundedCorners">
                         <div>
                             <h2 class="salaryHeading"><strong>Plat</strong></h2>
                         </div>
@@ -58,14 +59,14 @@
                             <form class="jobSalaryForm">
                                 <label for="salaryFrom">od</label>
                                 <input type="number" id="salaryFrom" name="salaryFrom"
-                                    class="salaryWidth border rounded filter" onchange="filterJobs()">
+                                    class="salaryWidth objectBorder roundedCorners filter" onchange="filterJobs()">
                                 <label for="salaryTo">do</label>
                                 <input type="number" id="salaryTo" name="salaryTo"
-                                    class="salaryWidth border rounded filter" onchange="filterJobs()">
+                                    class="salaryWidth objectBorder roundedCorners filter" onchange="filterJobs()">
                             </form>
                         </div>
                     </div>
-                    <div class="accordion-item accordionItem border rounded">
+                    <div class="accordion-item accordionItem objectBorder roundedCorners">
                         <h2 class="accordion-header" id="panelsStayOpen-headingOne">
                             <button class="accordion-button filterBackgroud" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
@@ -80,7 +81,7 @@
                                     <div>
                                         <input class="form-check-input checkboxMargin employmentTypeCheckbox filter"
                                             type="checkbox" id="{{ $employmentType->id }}" onchange="filterJobs()">
-                                        <label class="form-check-label" for="flexCheckDefault">
+                                        <label class="form-check-label" for="{{ $employmentType->id }}">
                                             {{ $employmentType->name }}
                                         </label>
                                     </div>
@@ -88,7 +89,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="accordion-item accordionItem border rounded">
+                    <div class="accordion-item accordionItem objectBorder roundedCorners">
                         <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
                             <button class="accordion-button filterBackgroud" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true"
@@ -103,7 +104,7 @@
                                     <div>
                                         <input class="form-check-input checkboxMargin experienceCheckbox filter"
                                             type="checkbox" id="{{ $experience->name }}" onchange="filterJobs()">
-                                        <label class="form-check-label" for="flexCheckDefault">
+                                        <label class="form-check-label" for="{{ $experience->name }}">
                                             {{ $experience->name }}
                                         </label>
                                     </div>
@@ -111,7 +112,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="accordion-item accordionItem border rounded">
+                    <div class="accordion-item accordionItem objectBorder roundedCorners">
                         <h2 class="accordion-header" id="panelsStayOpen-headingThree">
                             <button class="accordion-button filterBackgroud" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
@@ -137,7 +138,9 @@
                 </div>
                 <div class="homePagePadding col-12 col-sm-12 col-md-12 col-lg-8">
                     <div>
-                        <div class="row g-custom" id="row">
+                        <div class="container overflow-hidden">
+                            <div class="row gy-2 gx-3" id="row">
+                            </div>
                         </div>
 
                         {{-- @if ($jobs->count())

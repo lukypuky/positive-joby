@@ -37,11 +37,11 @@ class MailController extends Controller
             ];
         }
 
-        $input = $request->validate([
+        $request->validate([
             'nameSurname' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:8'],
-            'email' => ['required', 'string', 'email', 'max:255'],
-            'message' => 'required',
+            'email' => ['required', 'string', 'email', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix', 'max:255'],
+            'message' => ['required', 'min:6'],
             'conditions' => 'required',
         ]);
 
