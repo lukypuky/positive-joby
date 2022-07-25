@@ -148,30 +148,30 @@ class JobListScreen extends Screen
                         return $newSalaryTypeName[0]->name;
                    }),
                 
-                TD::make('Popis')
-                    ->sort()
-                    ->width('250px')
-                    ->render(function ($jobs) {
-                        return $jobs->description;
-                    }),
+                // TD::make('Popis') //zakomentovane kvoli dlhym textom v nahlade
+                //     ->sort()
+                //     ->width('250px')
+                //     ->render(function ($jobs) {
+                //         return $jobs->description;
+                //     }),
                 TD::make('Mzdové podmienky')
                     ->sort()
                     ->width('250px')
                     ->render(function ($jobs) {
                         return $jobs->salary_conditions;
                     }),
-                TD::make('Očakávania')
-                    ->sort()
-                    ->width('250px')
-                    ->render(function ($jobs) {
-                        return $jobs->expectation;
-                    }),
-                TD::make('Benefity')
-                    ->sort()
-                    ->width('250px')
-                    ->render(function ($jobs) {
-                        return $jobs->benefits;
-                    }),
+                // TD::make('Očakávania') //zakomentovane kvoli dlhym textom v nahlade
+                //     ->sort()
+                //     ->width('250px')
+                //     ->render(function ($jobs) {
+                //         return $jobs->expectation;
+                //     }),
+                // TD::make('Benefity')
+                //     ->sort()
+                //     ->width('250px')
+                //     ->render(function ($jobs) {
+                //         return $jobs->benefits;
+                //     }),
                 TD::make('Akcie')
                     ->render(function ($jobs) {
                         return Link::make('')

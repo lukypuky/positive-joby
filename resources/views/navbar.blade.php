@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <link rel="stylesheet" href="/css/style.css" type="text/css">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
         integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
@@ -16,6 +16,7 @@
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <script src="https://kit.fontawesome.com/dcd17d192d.js" crossorigin="anonymous"></script>
     {{-- zakomentovane kvoli posielaniu mailov --}}
     {{-- <script src="https://www.google.com/recaptcha/api.js"></script> --}}
     <script src='/js/script.js' type="text/javascript"></script>
@@ -63,6 +64,7 @@
         @yield('contact')
         @yield('reference')
         @yield('job')
+        @yield('errorModal')
     </div>
 
     @if (session()->has('failEmail'))

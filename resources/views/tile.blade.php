@@ -5,7 +5,7 @@
                 <div class="jobObjectHead">
                     <div class="jobTileObjectHeading">
                         <div class="jobTileObjectHeadingImage">
-                            <img src="/img/job.png" alt="{{ $job->position_name }}" class="jobImage">
+                            <i class="fa fa-user-o jobImage fa-2x"></i>
                         </div>
                         <div class="jobTileObjectHeadingImageObject">
                             <h4 class="jobTileObjectHeadingText">{{ $job->position_name }}</h4>

@@ -65,7 +65,8 @@ class ExperienceCreateScreen extends Screen
         return [
             Layout::rows([
                 Input::make('experience.name')
-                    ->title('Hodnota'),
+                    ->title('Hodnota')
+                    ->required(),
             ])
         ];
     }

@@ -64,7 +64,8 @@ class EmploymentTypeCreateScreen extends Screen
         return [
             Layout::rows([
                 Input::make('employment_type.name')
-                    ->title('Hodnota'),
+                    ->title('Hodnota')
+                    ->required(),
             ])
         ];
     }

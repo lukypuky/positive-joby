@@ -22,7 +22,6 @@ class PageController extends Controller
         $homeoffices = Homeoffice::all();
         $jobEmploymentTypeIds = Job_employment_type::all();
         $salaryTypes = Salary_type::all();
-        $this->renderLayout(2, $jobs, $jobEmploymentTypeIds, $allEmploymentTypes, $salaryTypes);
 
         return view('/index', ['jobs' => $jobs, 'allEmploymentTypes' => $allEmploymentTypes, 'experiences' => $experiences, 'homeoffices' => $homeoffices, 'jobEmploymentTypes' => $jobEmploymentTypeIds, 'salaryTypes' => $salaryTypes]);
     }

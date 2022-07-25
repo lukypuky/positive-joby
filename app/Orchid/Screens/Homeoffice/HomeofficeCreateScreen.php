@@ -64,7 +64,8 @@ class HomeofficeCreateScreen extends Screen
         return [
             Layout::rows([
                 Input::make('homeoffice.name')
-                    ->title('Hodnota'),
+                    ->title('Hodnota')
+                    ->required(),
             ])
         ];
     }

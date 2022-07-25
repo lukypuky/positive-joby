@@ -15,6 +15,7 @@ use Orchid\Screen\Fields\TextArea;
 use Orchid\Screen\Fields\Picture;
 use Illuminate\Support\Facades\File; 
 use Illuminate\Support\Facades\Storage;
+use Orchid\Screen\Fields\Quill;
 
 class ReferenceEditScreen extends Screen
 {
@@ -82,15 +83,19 @@ class ReferenceEditScreen extends Screen
         return [
             Layout::rows([
                 Input::make('reference.name')
-                    ->title('Hodnota'),
+                    ->title('Hodnota')
+                    ->required(),
                 Input::make('reference.company')
-                    ->title('Spoločnosť'),
-                TextArea::make('reference.description')
+                    ->title('Spoločnosť')
+                    ->required(),
+                Quill::make('reference.description')
                     ->title('Popis')
-                    ->rows(5),
+                    ->rows(5)
+                    ->required(),
                 Picture::make('reference.img_path')
                     ->title('Obrázok')
                     ->storage('local')
+                    ->required(),
             ]),
 
             Layout::modal('removeRow',Layout::rows([

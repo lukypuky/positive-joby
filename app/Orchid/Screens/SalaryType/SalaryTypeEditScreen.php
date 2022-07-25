@@ -79,8 +79,7 @@ class SalaryTypeEditScreen extends Screen
             Layout::rows([
                 Input::make('salary_type.name')
                     ->title('Hodnota')
-                    // ->placeholder('Názov skúsenosti')
-                    // ->help('Zadajte názov pre danú skúsenosť')
+                    ->required(),
             ]),
 
             Layout::modal('removeRow',Layout::rows([

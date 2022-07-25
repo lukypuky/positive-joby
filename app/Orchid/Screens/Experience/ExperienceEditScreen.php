@@ -79,6 +79,7 @@ class ExperienceEditScreen extends Screen
             Layout::rows([
                 Input::make('experience.name')
                     ->title('Hodnota')
+                    ->required(),
             ]),
 
             Layout::modal('removeRow',Layout::rows([

@@ -1,8 +1,6 @@
 @extends('navbar')
 @section('index')
-    <div>
-        <img src="/img/jobs-banner.jpg" alt="Header image" class="pageImage">
-    </div>
+    <div class="pageImage"></div>
     <div class="container pageContent">
         <div class="jobsPageHeader">
             <div class="jobInfoTitle">
@@ -21,7 +19,7 @@
             <div class="row g-custom jobsHeadingButtons">
                 <div class="col-12 col-sm-12 col-md-4 col-lg-4">
                     <button class="jobHeadingResetButton roundedCorners" id="resetFilter">
-                        <div><img src="/img/reset.png" alt="Reset filter button" width="30" height="30"></div>
+                        <div><i class="fa fa-refresh fa-2x jobObjectFooterImage" aria-hidden="true"></i></div>
                         <div class="jobHeadingResetButtonText">
                             Resetovať filter
                         </div>
@@ -138,9 +136,7 @@
                 </div>
                 <div class="homePagePadding col-12 col-sm-12 col-md-12 col-lg-8">
                     <div>
-                        <div class="container overflow-hidden">
-                            <div class="row gy-2 gx-3" id="row">
-                            </div>
+                        <div class="row gy-2 gx-3" id="row">
                         </div>
 
                         {{-- @if ($jobs->count())
@@ -189,6 +185,9 @@
                 success: function(res) {
                     $(".jobObject").remove();
                     $('#row').html(res);
+                },
+                error: function(xhr, status, error) {
+                    $("#exampleModalCenter").modal('show')
                 }
             });
         });
@@ -265,6 +264,9 @@
                 success: function(res) {
                     $(".jobObject").remove();
                     $('#row').html(res);
+                },
+                error: function(xhr, status, error) {
+                    $("#exampleModalCenter").modal('show')
                 }
             });
         }
@@ -284,6 +286,9 @@
                 success: function(res) {
                     $(".jobObject").remove();
                     $('#row').html(res);
+                },
+                error: function(xhr, status, error) {
+                    $("#exampleModalCenter").modal('show')
                 }
             });
         });
@@ -307,6 +312,9 @@
                     success: function(res) {
                         $(".jobObject").remove();
                         $('#row').html(res);
+                    },
+                    error: function(xhr, status, error) {
+                        $("#exampleModalCenter").modal('show')
                     }
                 });
             } else {
@@ -323,9 +331,35 @@
                     success: function(res) {
                         $(".jobObject").remove();
                         $('#row').html(res);
+                    },
+                    error: function(xhr, status, error) {
+                        $("#exampleModalCenter").modal('show')
                     }
                 });
             }
         });
     </script>
+@endsection
+
+@section('errorModal')
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Chyba</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Ups, niečo sa nepodarilo, skúste to znova.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zatvoriť</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

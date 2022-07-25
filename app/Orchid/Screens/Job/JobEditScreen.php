@@ -19,6 +19,7 @@ use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Fields\TextArea;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Fields\Relation;
+use Orchid\Screen\Fields\Quill;
 
 class JobEditScreen extends Screen
 {
@@ -87,40 +88,51 @@ class JobEditScreen extends Screen
         return [
             Layout::rows([
                 Input::make('job.position_name')
-                    ->title('Názov Jobu'),
+                    ->title('Názov Jobu')
+                    ->required(),
                 Input::make('job.slug')
-                    ->title('Slug'),
+                    ->title('Slug')
+                    ->required(),
                 Relation::make('job_employment_type.id_employment_type')
                     ->title('Druh pracovného pomeru')
                     ->fromModel(Employment_type::class, 'name')
-                    ->multiple(),
+                    ->multiple()
+                    ->required(),
                 Select::make('job.id_experience')
                     ->title('Skúsenosti')
-                    ->fromModel(Experience::class, 'name'),
+                    ->fromModel(Experience::class, 'name')
+                    ->required(),
                 Select::make('job.id_homeoffice')
                     ->title('Práca z domu')
-                    ->fromModel(Homeoffice::class, 'name'),
+                    ->fromModel(Homeoffice::class, 'name')
+                    ->required(),
                 Select::make('job.id_salary_type')
                     ->title('Typ platu')
-                    ->fromModel(Salary_type::class, 'name'),
+                    ->fromModel(Salary_type::class, 'name')
+                    ->required(),
                 Input::make('job.salary_from')
                     ->title('Plat od')
-                    ->type('number'),
+                    ->type('number')
+                    ->required(),
                 Input::make('job.salary_to')
                     ->title('Plat do')
                     ->type('number'),
                 TextArea::make('job.description')
                     ->title('Popis')
-                    ->rows(5),
-                TextArea::make('job.salary_conditions')
+                    ->rows(5)
+                    ->required(),
+                Quill::make('job.description')
+                    ->title('Popis')
+                    ->required(),
+                Quill::make('job.salary_conditions')
                     ->title('Mzdové podmienky')
-                    ->rows(5),
-                TextArea::make('job.expectation')
+                    ->required(),
+                Quill::make('job.expectation')
                     ->title('Očakávania')
-                    ->rows(5),
-                TextArea::make('job.benefits')
+                    ->required(),
+                Quill::make('job.benefits')
                     ->title('Benefity')
-                    ->rows(5),
+                    ->required(),
             ]),
 
             Layout::modal('removeRow',Layout::rows([

@@ -1,8 +1,6 @@
 @extends('navbar')
 @section('job')
-    <div>
-        <img src="/img/jobs-banner.jpg" alt="Header image" class="pageImage">
-    </div>
+    <div class="pageImage"></div>
     <div class="container pageContent">
         <div class="jobPageHeader">
             <div class="jobInfoBackButton">
@@ -12,9 +10,9 @@
             <div class="jobInfoTitle">
                 <h1>{{ $job->position_name }}</h1>
             </div>
-            <div>
-                <div class="flex2">
-                    <div class="flex-items jobInfoSubTitle">
+            <div class="jobInfoButtons">
+                <div class="row g-custom">
+                    <div class="col-12 col-sm-12 col-md-8 col-lg-8 jobInfoSubTitle">
                         <div class="jobObjectFooterImage jobPageHeaderInfo">
                             <i class="fa fa-briefcase jobObjectFooterImage centerIcon" aria-hidden="true"></i>
                             @foreach ($jobEmploymentTypes as $jobEmploymentType)
@@ -41,8 +39,8 @@
                         </div>
 
                     </div>
-                    <div class="flex-items">
-                        <button class="btn btn-primary orangeObject orangeButtons" id="toFormBtn">MÁM
+                    <div class="col-12 col-sm-12 col-md-4 col-lg-4 jobInfoInterestButton">
+                        <button class="btn btn-primary orangeObject orangeButtons" id="toFormButton">MÁM
                             ZÁUJEM</button>
                     </div>
                 </div>
@@ -51,8 +49,12 @@
         <div class="jobInfoObjects">
             <div class="jobInfoObject">
                 <div class="jobInfoHeading">
-                    <i class="fa fa-eur jobObjectFooterImage centerIcon" aria-hidden="true"></i>
-                    <h2>Čo budeš robiť?</h2>
+                    <div>
+                        <i class="fa fa-info-circle fa-2x jobObjectFooterImage centerIcon" aria-hidden="true"></i>
+                    </div>
+                    <div>
+                        <h3>Čo budeš robiť?</h3>
+                    </div>
                 </div>
                 <div class="jobInfoText">
                     <div>
@@ -62,8 +64,12 @@
             </div>
             <div class="jobInfoObject">
                 <div class="jobInfoHeading">
-                    <i class="fa fa-eur jobObjectFooterImage centerIcon" aria-hidden="true"></i>
-                    <h2>Mzdové podmienky</h2>
+                    <div>
+                        <i class="fa fa-eur fa-2x jobObjectFooterImage centerIcon" aria-hidden="true"></i>
+                    </div>
+                    <div>
+                        <h3>Mzdové podmienky</h3>
+                    </div>
                 </div>
                 <div class="jobInfoText">
                     <div>
@@ -73,8 +79,12 @@
             </div>
             <div class="jobInfoObject">
                 <div class="jobInfoHeading">
-                    <i class="fa fa-eur jobObjectFooterImage centerIcon" aria-hidden="true"></i>
-                    <h2>Čo od teba očakávame?</h2>
+                    <div>
+                        <i class="fa-solid fa-user-check fa-2x jobObjectFooterImage centerIcon" aria-hidden="true"></i>
+                    </div>
+                    <div>
+                        <h3>Čo od teba očakávame?</h3>
+                    </div>
                 </div>
                 <div class="jobInfoText">
                     <div>
@@ -84,8 +94,12 @@
             </div>
             <div class="jobInfoObject">
                 <div class="jobInfoHeading">
-                    <i class="fa fa-eur jobObjectFooterImage centerIcon" aria-hidden="true"></i>
-                    <h2>Základné benefity</h2>
+                    <div>
+                        <i class="fa-solid fa-crown fa-2x jobObjectFooterImage centerIcon" aria-hidden="true"></i>
+                    </div>
+                    <div>
+                        <h3>Základné benefity</h3>
+                    </div>
                 </div>
                 <div class="jobInfoText">
                     <div>
@@ -95,8 +109,12 @@
             </div>
             <div class="jobInfoObject">
                 <div class="jobInfoHeading">
-                    <i class="fa fa-eur jobObjectFooterImage centerIcon" aria-hidden="true"></i>
-                    <h2>Odoslať žiadosť</h2>
+                    <div>
+                        <i class="fa fa-envelope-o fa-2x jobObjectFooterImage centerIcon" aria-hidden="true"></i>
+                    </div>
+                    <div>
+                        <h3>Odoslať žiadosť</h3>
+                    </div>
                 </div>
                 <div class="jobInfoText">
                     <div>
@@ -182,7 +200,7 @@
         }
 
 
-        $("#toFormBtn").click(function() {
+        $("#toFormButton").click(function() {
             $('html, body').animate({
                 scrollTop: $("#contactForm").offset().top
             }, 10);

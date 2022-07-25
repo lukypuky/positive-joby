@@ -78,8 +78,7 @@ class HomeofficeEditScreen extends Screen
             Layout::rows([
                 Input::make('homeoffice.name')
                     ->title('Hodnota')
-                    // ->placeholder('Názov skúsenosti')
-                    // ->help('Zadajte názov pre danú skúsenosť')
+                    ->required(),
             ]),
 
             Layout::modal('removeRow',Layout::rows([
