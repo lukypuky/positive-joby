@@ -139,15 +139,11 @@
                         <div class="row gy-2 gx-3" id="row">
                         </div>
 
-                        {{-- @if ($jobs->count())
-                            <div>
-                                {{ $jobs->links() }}
-                            </div>
-                        @else
-                            <div>
-                                Žiadne joby.
-                            </div>
-                        @endif --}}
+                        <div>
+                            <nav>
+                                <ul class="pagination"></ul>
+                            </nav>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -157,6 +153,7 @@
     <script type="text/javascript">
         let layout = 2; //1 = tile, 2 = row
         let order = 1; //1 = asc, 2 = desc
+        let page = 1;
 
         //reset filtra
         $("#resetFilter").on("click", function(e) {
@@ -174,6 +171,7 @@
                 dataType: 'html',
                 data: {
                     '_token': '{{ csrf_token() }}',
+                    page: 1,
                     layout: layout,
                     order: order,
                     experiences: [],
@@ -187,7 +185,7 @@
                     $('#row').html(res);
                 },
                 error: function(xhr, status, error) {
-                    $("#exampleModalCenter").modal('show')
+                    $("#errorModalCenter").modal('show')
                 }
             });
         });
@@ -217,6 +215,11 @@
             order = 2;
             filterJobs();
         });
+
+        function setPage(pageNumber) {
+            page = pageNumber;
+            filterJobs();
+        }
 
         //filter
         function filterJobs() {
@@ -253,6 +256,7 @@
                 dataType: 'html',
                 data: {
                     '_token': '{{ csrf_token() }}',
+                    page: page,
                     layout: layout,
                     order: order,
                     experiences: experiences,
@@ -264,34 +268,71 @@
                 success: function(res) {
                     $(".jobObject").remove();
                     $('#row').html(res);
+                    deRenderPagination();
+                    renderPagination();
                 },
                 error: function(xhr, status, error) {
-                    $("#exampleModalCenter").modal('show')
+                    $("#errorModalCenter").modal('show')
                 }
             });
         }
 
         // defaultne zobrazenie jobov
         $(document).ready(function() {
-
             $.ajax({
                 method: 'POST',
                 url: "{{ route('getJobLayout') }}",
                 dataType: 'html',
                 data: {
                     '_token': '{{ csrf_token() }}',
+                    page: page,
                     layout: layout,
                     order: order,
                 },
                 success: function(res) {
                     $(".jobObject").remove();
                     $('#row').html(res);
+                    deRenderPagination();
+                    renderPagination();
+
                 },
                 error: function(xhr, status, error) {
-                    $("#exampleModalCenter").modal('show')
+                    $("#errorModalCenter").modal('show')
                 }
             });
         });
+
+        function deRenderPagination() {
+            $('.paginationItem').remove();
+            page = 1;
+        }
+
+        function renderPagination() {
+            const paginationContainer = document.getElementsByClassName('pagination');
+            let divContent = $('#jobsCount').text();
+            let actualPage = $('#actualPage').text();
+
+            for (let x = 0; x < divContent / 10; x++) {
+                const newLi = document.createElement('li');
+                const newSpan = document.createElement('span');
+
+                newLi.classList.add('page-item');
+                newLi.classList.add('paginationItem');
+                newLi.addEventListener("click", function() {
+                    setPage(x + 1);
+                });
+
+                newSpan.classList.add('page-link');
+                newSpan.innerHTML += x + 1;
+
+                paginationContainer[0].appendChild(newLi);
+                newLi.appendChild(newSpan);
+
+                if (actualPage == x + 1) {
+                    newLi.classList.add('active');
+                }
+            }
+        }
 
         // search job
         $("#searchJobsButton").on("click", function(e) {
@@ -305,6 +346,7 @@
                     dataType: 'html',
                     data: {
                         '_token': '{{ csrf_token() }}',
+                        page: page,
                         searchRequest: searchRequest,
                         layout: 1,
                         order: order,
@@ -312,9 +354,11 @@
                     success: function(res) {
                         $(".jobObject").remove();
                         $('#row').html(res);
+                        deRenderPagination();
+                        renderPagination();
                     },
                     error: function(xhr, status, error) {
-                        $("#exampleModalCenter").modal('show')
+                        $("#errorModalCenter").modal('show')
                     }
                 });
             } else {
@@ -324,6 +368,7 @@
                     dataType: 'html',
                     data: {
                         '_token': '{{ csrf_token() }}',
+                        page: page,
                         searchRequest: searchRequest,
                         layout: 2,
                         order: order,
@@ -331,9 +376,11 @@
                     success: function(res) {
                         $(".jobObject").remove();
                         $('#row').html(res);
+                        deRenderPagination();
+                        renderPagination();
                     },
                     error: function(xhr, status, error) {
-                        $("#exampleModalCenter").modal('show')
+                        $("#errorModalCenter").modal('show')
                     }
                 });
             }
@@ -343,12 +390,12 @@
 
 @section('errorModal')
     <!-- Modal -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="errorModalCenter" tabindex="-1" role="dialog" aria-labelledby="errorModalCenterTitle"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Chyba</h5>
+                    <h5 class="modal-title" id="errorModalLongTitle">Chyba</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

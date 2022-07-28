@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <link rel="stylesheet" href="/css/style.css" type="text/css">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
         integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
@@ -20,7 +19,13 @@
     {{-- zakomentovane kvoli posielaniu mailov --}}
     {{-- <script src="https://www.google.com/recaptcha/api.js"></script> --}}
     <script src='/js/script.js' type="text/javascript"></script>
-    <title>PositiveJoby</title>
+    <title>Positive-joby</title>
+    <meta property="og:title" content=Positive-joby>
+    <meta property="og:site_name" content=Positive-joby>
+    <meta property="og:url" content=http://joby.positive.sk>
+    <meta property="og:description" content=positive-joby>
+    <meta property="og:type" content=website>
+    <meta property="og:image" content=https://positive.sk//storage/settings/December2020/TyWT88fVu1pX0P4iMa4e.png>
 </head>
 
 <body>

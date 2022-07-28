@@ -48,3 +48,6 @@
         </div>
     </div>
 @endforeach
+
+<div id="jobsCount" style="display: none;">{{ $count }}</div>
+<div id="actualPage" style="display: none;">{{ $page }}</div>

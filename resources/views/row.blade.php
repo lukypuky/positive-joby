@@ -12,8 +12,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="jobRowObjectFooter row">
-                    <div class="jobRowObjectFooterSectionObject col-12 col-12 col-sm-12 col-md-4 col-lg-4">
+                <div class="jobRowObjectFooter">
+                    <div class="jobRowObjectFooterSectionObject">
                         <div class="jobObjectFooterSection">
                             <i class="fa fa-briefcase jobObjectFooterImage" aria-hidden="true"></i>
                             <div class="jobObjectFooterText">
@@ -29,7 +29,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="jobRowObjectFooterSectionObject col-12 col-12 col-sm-12 col-md-4 col-lg-4">
+                    <div class="jobRowObjectFooterSectionObject">
                         <div class="jobObjectFooterSection jobObjectFooterText">
                             <i class="fa fa-eur jobObjectFooterImage" aria-hidden="true"></i>
                             @foreach ($salaryTypes as $salaryType)
@@ -48,3 +48,6 @@
         </div>
     </div>
 @endforeach
+
+<div id="jobsCount" style="display: none;">{{ $count }}</div>
+<div id="actualPage" style="display: none;">{{ $page }}</div>

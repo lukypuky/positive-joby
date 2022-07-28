@@ -14,16 +14,15 @@ use App\Models\Reference;
 use Illuminate\Database\Eloquent\Builder;
 
 class PageController extends Controller
-{
-    public function getIndex(){   
-        $jobs = Job::orderBy('position_name', 'asc')->get();
+{   
+    public function getIndex(){  
         $allEmploymentTypes = Employment_type::all();
         $experiences = Experience::all();
         $homeoffices = Homeoffice::all();
         $jobEmploymentTypeIds = Job_employment_type::all();
         $salaryTypes = Salary_type::all();
 
-        return view('/index', ['jobs' => $jobs, 'allEmploymentTypes' => $allEmploymentTypes, 'experiences' => $experiences, 'homeoffices' => $homeoffices, 'jobEmploymentTypes' => $jobEmploymentTypeIds, 'salaryTypes' => $salaryTypes]);
+        return view('/index', ['allEmploymentTypes' => $allEmploymentTypes, 'experiences' => $experiences, 'homeoffices' => $homeoffices, 'jobEmploymentTypes' => $jobEmploymentTypeIds, 'salaryTypes' => $salaryTypes]);
     }
 
     public function getContact(){
@@ -36,29 +35,40 @@ class PageController extends Controller
     }
 
     public function renderLayout($layoutType, $jobs, $allEmploymentTypes, $jobEmploymentTypeIds, $salaryTypes){
-        if(is_array($jobs)){
-            if(empty($jobs)){
+        if(is_array($jobs[1])){
+            if(empty($jobs[1])){
                     return "Nenašli sa žiadne záznamy.";
             }
         }
         else{
-            if($jobs->count() == 0){
+            if($jobs[1]->count() == 0){
                 return "Nenašli sa žiadne záznamy.";
             }
         }
 
         if($layoutType == 1){
-            return view('tile', ['jobs' => $jobs, 'allEmploymentTypes' => $allEmploymentTypes, 'jobEmploymentTypes' => $jobEmploymentTypeIds, 'salaryTypes' => $salaryTypes]); 
+            return view('tile', ['jobs' => $jobs[1], 'allEmploymentTypes' => $allEmploymentTypes, 'jobEmploymentTypes' => $jobEmploymentTypeIds, 'salaryTypes' => $salaryTypes, 'count' => $jobs[0], 'page' => $jobs[2]]); 
         }
         else{
-            return view('row', ['jobs' => $jobs, 'allEmploymentTypes' => $allEmploymentTypes, 'jobEmploymentTypes' => $jobEmploymentTypeIds, 'salaryTypes' => $salaryTypes]); 
+            return view('row', ['jobs' => $jobs[1], 'allEmploymentTypes' => $allEmploymentTypes, 'jobEmploymentTypes' => $jobEmploymentTypeIds, 'salaryTypes' => $salaryTypes, 'count' => $jobs[0], 'page' => $jobs[2]]); 
         }
     }
-
+    
     public function searchJobs(Request $request){
         $order = $request->get('order');
+        $page = $request->get('page');
+        $offset = ($page - 1) * 10;
+        $count = 0;
         
-        $searchedJobs = Job::where('position_name', 'like', '%' . $request->get('searchRequest') . '%')->orderBy('position_name', 'asc')->get();
+        $searchedJobs = Job::where('position_name', 'like', '%' . $request->get('searchRequest') . '%')
+            ->orderBy('position_name', 'asc')
+            ->offset($offset)
+            ->limit(10)
+            ->get();
+
+        $count = Job::where('position_name', 'like', '%' . $request->get('searchRequest') . '%')
+            ->count();
+
         $allEmploymentTypes = Employment_type::all();
         $jobEmploymentTypeIds = Job_employment_type::all();
         $salaryTypes = Salary_type::all();
@@ -66,17 +76,28 @@ class PageController extends Controller
 
         $jobs = $this->orderJobs($order, $searchedJobs);
 
-        return $this->renderLayout($layoutType, $jobs, $allEmploymentTypes, $jobEmploymentTypeIds, $salaryTypes);
+        return $this->renderLayout($layoutType, array($count, $jobs, $page), $allEmploymentTypes, $jobEmploymentTypeIds, $salaryTypes);
     }
 
     public function getJobLayout(Request $request){
-        $jobs = Job::orderBy('position_name', 'asc')->get();
+        $page =  $request->get('page');
+        $offset = ($page - 1) * 10;
+        $count = 0;
+
+        $jobs = Job::orderBy('position_name', 'asc')                      
+            ->offset($offset)
+            ->limit(10)
+            ->get();
+
+        $count = Job::all()
+            ->count();
+
         $allEmploymentTypes = Employment_type::all();
         $jobEmploymentTypeIds = Job_employment_type::all();
         $salaryTypes = Salary_type::all();
         $layoutType = $request->get('layout');
 
-        return $this->renderLayout($layoutType, $jobs, $allEmploymentTypes, $jobEmploymentTypeIds, $salaryTypes);
+        return $this->renderLayout($layoutType, array($count, $jobs, $page), $allEmploymentTypes, $jobEmploymentTypeIds, $salaryTypes);
     }
 
     public function getJobsFiltred(Request $request)
@@ -108,12 +129,20 @@ class PageController extends Controller
             foreach($employmentTypes as $employmentType){
                 array_push($employmentTypesArray, $employmentType->id_job);
             }
+
+            if(empty($employmentTypesArray)){
+                return "Nenašli sa žiadne záznamy.";
+            }
         }
 
         if($request->get('salaryFrom')){
             $jobSalaryFrom = Job::select('id')->where('salary_from', '>=', $request->get('salaryFrom'))->get();
             foreach($jobSalaryFrom as $salaryFrom){
                 array_push($salaryFromArray, $salaryFrom->id);
+            }
+
+            if(empty($salaryFromArray)){
+                return "Nenašli sa žiadne záznamy.";
             }
         }
 
@@ -128,21 +157,16 @@ class PageController extends Controller
             }
         }
 
-        if(empty($request->get('salaryTo')) == true){
-            $jobs = $this->filerJobsWithoutToSalary($experiencesArray, $homeofficesArray, $employmentTypesArray, $salaryFromArray);
-        }
-        else{
-            $jobs = $this->filerJobsWithToSalary($experiencesArray, $homeofficesArray, $employmentTypesArray, $salaryFromArray, $salaryToArray);
-        }
+        $jobsArray = $this->filterJobs($experiencesArray, $homeofficesArray, $employmentTypesArray, $salaryFromArray, $salaryToArray, $request->get('page'));
 
-        $jobs = $this->orderJobs($order, $jobs);
+        $jobsArray[1] = $this->orderJobs($order, $jobsArray[1]);
             
         $allEmploymentTypes = Employment_type::all();
         $jobEmploymentTypeIds = Job_employment_type::all();
         $salaryTypes = Salary_type::all();
         $layoutType = $request->get('layout');
 
-        return $this->renderLayout($layoutType, $jobs, $allEmploymentTypes, $jobEmploymentTypeIds, $salaryTypes);        
+        return $this->renderLayout($layoutType, $jobsArray, $allEmploymentTypes, $jobEmploymentTypeIds, $salaryTypes);        
     }
 
     public function orderJobs($order, $jobs){
@@ -172,7 +196,10 @@ class PageController extends Controller
         return view('job',['job' => $job, 'salaryTypes' => $salaryTypes, 'allEmploymentTypes' => $allEmploymentTypes, 'jobEmploymentTypes' => $jobEmploymentTypeIds]);
     }
 
-    public function filerJobsWithToSalary($experiencesArray, $homeofficesArray, $employmentTypesArray, $salaryFromArray, $salaryToArray){
+    public function filterJobs($experiencesArray, $homeofficesArray, $employmentTypesArray, $salaryFromArray, $salaryToArray, $page = 1){
+        $offset = ($page - 1) * 10;
+        $count = 0;
+
         if ($experiencesArray){
             if ($homeofficesArray){
                 if ($employmentTypesArray){
@@ -183,14 +210,32 @@ class PageController extends Controller
                                 ->whereIn('id', $employmentTypesArray, 'and')
                                 ->whereIn('id', $salaryFromArray, 'and')
                                 ->whereIn('id', $salaryToArray)
+                                ->orderBy('position_name', 'asc')
+                                ->offset($offset)
+                                ->limit(10)
                                 ->get();
+
+                            $count = Job::whereIn('id_experience', $experiencesArray, 'or')   
+                                ->whereIn('id', $employmentTypesArray, 'and')
+                                ->whereIn('id', $salaryFromArray, 'and')
+                                ->whereIn('id', $salaryToArray)
+                                ->count();
                         }
                         else{
                             $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')   //skusenosti | homeoffice | druh | platOD
                                 ->whereIn('id_homeoffice', $homeofficesArray, 'and')
                                 ->whereIn('id', $employmentTypesArray, 'and')
                                 ->whereIn('id', $salaryFromArray)
+                                ->orderBy('position_name', 'asc')
+                                ->offset($offset)
+                                ->limit(10)
                                 ->get();
+
+                            $count = Job::whereIn('id_experience', $experiencesArray, 'or')  
+                                ->whereIn('id_homeoffice', $homeofficesArray, 'and')
+                                ->whereIn('id', $employmentTypesArray, 'and')
+                                ->whereIn('id', $salaryFromArray)
+                                ->count();
                         }
                     }
                     elseif ($salaryToArray){
@@ -198,13 +243,30 @@ class PageController extends Controller
                             ->whereIn('id_homeoffice', $homeofficesArray, 'and')
                             ->whereIn('id', $employmentTypesArray, 'and')
                             ->whereIn('id', $salaryToArray)
+                            ->orderBy('position_name', 'asc')
+                            ->offset($offset)
+                            ->limit(10)
                             ->get();
+
+                        $count = Job::whereIn('id_experience', $experiencesArray, 'or')
+                            ->whereIn('id_homeoffice', $homeofficesArray, 'and')
+                            ->whereIn('id', $employmentTypesArray, 'and')
+                            ->whereIn('id', $salaryToArray)
+                            ->count();
                     }
                     else{
                         $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')   //skusenosti | homeoffice | druh
                             ->whereIn('id_homeoffice', $homeofficesArray, 'and')
                             ->whereIn('id', $employmentTypesArray)
+                            ->orderBy('position_name', 'asc')
+                            ->offset($offset)
+                            ->limit(10)
                             ->get();
+
+                        $count = Job::whereIn('id_experience', $experiencesArray, 'or') 
+                            ->whereIn('id_homeoffice', $homeofficesArray, 'and')
+                            ->whereIn('id', $employmentTypesArray)
+                            ->count();
                     }
                 }
                 elseif ($salaryFromArray) {
@@ -213,25 +275,57 @@ class PageController extends Controller
                             ->whereIn('id_homeoffice', $homeofficesArray, 'and')
                             ->whereIn('id', $salaryFromArray, 'and')
                             ->whereIn('id', $salaryToArray)
+                            ->orderBy('position_name', 'asc')
+                            ->offset($offset)
+                            ->limit(10)
                             ->get();
+
+                        $count = Job::whereIn('id_experience', $experiencesArray, 'or')
+                            ->whereIn('id_homeoffice', $homeofficesArray, 'and')
+                            ->whereIn('id', $salaryFromArray, 'and')
+                            ->whereIn('id', $salaryToArray)
+                            ->count();
                     }
                     else {
                         $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')   //skusenosti | homeoffice | platOD 
                             ->whereIn('id_homeoffice', $homeofficesArray, 'and')
                             ->whereIn('id', $salaryFromArray, 'and')
+                            ->orderBy('position_name', 'asc')
+                            ->offset($offset)
+                            ->limit(10)
                             ->get();
+
+                        $count = Job::whereIn('id_experience', $experiencesArray, 'or') 
+                            ->whereIn('id_homeoffice', $homeofficesArray, 'and')
+                            ->whereIn('id', $salaryFromArray, 'and')
+                            ->count();
                     }
                 }
                 elseif ($salaryToArray) {
                     $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')   //skusenosti | homeoffice | platDO 
                         ->whereIn('id_homeoffice', $homeofficesArray, 'and')
                         ->whereIn('id', $salaryToArray)
+                        ->orderBy('position_name', 'asc')
+                        ->offset($offset)
+                        ->limit(10)
                         ->get();
+
+                    $count = Job::whereIn('id_experience', $experiencesArray, 'or') 
+                        ->whereIn('id_homeoffice', $homeofficesArray, 'and')
+                        ->whereIn('id', $salaryToArray)
+                        ->count();
                 }
                 else{
                     $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')   //skusenosti | homeoffice 
                         ->whereIn('id_homeoffice', $homeofficesArray)
+                        ->orderBy('position_name', 'asc')
+                        ->offset($offset)
+                        ->limit(10)
                         ->get();
+
+                    $count = Job::whereIn('id_experience', $experiencesArray, 'or')   
+                        ->whereIn('id_homeoffice', $homeofficesArray)
+                        ->count();
                 }
             }
             elseif ($employmentTypesArray){
@@ -241,25 +335,57 @@ class PageController extends Controller
                             ->whereIn('id', $employmentTypesArray, 'and')
                             ->whereIn('id', $salaryFromArray, 'and')
                             ->whereIn('id', $salaryToArray)
+                            ->orderBy('position_name', 'asc')
+                            ->offset($offset)
+                            ->limit(10)
                             ->get();
+
+                        $count = Job::whereIn('id_experience', $experiencesArray, 'or') 
+                            ->whereIn('id', $employmentTypesArray, 'and')
+                            ->whereIn('id', $salaryFromArray, 'and')
+                            ->whereIn('id', $salaryToArray)
+                            ->count();
                     }
                     else {
                         $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')   //skusenosti | druh | platOD
                             ->whereIn('id', $employmentTypesArray, 'and')
                             ->whereIn('id', $salaryFromArray)
+                            ->orderBy('position_name', 'asc')
+                            ->offset($offset)
+                            ->limit(10)
                             ->get();
+
+                        $count = Job::whereIn('id_experience', $experiencesArray, 'or') 
+                            ->whereIn('id', $employmentTypesArray, 'and')
+                            ->whereIn('id', $salaryFromArray)
+                            ->count();
                     }
                 }
                 elseif ($salaryToArray) {
                     $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')   //skusenosti | druh | platDO
                         ->whereIn('id', $employmentTypesArray, 'and')
                         ->whereIn('id', $salaryToArray)
+                        ->orderBy('position_name', 'asc')
+                        ->offset($offset)
+                        ->limit(10)
                         ->get();
+
+                    $count = Job::whereIn('id_experience', $experiencesArray, 'or')   
+                        ->whereIn('id', $employmentTypesArray, 'and')
+                        ->whereIn('id', $salaryToArray)
+                        ->count();
                 }
                 else {
                     $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')   //skusenosti | druh
                         ->whereIn('id', $employmentTypesArray)
+                        ->orderBy('position_name', 'asc')
+                        ->offset($offset)
+                        ->limit(10)
                         ->get();
+
+                    $count = Job::whereIn('id_experience', $experiencesArray, 'or') 
+                        ->whereIn('id', $employmentTypesArray)
+                        ->count();
                 }
             }
             elseif ($salaryFromArray) {
@@ -267,21 +393,50 @@ class PageController extends Controller
                     $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')   //skusenosti | platOD | platDO
                         ->whereIn('id', $salaryFromArray, 'and')
                         ->whereIn('id', $salaryToArray)
+                        ->orderBy('position_name', 'asc')
+                        ->offset($offset)
+                        ->limit(10)
                         ->get();
+
+                    $count = Job::whereIn('id_experience', $experiencesArray, 'or') 
+                        ->whereIn('id', $salaryFromArray, 'and')
+                        ->whereIn('id', $salaryToArray)
+                        ->count();
                 }
                 else {
                     $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')   //skusenosti | platOD
                         ->whereIn('id', $salaryFromArray)
+                        ->orderBy('position_name', 'asc')
+                        ->offset($offset)
+                        ->limit(10)
                         ->get();
+
+                    $count = Job::whereIn('id_experience', $experiencesArray, 'or') 
+                        ->whereIn('id', $salaryFromArray)
+                        ->count();
                 }
             }
             elseif ($salaryToArray) {
                 $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')   //skusenosti | platDO
                     ->whereIn('id', $salaryToArray)
+                    ->orderBy('position_name', 'asc')
+                    ->offset($offset)
+                    ->limit(10)
                     ->get();
+
+                $count = Job::whereIn('id_experience', $experiencesArray, 'or')  
+                    ->whereIn('id', $salaryToArray)
+                    ->count();
             }
             else{
-                $jobs = Job::whereIn('id_experience', $experiencesArray)->get();    //skusenosti 
+                $jobs = Job::whereIn('id_experience', $experiencesArray)    //skusenosti          
+                    ->orderBy('position_name', 'asc')                
+                    ->offset($offset)
+                    ->limit(10)
+                    ->get();   
+                    
+                $count = Job::whereIn('id_experience', $experiencesArray)     
+                    ->count();
             }
         }
         elseif ($homeofficesArray) {
@@ -292,25 +447,57 @@ class PageController extends Controller
                             ->whereIn('id', $employmentTypesArray, 'and')
                             ->whereIn('id', $salaryFromArray, 'and')
                             ->whereIn('id', $salaryToArray)
+                            ->orderBy('position_name', 'asc')
+                            ->offset($offset)
+                            ->limit(10)
                             ->get();
+
+                        $count = Job::whereIn('id_homeoffice', $homeofficesArray, 'or')   
+                            ->whereIn('id', $employmentTypesArray, 'and')
+                            ->whereIn('id', $salaryFromArray, 'and')
+                            ->whereIn('id', $salaryToArray)
+                            ->count();
                     }
                     else {
                         $jobs = Job::whereIn('id_homeoffice', $homeofficesArray, 'or')   //homeoffice | druh | platOD
                             ->whereIn('id', $employmentTypesArray, 'and')
                             ->whereIn('id', $salaryFromArray)
+                            ->orderBy('position_name', 'asc')
+                            ->offset($offset)
+                            ->limit(10)
                             ->get();
+
+                        $count = Job::whereIn('id_homeoffice', $homeofficesArray, 'or') 
+                            ->whereIn('id', $employmentTypesArray, 'and')
+                            ->whereIn('id', $salaryFromArray)
+                            ->count();
                     }
                 }
                 elseif ($salaryToArray) {
                     $jobs = Job::whereIn('id_homeoffice', $homeofficesArray, 'or')   //homeoffice | druh | platDO
                         ->whereIn('id', $employmentTypesArray, 'and')
                         ->whereIn('id', $salaryToArray)
+                        ->orderBy('position_name', 'asc')
+                        ->offset($offset)
+                        ->limit(10)
                         ->get();
+
+                    $count = Job::whereIn('id_homeoffice', $homeofficesArray, 'or') 
+                        ->whereIn('id', $employmentTypesArray, 'and')
+                        ->whereIn('id', $salaryToArray)
+                        ->count();
                 }
                 else {
                     $jobs = Job::whereIn('id_homeoffice', $homeofficesArray, 'or')   //homeoffice | druh
                         ->whereIn('id', $employmentTypesArray)
+                        ->orderBy('position_name', 'asc')
+                        ->offset($offset)
+                        ->limit(10)
                         ->get();
+
+                    $count = Job::whereIn('id_homeoffice', $homeofficesArray, 'or')  
+                        ->whereIn('id', $employmentTypesArray)
+                        ->count();
                 }
             }
             elseif ($salaryFromArray) {
@@ -318,21 +505,50 @@ class PageController extends Controller
                     $jobs = Job::whereIn('id_homeoffice', $homeofficesArray, 'or')   //homeoffice | platOD | platDO
                         ->whereIn('id', $salaryFromArray, 'and')
                         ->whereIn('id', $salaryToArray)
+                        ->orderBy('position_name', 'asc')
+                        ->offset($offset)
+                        ->limit(10)
                         ->get();
+
+                    $count = Job::whereIn('id_homeoffice', $homeofficesArray, 'or')   
+                        ->whereIn('id', $salaryFromArray, 'and')
+                        ->whereIn('id', $salaryToArray)
+                        ->count();
                 }
                 else {
                     $jobs = Job::whereIn('id_homeoffice', $homeofficesArray, 'or')   //homeoffice | platOD
                         ->whereIn('id', $salaryFromArray)
+                        ->orderBy('position_name', 'asc')
+                        ->offset($offset)
+                        ->limit(10)
                         ->get();
+
+                    $count = Job::whereIn('id_homeoffice', $homeofficesArray, 'or')  
+                        ->whereIn('id', $salaryFromArray)
+                        ->count();
                 }
             }
             elseif ($salaryToArray) {
                 $jobs = Job::whereIn('id_homeoffice', $homeofficesArray, 'or')   //homeoffice | platDO
                     ->whereIn('id', $salaryToArray)
+                    ->orderBy('position_name', 'asc')
+                    ->offset($offset)
+                    ->limit(10)
                     ->get();
+
+                $count = Job::whereIn('id_homeoffice', $homeofficesArray, 'or')   
+                    ->whereIn('id', $salaryToArray)
+                    ->count();
             }
             else {
-                $jobs = Job::whereIn('id_homeoffice', $homeofficesArray)->get(); //homeoffice
+                $jobs = Job::whereIn('id_homeoffice', $homeofficesArray)    //homeoffice   
+                    ->orderBy('position_name', 'asc')                             
+                    ->offset($offset)
+                    ->limit(10)
+                    ->get();
+
+                $count = Job::whereIn('id_homeoffice', $homeofficesArray)     
+                    ->count();
             }
         }
         elseif ($employmentTypesArray) {
@@ -341,136 +557,98 @@ class PageController extends Controller
                     $jobs = Job::whereIn('id', $employmentTypesArray, 'or')   //druh | platOD | platDO
                         ->whereIn('id', $salaryFromArray, 'and')
                         ->whereIn('id', $salaryToArray)
+                        ->orderBy('position_name', 'asc')
+                        ->offset($offset)
+                        ->limit(10)
                         ->get();
+
+                    $count = Job::whereIn('id', $employmentTypesArray, 'or')  
+                        ->whereIn('id', $salaryFromArray, 'and')
+                        ->whereIn('id', $salaryToArray)
+                        ->count();
                }
                else {
                     $jobs = Job::whereIn('id', $employmentTypesArray, 'or')   //druh | platOD
                         ->whereIn('id', $salaryFromArray)
+                        ->orderBy('position_name', 'asc')
+                        ->offset($offset)
+                        ->limit(10)
                         ->get();
+
+                    $count = Job::whereIn('id', $employmentTypesArray, 'or')   
+                        ->whereIn('id', $salaryFromArray)
+                        ->count();
                }
             }
             elseif ($salaryToArray) {
                 $jobs = Job::whereIn('id', $employmentTypesArray, 'or')   //druh | platDO
                     ->whereIn('id', $salaryToArray)
+                    ->orderBy('position_name', 'asc')
+                    ->offset($offset)
+                    ->limit(10)
                     ->get();
+
+                $count = Job::whereIn('id', $employmentTypesArray, 'or')   
+                    ->whereIn('id', $salaryToArray)
+                    ->count();
+
             }
             else {
-                $jobs = Job::whereIn('id', $employmentTypesArray)->get(); //druh
+                $jobs = Job::whereIn('id', $employmentTypesArray)   //druh
+                    ->orderBy('position_name', 'asc')
+                    ->offset($offset)
+                    ->limit(10)
+                    ->get();
+
+                $count = Job::whereIn('id', $employmentTypesArray)   
+                    ->orderBy('position_name', 'asc')
+                    ->count();
             }
         }
         elseif ($salaryFromArray) {
             if ($salaryToArray) {
                 $jobs = Job::whereIn('id', $salaryFromArray, 'or')  //platOD | platDO
                     ->whereIn('id', $salaryToArray)
+                    ->orderBy('position_name', 'asc')
+                    ->offset($offset)
+                    ->limit(10)
                     ->get();
+
+                $count = Job::whereIn('id', $salaryFromArray, 'or') 
+                    ->whereIn('id', $salaryToArray)
+                    ->count();
             }
             else {
-                $jobs = Job::whereIn('id', $salaryFromArray)->get();    //platOD
+                $jobs = Job::whereIn('id', $salaryFromArray)    //platOD
+                    ->orderBy('position_name', 'asc')
+                    ->offset($offset)
+                    ->limit(10)
+                    ->get();
+
+                $count = Job::whereIn('id', $salaryFromArray)    
+                    ->count();
             }
         }
         elseif ($salaryToArray) {
-            $jobs = Job::whereIn('id', $salaryToArray)->get(); //platDO
+            $jobs = Job::whereIn('id', $salaryToArray)  //platDO
+                ->orderBy('position_name', 'asc')
+                ->offset($offset)
+                ->limit(10)
+                ->get();
+
+                $count = Job::whereIn('id', $salaryToArray) 
+                ->count();
         }
         else{
-            $jobs = Job::orderBy('position_name', 'asc')->get();
+            $jobs = Job::orderBy('position_name', 'asc')
+                ->offset($offset)
+                ->limit(10)
+                ->get();
+
+            $count = Job::all()
+                ->count();
         }
 
-        return $jobs;
-    }
-
-    public function filerJobsWithoutToSalary($experiencesArray, $homeofficesArray, $employmentTypesArray, $salaryFromArray){
-        if ($experiencesArray){
-            if ($homeofficesArray){
-                if ($employmentTypesArray){
-                    if ($salaryFromArray){
-                        $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')   //skusenosti | homeoffice | druh | platOD
-                            ->whereIn('id_homeoffice', $homeofficesArray, 'and')
-                            ->whereIn('id', $employmentTypesArray, 'and')
-                            ->whereIn('id', $salaryFromArray)
-                            ->get();
-                    }
-                    else{
-                        $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')  //skusenosti | homeoffice | druh
-                            ->whereIn('id_homeoffice', $homeofficesArray, 'and')
-                            ->whereIn('id', $employmentTypesArray)
-                            ->get();
-                    }
-                }
-                elseif ($salaryFromArray) {
-                    $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')  //skusenosti | homeoffice | platOD
-                        ->whereIn('id_homeoffice', $homeofficesArray, 'and')
-                        ->whereIn('id', $salaryFromArray)
-                        ->get();
-                }
-                else{
-                    $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')  //skusenosti | homeoffice
-                        ->whereIn('id_homeoffice', $homeofficesArray)
-                        ->get();
-                }
-            }
-            elseif ($employmentTypesArray) {
-                if($salaryFromArray){
-                    $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')  //skusenosti | druh | platOD
-                        ->whereIn('id', $employmentTypesArray, 'and')
-                        ->whereIn('id', $salaryFromArray)
-                        ->get();
-                }
-                else{
-                    $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')  //skusenosti | druh 
-                        ->whereIn('id', $employmentTypesArray)
-                        ->get();
-                }
-
-            }
-            elseif ($salaryFromArray) {
-                $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')  //skusenosti | platOD
-                    ->whereIn('id', $salaryFromArray)
-                    ->get();
-            }
-            else{
-                $jobs = Job::whereIn('id_experience', $experiencesArray)->get();    //skusenosti 
-            }
-        }
-        elseif ($homeofficesArray) {
-            if ($employmentTypesArray) {
-                if($salaryFromArray){
-                    $jobs = Job::whereIn('id', $employmentTypesArray, 'or') //homeoffice | druh | platOD
-                        ->whereIn('id_homeoffice', $homeofficesArray, 'and')
-                        ->whereIn('id', $salaryFromArray)
-                        ->get();
-                }
-                else{
-                    $jobs = Job::whereIn('id', $employmentTypesArray, 'or') //homeoffice | druh
-                        ->whereIn('id_homeoffice', $homeofficesArray)
-                        ->get();
-                }
-            }
-            elseif ($salaryFromArray){
-                $jobs = Job::whereIn('id_homeoffice', $homeofficesArray, 'or')  //homeoffice | platOD
-                    ->whereIn('id', $salaryFromArray)
-                    ->get();
-            }
-            else{
-                $jobs = Job::whereIn('id_homeoffice', $homeofficesArray)->get(); //homeoffice
-            }
-        }
-        elseif ($employmentTypesArray){
-            if($salaryFromArray){
-                $jobs = Job::whereIn('id', $employmentTypesArray, 'or') //druh | platOD
-                    ->whereIn('id', $salaryFromArray)
-                    ->get();
-            }
-            else{
-                $jobs = Job::whereIn('id', $employmentTypesArray)->get(); //druh
-            }
-        }
-        elseif ($salaryFromArray) {
-            $jobs = Job::whereIn('id', $salaryFromArray)->get();    //platOD
-        }
-        else{
-            $jobs = Job::orderBy('position_name', 'asc')->get(); //all
-        }
-
-        return $jobs;
+        return array($count, $jobs, $page);
     }
 }

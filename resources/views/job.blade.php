@@ -12,7 +12,7 @@
             </div>
             <div class="jobInfoButtons">
                 <div class="row g-custom">
-                    <div class="col-12 col-sm-12 col-md-8 col-lg-8 jobInfoSubTitle">
+                    <div class="col-6 col-sm-6 col-md-6 col-lg-8 jobInfoSubTitle">
                         <div class="jobObjectFooterImage jobPageHeaderInfo">
                             <i class="fa fa-briefcase jobObjectFooterImage centerIcon" aria-hidden="true"></i>
                             @foreach ($jobEmploymentTypes as $jobEmploymentType)
@@ -39,7 +39,7 @@
                         </div>
 
                     </div>
-                    <div class="col-12 col-sm-12 col-md-4 col-lg-4 jobInfoInterestButton">
+                    <div class="col-6 col-sm-6 col-md-6 col-lg-4 jobInfoInterestButton">
                         <button class="btn btn-primary orangeObject orangeButtons" id="toFormButton">MÁM
                             ZÁUJEM</button>
                     </div>
@@ -58,7 +58,7 @@
                 </div>
                 <div class="jobInfoText">
                     <div>
-                        {{ $job->description }}
+                        <?php echo htmlspecialchars_decode(stripslashes($job->description)); ?>
                     </div>
                 </div>
             </div>
@@ -73,7 +73,7 @@
                 </div>
                 <div class="jobInfoText">
                     <div>
-                        {{ $job->salary_conditions }}
+                        <?php echo htmlspecialchars_decode(stripslashes($job->salary_conditions)); ?>
                     </div>
                 </div>
             </div>
@@ -88,7 +88,7 @@
                 </div>
                 <div class="jobInfoText">
                     <div>
-                        {{ $job->expectation }}
+                        <?php echo htmlspecialchars_decode(stripslashes($job->expectation)); ?>
                     </div>
                 </div>
             </div>
@@ -103,7 +103,7 @@
                 </div>
                 <div class="jobInfoText">
                     <div>
-                        {{ $job->benefits }}
+                        <?php echo htmlspecialchars_decode(stripslashes($job->benefits)); ?>
                     </div>
                 </div>
             </div>
