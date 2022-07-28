@@ -136,10 +136,10 @@
                 </div>
                 <div class="homePagePadding col-12 col-sm-12 col-md-12 col-lg-8">
                     <div>
-                        <div class="row gy-2 gx-3" id="row">
+                        <div class="row gy-3 gx-3" id="row">
                         </div>
 
-                        <div>
+                        <div class="paginationObject">
                             <nav>
                                 <ul class="pagination"></ul>
                             </nav>

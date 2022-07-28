@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('salary_types', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('text_after')->nullable();
             $table->timestamps();
         });
     }

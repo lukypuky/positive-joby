@@ -98,8 +98,7 @@ class JobCreateScreen extends Screen
                     ->required(),
                 Input::make('job.salary_from')
                     ->title('Plat od')
-                    ->type('number')
-                    ->required(),
+                    ->type('number'),
                 Input::make('job.salary_to')
                     ->title('Plat do')
                     ->type('number'),

@@ -125,7 +125,12 @@ class JobListScreen extends Screen
                         $homeofficeName = $homeofficeName->toJson();
                         $newHomeofficeName = json_decode($homeofficeName);
 
-                        return $newHomeofficeName[0]->name;
+                        if(empty($newHomeofficeName)){
+                            return null;
+                        }
+                        else
+                            return $newHomeofficeName[0]->name;
+                        
                    }),
                 TD::make('Plat od')
                     ->sort()
@@ -154,12 +159,12 @@ class JobListScreen extends Screen
                 //     ->render(function ($jobs) {
                 //         return $jobs->description;
                 //     }),
-                TD::make('Mzdové podmienky')
-                    ->sort()
-                    ->width('250px')
-                    ->render(function ($jobs) {
-                        return $jobs->salary_conditions;
-                    }),
+                // TD::make('Mzdové podmienky')
+                //     ->sort()
+                //     ->width('250px')
+                //     ->render(function ($jobs) {
+                //         return $jobs->salary_conditions;
+                //     }),
                 // TD::make('Očakávania') //zakomentovane kvoli dlhym textom v nahlade
                 //     ->sort()
                 //     ->width('250px')

@@ -13,6 +13,7 @@ class Salary_type extends Model
     use AsSource, Filterable;
 
     protected $fillable = [
-        'name'
+        'name',
+        'text_after'
     ];
 }

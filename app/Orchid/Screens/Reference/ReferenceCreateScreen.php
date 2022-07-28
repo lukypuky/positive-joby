@@ -74,7 +74,7 @@ class ReferenceCreateScreen extends Screen
                     ->required(),
                 Quill::make('reference.description')
                     ->title('Popis')
-                    ->rows(5)
+                    ->rows(20)
                     ->required(),
                 Picture::make('reference.img_path')
                     ->title('Obrázok')

@@ -13,12 +13,22 @@
     src: url('../fonts/Botanika_Bold.otf');
 }
 
+* {
+    font-family: botanika-regular;
+    font-size: 16px;
+}
+
+.heading {
+    font-family: botanika-semibold;
+}
+
 html {
     scroll-behavior: smooth;
 }
 
 body {
     color: black;
+    font-size: 14px;
 }
 
 /* DLAZDICE */
@@ -137,6 +147,7 @@ textarea {
     cursor: pointer;
     margin-bottom: 10px;
     padding: 15px;
+    height: 100%;
 }
 
 .orangeText {
@@ -554,6 +565,10 @@ a:hover {
     margin-bottom: 45px;
 }
 
+.jobInfoTitle h1 span {
+    font-size: 100%;
+}
+
 .jobInfoButtons {
     margin-bottom: 50px;
     margin-top: -20px
@@ -654,7 +669,7 @@ a:hover {
 
 .positiveLogo {
     width: 150px;
-    height: 30px;
+    height: auto;
 }
 
 .jobImage {
@@ -677,6 +692,25 @@ a:hover {
 .jobInfoInterestButton {
     text-align-last: right;
 }
+
+.links {
+    position: fixed;
+    top: 50%;
+}
+
+.links a {
+    width: 50px;
+    height: 50px;
+    background-color: #fc5506;
+    text-align-last: center;
+    display: flex;
+    justify-content: center;
+}
+
+.links a:hover {
+    background-color: #e34a02;
+}
+
 
 @media only screen and (max-width: 1140px) {
     .pageContent {
@@ -714,7 +748,17 @@ a:hover {
     .jobPageHeader {
         margin-top: -270px;
     }
+
+    .links a {
+        width: 30px;
+        height: 30px;
+    }
+
+    .linksIcons i {
+        font-size: 1em;
+    }
 }
+
 
 @media only screen and (max-width: 768px) {
     .jobHeadingResetButton {
@@ -783,24 +827,6 @@ a:hover {
     color: black;
 }
 
-.links {
-    position: fixed;
-    top: 50%;
-}
-
-.links a {
-    width: 50px;
-    height: 50px;
-    background-color: #fc5506;
-    text-align-last: center;
-    display: flex;
-    justify-content: center;
-}
-
-.links a:hover {
-    background-color: #e34a02;
-}
-
 .linksIcons {
     align-self: center;
 }
@@ -809,10 +835,8 @@ a:hover {
     color: #fff;
 }
 
-* {
-    font-family: botanika-regular;
-}
 
-.heading {
-    font-family: botanika-semibold;
+
+.paginationObject {
+    margin-top: 25px;
 }

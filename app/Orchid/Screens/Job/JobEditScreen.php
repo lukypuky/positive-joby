@@ -96,8 +96,7 @@ class JobEditScreen extends Screen
                 Relation::make('job_employment_type.id_employment_type')
                     ->title('Druh pracovného pomeru')
                     ->fromModel(Employment_type::class, 'name')
-                    ->multiple()
-                    ->required(),
+                    ->multiple(),
                 Select::make('job.id_experience')
                     ->title('Skúsenosti')
                     ->fromModel(Experience::class, 'name')
@@ -111,8 +110,7 @@ class JobEditScreen extends Screen
                     ->required(),
                 Input::make('job.salary_from')
                     ->title('Plat od')
-                    ->type('number')
-                    ->required(),
+                    ->type('number'),
                 Input::make('job.salary_to')
                     ->title('Plat do')
                     ->type('number'),
@@ -143,16 +141,19 @@ class JobEditScreen extends Screen
     {
         $job->fill($request->get('job'))->save();
         $newJobEmploymentTypes = new Job_employment_type;
-        $newJobEmploymentTypes->fill($request->get('job_employment_type'));
+        if($request->get('job_employment_type')){
+            $newJobEmploymentTypes->fill($request->get('job_employment_type'));
+        }
 
-        Job_employment_type::where('id_job', $job->id)->delete();
-
-        foreach($newJobEmploymentTypes->id_employment_type as $newJobEmploymentType)
-        {
-            $tmpNewJobEmploymentType = new Job_employment_type;
-            $tmpNewJobEmploymentType->id_job = $job->id;
-            $tmpNewJobEmploymentType->id_employment_type = $newJobEmploymentType;
-            $tmpNewJobEmploymentType->save();
+        if($request->get('job_employment_type')){
+            Job_employment_type::where('id_job', $job->id)->delete();
+            foreach($newJobEmploymentTypes->id_employment_type as $newJobEmploymentType)
+            {
+                $tmpNewJobEmploymentType = new Job_employment_type;
+                $tmpNewJobEmploymentType->id_job = $job->id;
+                $tmpNewJobEmploymentType->id_employment_type = $newJobEmploymentType;
+                $tmpNewJobEmploymentType->save();
+            }
         }
 
         Alert::info('Úspešne ste upravili záznam.');

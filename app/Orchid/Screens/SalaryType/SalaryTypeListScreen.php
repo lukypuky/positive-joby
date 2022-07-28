@@ -71,6 +71,12 @@ class SalaryTypeListScreen extends Screen
                     ->render(function ($salaryType) {
                         return $salaryType->name;
                     }),
+                TD::make('Doplňujúci text')
+                    ->filter(TD::FILTER_TEXT)
+                    ->sort()
+                    ->render(function ($salaryType) {
+                        return $salaryType->text_after;
+                    }),
                 TD::make('Akcie')
                     ->render(function (Salary_type $salaryType) {
                         return Link::make('')

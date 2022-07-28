@@ -67,6 +67,8 @@ class SalaryTypeCreateScreen extends Screen
                 Input::make('salary_type.name')
                     ->title('Hodnota')
                     ->required(),
+                Input::make('salary_type.text_after')
+                    ->title('Doplňujúci text'),
             ])
         ];
     }

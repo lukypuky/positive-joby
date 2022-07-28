@@ -20,10 +20,10 @@ return new class extends Migration
             $table->unsignedInteger('id_experience');
             $table->foreign('id_experience')->references('id')->on('experiences');
             $table->unsignedInteger('id_homeoffice');
-            $table->foreign('id_homeoffice')->references('id')->on('homeoffices')->nullable();;
+            $table->foreign('id_homeoffice')->references('id')->on('homeoffices')->nullable();
             $table->unsignedInteger('id_salary_type');
             $table->foreign('id_salary_type')->references('id')->on('salary_types');
-            $table->integer('salary_from');
+            $table->integer('salary_from')->nullable();
             $table->integer('salary_to')->nullable();
             $table->text('description');
             $table->text('salary_conditions');

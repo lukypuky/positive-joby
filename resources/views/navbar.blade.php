@@ -65,23 +65,26 @@
             </div>
         </nav>
     </div>
-    <div class="links">
-        <a href="https://www.facebook.com/Positive.sw.sk">
-            <div class="linksIcons">
-                <i class="fa-brands fa-2x fa-square-facebook"></i>
-            </div>
-        </a>
-        <a href="https://www.linkedin.com/company/positive-sk/mycompany/">
-            <div class="linksIcons">
-                <i class="fa-brands fa-2x fa-instagram"></i>
-            </div>
-        </a>
-        <a href="https://www.instagram.com/positive_sro/?hl=sk">
-            <div class="linksIcons">
-                <i class="fa-brands fa-2x fa-linkedin"></i>
-            </div>
-        </a>
+    <div>
+        <div class="links">
+            <a href="https://www.facebook.com/Positive.sw.sk">
+                <div class="linksIcons">
+                    <i class="fa-brands fa-2x fa-square-facebook"></i>
+                </div>
+            </a>
+            <a href="https://www.linkedin.com/company/positive-sk/mycompany/">
+                <div class="linksIcons">
+                    <i class="fa-brands fa-2x fa-instagram"></i>
+                </div>
+            </a>
+            <a href="https://www.instagram.com/positive_sro/?hl=sk">
+                <div class="linksIcons">
+                    <i class="fa-brands fa-2x fa-linkedin"></i>
+                </div>
+            </a>
+        </div>
     </div>
+
     <div class="content">
         @yield('index')
         @yield('contact')
