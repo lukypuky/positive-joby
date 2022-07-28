@@ -4,7 +4,7 @@
     <div class="container pageContent">
         <div class="jobsPageHeader">
             <div class="jobInfoTitle">
-                <h1><span class="orangeText">Pridaj sa k nám!</span> Čaká ťa skvelý job</h1>
+                <h1 class="heading"><span class="orangeText heading">Pridaj sa k nám!</span> Čaká ťa skvelý job</h1>
             </div>
             <div>
                 <div class="search roundedCorners">
@@ -125,7 +125,7 @@
                                     <div>
                                         <input class="form-check-input checkboxMargin homeofficeCheckbox filter"
                                             type="checkbox" id="{{ $homeoffice->name }}" onchange="filterJobs()">
-                                        <label class="form-check-label" for="flexCheckDefault">
+                                        <label class="form-check-label" for="{{ $homeoffice->name }}">
                                             {{ $homeoffice->name }}
                                         </label>
                                     </div>
@@ -183,6 +183,8 @@
                 success: function(res) {
                     $(".jobObject").remove();
                     $('#row').html(res);
+                    deRenderPagination();
+                    renderPagination();
                 },
                 error: function(xhr, status, error) {
                     $("#errorModalCenter").modal('show')
@@ -409,4 +411,21 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('indexTags')
+    <meta name="description"
+        content="Voľné pracovné miesta v softvérovej spoločnosti Positive. Naštartuj kariéru s tímom mladých ľudí, ktorý digitalizuje finančný trh.">
+    <meta name="keywords"
+        content="joby, kariéra, pracovné ponuky, ponuka práce, programátor, developer, softvérová spoločnosť">
+    <meta name="author" content="Positive s.r.o. © 2022">
+@endsection
+
+@section('indexFbTags')
+    <meta property="og:title" content="Joby">
+    <meta property="og:description"
+        content="Voľné pracovné miesta v softvérovej spoločnosti Positive. Naštartuj kariéru s tímom mladých ľudí, ktorý digitalizuje finančný trh.">
+    <meta property="og:image" content="https://positive.sk//storage/settings/December2020/TJr6eKZZGMb7lLYvpIF5.jpg">
+    <meta property="og:url" content="http://joby.positive.sk/joby">
+    <meta property="og:type" content="website">
 @endsection

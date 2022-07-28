@@ -16,12 +16,12 @@ use App\Http\Controllers\MailController;
 */
 
 Route::get('/', [PageController::class, 'getIndex'])->name('getIndex');
-Route::get('/index', [PageController::class, 'getIndex'])->name('getIndex');
+Route::get('/joby', [PageController::class, 'getIndex'])->name('getIndex');
 
 Route::get('/kontakt', [PageController::class, 'getContact'])->name('getContact');
 Route::get('/referencie', [PageController::class, 'getReference'])->name('getReference');
 
-Route::get('/{slug}', [PageController::class, 'getJob'])->name('getJob');
+Route::get('/joby/{slug}', [PageController::class, 'getJob'])->name('getJob');
 
 Route::post('/sendMail', [MailController::class, 'sendMail'])->name('sendMail');
 Route::post('/jobs/search', [PageController::class,'searchJobs'])->name('searchJobs');

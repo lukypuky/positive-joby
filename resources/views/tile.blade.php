@@ -1,14 +1,14 @@
 @foreach ($jobs as $job)
     <div class="col-sm-12 col-md-6 col-lg-6">
         <div class="p-3 objectBorder roundedCorners jobObject">
-            <a href="/{{ $job->slug }}" class="jobObjectLink">
+            <a href="/joby/{{ $job->slug }}" class="jobObjectLink">
                 <div class="jobObjectHead">
                     <div class="jobTileObjectHeading">
                         <div class="jobTileObjectHeadingImage">
                             <i class="fa fa-user-o jobImage fa-2x"></i>
                         </div>
                         <div class="jobTileObjectHeadingImageObject">
-                            <h4 class="jobTileObjectHeadingText">{{ $job->position_name }}</h4>
+                            <h4 class="jobTileObjectHeadingText heading">{{ $job->position_name }}</h4>
                         </div>
                     </div>
                 </div>

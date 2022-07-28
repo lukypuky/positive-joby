@@ -1,3 +1,18 @@
+@font-face {
+    font-family: "botanika-semibold";
+    src: url('../fonts/Botanika_Semibold.otf');
+}
+
+@font-face {
+    font-family: "botanika-regular";
+    src: url('../fonts/Botanika_Regular.otf');
+}
+
+@font-face {
+    font-family: "botanika-bold";
+    src: url('../fonts/Botanika_Bold.otf');
+}
+
 html {
     scroll-behavior: smooth;
 }
@@ -26,6 +41,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 10px;
 }
 
 .jobTileObjectHeadingText {
@@ -109,8 +125,8 @@ textarea {
     resize: none;
 }
 
-.nav-item {
-    padding-right: 15px;
+.navButtons {
+    padding-right: 40px;
 }
 
 .jobObjectFooterText {
@@ -340,7 +356,7 @@ button {
 }
 
 .jobInfoText {
-    padding: 10px 20px;
+    padding: 10px 45px;
 }
 
 .jobInfoInput {
@@ -530,6 +546,10 @@ a:hover {
     margin-bottom: 30px;
 }
 
+.jobInfoBackButton a:hover {
+    color: #fc5506;
+}
+
 .jobInfoTitle {
     margin-bottom: 45px;
 }
@@ -629,7 +649,7 @@ a:hover {
 }
 
 .pageNavbar {
-    padding: 25px;
+    padding: 25px 70px;
 }
 
 .positiveLogo {
@@ -722,8 +742,6 @@ a:hover {
         text-align: -webkit-right;
         display: block;
     }
-
-
 }
 
 @media only screen and (max-width: 576px) {
@@ -744,12 +762,6 @@ a:hover {
     }
 }
 
-h1,
-h2,
-h3 h4 {
-    font-weight: bold;
-}
-
 .pageImage {
     width: 100%;
     height: 230px;
@@ -761,4 +773,46 @@ h3 h4 {
 #toFormButton {
     margin-bottom: 10px;
     font-size: 12px;
+}
+
+.textDecoration {
+    text-decoration: underline;
+}
+
+.conditionsCheckboxLabel:hover {
+    color: black;
+}
+
+.links {
+    position: fixed;
+    top: 50%;
+}
+
+.links a {
+    width: 50px;
+    height: 50px;
+    background-color: #fc5506;
+    text-align-last: center;
+    display: flex;
+    justify-content: center;
+}
+
+.links a:hover {
+    background-color: #e34a02;
+}
+
+.linksIcons {
+    align-self: center;
+}
+
+.fa-brands {
+    color: #fff;
+}
+
+* {
+    font-family: botanika-regular;
+}
+
+.heading {
+    font-family: botanika-semibold;
 }

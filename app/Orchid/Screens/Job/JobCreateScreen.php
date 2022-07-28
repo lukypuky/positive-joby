@@ -91,8 +91,7 @@ class JobCreateScreen extends Screen
                     ->required(),
                 Select::make('job.id_homeoffice')
                     ->title('Práca z domu')
-                    ->fromModel(Homeoffice::class, 'name')
-                    ->required(),
+                    ->fromModel(Homeoffice::class, 'name'),
                 Select::make('job.id_salary_type')
                     ->title('Typ platu')
                     ->fromModel(Salary_type::class, 'name')

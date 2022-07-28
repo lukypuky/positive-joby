@@ -59,9 +59,18 @@ class PageController extends Controller
         $page = $request->get('page');
         $offset = ($page - 1) * 10;
         $count = 0;
+
+        $orderType = '';
+
+        if($order == 2){
+            $orderType = 'desc';
+        }
+        else{
+            $orderType = 'asc';
+        }
         
         $searchedJobs = Job::where('position_name', 'like', '%' . $request->get('searchRequest') . '%')
-            ->orderBy('position_name', 'asc')
+            ->orderBy('position_name', $orderType)
             ->offset($offset)
             ->limit(10)
             ->get();
@@ -73,8 +82,6 @@ class PageController extends Controller
         $jobEmploymentTypeIds = Job_employment_type::all();
         $salaryTypes = Salary_type::all();
         $layoutType = $request->get('layout');
-
-        $jobs = $this->orderJobs($order, $searchedJobs);
 
         return $this->renderLayout($layoutType, array($count, $jobs, $page), $allEmploymentTypes, $jobEmploymentTypeIds, $salaryTypes);
     }
@@ -157,9 +164,7 @@ class PageController extends Controller
             }
         }
 
-        $jobsArray = $this->filterJobs($experiencesArray, $homeofficesArray, $employmentTypesArray, $salaryFromArray, $salaryToArray, $request->get('page'));
-
-        $jobsArray[1] = $this->orderJobs($order, $jobsArray[1]);
+        $jobsArray = $this->filterJobs($experiencesArray, $homeofficesArray, $employmentTypesArray, $salaryFromArray, $salaryToArray, $request->get('page'), $order);
             
         $allEmploymentTypes = Employment_type::all();
         $jobEmploymentTypeIds = Job_employment_type::all();
@@ -167,23 +172,6 @@ class PageController extends Controller
         $layoutType = $request->get('layout');
 
         return $this->renderLayout($layoutType, $jobsArray, $allEmploymentTypes, $jobEmploymentTypeIds, $salaryTypes);        
-    }
-
-    public function orderJobs($order, $jobs){
-        if($order == 2){
-            $jobs = json_decode($jobs);
-
-            $columns = array_column($jobs, 'position_name');
-            array_multisort($columns, SORT_DESC, $jobs);
-        }
-        else{
-            $jobs = json_decode($jobs);
-
-            $columns = array_column($jobs, 'position_name');
-            array_multisort($columns, SORT_ASC, $jobs);
-        }
-
-        return $jobs;
     }
 
     public function getJob($slug)
@@ -196,9 +184,17 @@ class PageController extends Controller
         return view('job',['job' => $job, 'salaryTypes' => $salaryTypes, 'allEmploymentTypes' => $allEmploymentTypes, 'jobEmploymentTypes' => $jobEmploymentTypeIds]);
     }
 
-    public function filterJobs($experiencesArray, $homeofficesArray, $employmentTypesArray, $salaryFromArray, $salaryToArray, $page = 1){
+    public function filterJobs($experiencesArray, $homeofficesArray, $employmentTypesArray, $salaryFromArray, $salaryToArray, $page = 1, $order){
         $offset = ($page - 1) * 10;
         $count = 0;
+        $orderType = '';
+
+        if($order == 2){
+            $orderType = 'desc';
+        }
+        else{
+            $orderType = 'asc';
+        }
 
         if ($experiencesArray){
             if ($homeofficesArray){
@@ -210,7 +206,7 @@ class PageController extends Controller
                                 ->whereIn('id', $employmentTypesArray, 'and')
                                 ->whereIn('id', $salaryFromArray, 'and')
                                 ->whereIn('id', $salaryToArray)
-                                ->orderBy('position_name', 'asc')
+                                ->orderBy('position_name', $orderType)
                                 ->offset($offset)
                                 ->limit(10)
                                 ->get();
@@ -226,7 +222,7 @@ class PageController extends Controller
                                 ->whereIn('id_homeoffice', $homeofficesArray, 'and')
                                 ->whereIn('id', $employmentTypesArray, 'and')
                                 ->whereIn('id', $salaryFromArray)
-                                ->orderBy('position_name', 'asc')
+                                ->orderBy('position_name', $orderType)
                                 ->offset($offset)
                                 ->limit(10)
                                 ->get();
@@ -243,7 +239,7 @@ class PageController extends Controller
                             ->whereIn('id_homeoffice', $homeofficesArray, 'and')
                             ->whereIn('id', $employmentTypesArray, 'and')
                             ->whereIn('id', $salaryToArray)
-                            ->orderBy('position_name', 'asc')
+                            ->orderBy('position_name', $orderType)
                             ->offset($offset)
                             ->limit(10)
                             ->get();
@@ -258,7 +254,7 @@ class PageController extends Controller
                         $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')   //skusenosti | homeoffice | druh
                             ->whereIn('id_homeoffice', $homeofficesArray, 'and')
                             ->whereIn('id', $employmentTypesArray)
-                            ->orderBy('position_name', 'asc')
+                            ->orderBy('position_name', $orderType)
                             ->offset($offset)
                             ->limit(10)
                             ->get();
@@ -275,7 +271,7 @@ class PageController extends Controller
                             ->whereIn('id_homeoffice', $homeofficesArray, 'and')
                             ->whereIn('id', $salaryFromArray, 'and')
                             ->whereIn('id', $salaryToArray)
-                            ->orderBy('position_name', 'asc')
+                            ->orderBy('position_name', $orderType)
                             ->offset($offset)
                             ->limit(10)
                             ->get();
@@ -290,7 +286,7 @@ class PageController extends Controller
                         $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')   //skusenosti | homeoffice | platOD 
                             ->whereIn('id_homeoffice', $homeofficesArray, 'and')
                             ->whereIn('id', $salaryFromArray, 'and')
-                            ->orderBy('position_name', 'asc')
+                            ->orderBy('position_name', $orderType)
                             ->offset($offset)
                             ->limit(10)
                             ->get();
@@ -305,7 +301,7 @@ class PageController extends Controller
                     $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')   //skusenosti | homeoffice | platDO 
                         ->whereIn('id_homeoffice', $homeofficesArray, 'and')
                         ->whereIn('id', $salaryToArray)
-                        ->orderBy('position_name', 'asc')
+                        ->orderBy('position_name', $orderType)
                         ->offset($offset)
                         ->limit(10)
                         ->get();
@@ -318,7 +314,7 @@ class PageController extends Controller
                 else{
                     $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')   //skusenosti | homeoffice 
                         ->whereIn('id_homeoffice', $homeofficesArray)
-                        ->orderBy('position_name', 'asc')
+                        ->orderBy('position_name', $orderType)
                         ->offset($offset)
                         ->limit(10)
                         ->get();
@@ -335,7 +331,7 @@ class PageController extends Controller
                             ->whereIn('id', $employmentTypesArray, 'and')
                             ->whereIn('id', $salaryFromArray, 'and')
                             ->whereIn('id', $salaryToArray)
-                            ->orderBy('position_name', 'asc')
+                            ->orderBy('position_name', $orderType)
                             ->offset($offset)
                             ->limit(10)
                             ->get();
@@ -350,7 +346,7 @@ class PageController extends Controller
                         $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')   //skusenosti | druh | platOD
                             ->whereIn('id', $employmentTypesArray, 'and')
                             ->whereIn('id', $salaryFromArray)
-                            ->orderBy('position_name', 'asc')
+                            ->orderBy('position_name', $orderType)
                             ->offset($offset)
                             ->limit(10)
                             ->get();
@@ -365,7 +361,7 @@ class PageController extends Controller
                     $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')   //skusenosti | druh | platDO
                         ->whereIn('id', $employmentTypesArray, 'and')
                         ->whereIn('id', $salaryToArray)
-                        ->orderBy('position_name', 'asc')
+                        ->orderBy('position_name', $orderType)
                         ->offset($offset)
                         ->limit(10)
                         ->get();
@@ -378,7 +374,7 @@ class PageController extends Controller
                 else {
                     $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')   //skusenosti | druh
                         ->whereIn('id', $employmentTypesArray)
-                        ->orderBy('position_name', 'asc')
+                        ->orderBy('position_name', $orderType)
                         ->offset($offset)
                         ->limit(10)
                         ->get();
@@ -393,7 +389,7 @@ class PageController extends Controller
                     $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')   //skusenosti | platOD | platDO
                         ->whereIn('id', $salaryFromArray, 'and')
                         ->whereIn('id', $salaryToArray)
-                        ->orderBy('position_name', 'asc')
+                        ->orderBy('position_name', $orderType)
                         ->offset($offset)
                         ->limit(10)
                         ->get();
@@ -406,7 +402,7 @@ class PageController extends Controller
                 else {
                     $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')   //skusenosti | platOD
                         ->whereIn('id', $salaryFromArray)
-                        ->orderBy('position_name', 'asc')
+                        ->orderBy('position_name', $orderType)
                         ->offset($offset)
                         ->limit(10)
                         ->get();
@@ -419,7 +415,7 @@ class PageController extends Controller
             elseif ($salaryToArray) {
                 $jobs = Job::whereIn('id_experience', $experiencesArray, 'or')   //skusenosti | platDO
                     ->whereIn('id', $salaryToArray)
-                    ->orderBy('position_name', 'asc')
+                    ->orderBy('position_name', $orderType)
                     ->offset($offset)
                     ->limit(10)
                     ->get();
@@ -430,7 +426,7 @@ class PageController extends Controller
             }
             else{
                 $jobs = Job::whereIn('id_experience', $experiencesArray)    //skusenosti          
-                    ->orderBy('position_name', 'asc')                
+                    ->orderBy('position_name', $orderType)                
                     ->offset($offset)
                     ->limit(10)
                     ->get();   
@@ -447,7 +443,7 @@ class PageController extends Controller
                             ->whereIn('id', $employmentTypesArray, 'and')
                             ->whereIn('id', $salaryFromArray, 'and')
                             ->whereIn('id', $salaryToArray)
-                            ->orderBy('position_name', 'asc')
+                            ->orderBy('position_name', $orderType)
                             ->offset($offset)
                             ->limit(10)
                             ->get();
@@ -462,7 +458,7 @@ class PageController extends Controller
                         $jobs = Job::whereIn('id_homeoffice', $homeofficesArray, 'or')   //homeoffice | druh | platOD
                             ->whereIn('id', $employmentTypesArray, 'and')
                             ->whereIn('id', $salaryFromArray)
-                            ->orderBy('position_name', 'asc')
+                            ->orderBy('position_name', $orderType)
                             ->offset($offset)
                             ->limit(10)
                             ->get();
@@ -477,7 +473,7 @@ class PageController extends Controller
                     $jobs = Job::whereIn('id_homeoffice', $homeofficesArray, 'or')   //homeoffice | druh | platDO
                         ->whereIn('id', $employmentTypesArray, 'and')
                         ->whereIn('id', $salaryToArray)
-                        ->orderBy('position_name', 'asc')
+                        ->orderBy('position_name', $orderType)
                         ->offset($offset)
                         ->limit(10)
                         ->get();
@@ -490,7 +486,7 @@ class PageController extends Controller
                 else {
                     $jobs = Job::whereIn('id_homeoffice', $homeofficesArray, 'or')   //homeoffice | druh
                         ->whereIn('id', $employmentTypesArray)
-                        ->orderBy('position_name', 'asc')
+                        ->orderBy('position_name', $orderType)
                         ->offset($offset)
                         ->limit(10)
                         ->get();
@@ -505,7 +501,7 @@ class PageController extends Controller
                     $jobs = Job::whereIn('id_homeoffice', $homeofficesArray, 'or')   //homeoffice | platOD | platDO
                         ->whereIn('id', $salaryFromArray, 'and')
                         ->whereIn('id', $salaryToArray)
-                        ->orderBy('position_name', 'asc')
+                        ->orderBy('position_name', $orderType)
                         ->offset($offset)
                         ->limit(10)
                         ->get();
@@ -518,7 +514,7 @@ class PageController extends Controller
                 else {
                     $jobs = Job::whereIn('id_homeoffice', $homeofficesArray, 'or')   //homeoffice | platOD
                         ->whereIn('id', $salaryFromArray)
-                        ->orderBy('position_name', 'asc')
+                        ->orderBy('position_name', $orderType)
                         ->offset($offset)
                         ->limit(10)
                         ->get();
@@ -531,7 +527,7 @@ class PageController extends Controller
             elseif ($salaryToArray) {
                 $jobs = Job::whereIn('id_homeoffice', $homeofficesArray, 'or')   //homeoffice | platDO
                     ->whereIn('id', $salaryToArray)
-                    ->orderBy('position_name', 'asc')
+                    ->orderBy('position_name', $orderType)
                     ->offset($offset)
                     ->limit(10)
                     ->get();
@@ -542,7 +538,7 @@ class PageController extends Controller
             }
             else {
                 $jobs = Job::whereIn('id_homeoffice', $homeofficesArray)    //homeoffice   
-                    ->orderBy('position_name', 'asc')                             
+                    ->orderBy('position_name', $orderType)                             
                     ->offset($offset)
                     ->limit(10)
                     ->get();
@@ -557,7 +553,7 @@ class PageController extends Controller
                     $jobs = Job::whereIn('id', $employmentTypesArray, 'or')   //druh | platOD | platDO
                         ->whereIn('id', $salaryFromArray, 'and')
                         ->whereIn('id', $salaryToArray)
-                        ->orderBy('position_name', 'asc')
+                        ->orderBy('position_name', $orderType)
                         ->offset($offset)
                         ->limit(10)
                         ->get();
@@ -570,7 +566,7 @@ class PageController extends Controller
                else {
                     $jobs = Job::whereIn('id', $employmentTypesArray, 'or')   //druh | platOD
                         ->whereIn('id', $salaryFromArray)
-                        ->orderBy('position_name', 'asc')
+                        ->orderBy('position_name', $orderType)
                         ->offset($offset)
                         ->limit(10)
                         ->get();
@@ -583,7 +579,7 @@ class PageController extends Controller
             elseif ($salaryToArray) {
                 $jobs = Job::whereIn('id', $employmentTypesArray, 'or')   //druh | platDO
                     ->whereIn('id', $salaryToArray)
-                    ->orderBy('position_name', 'asc')
+                    ->orderBy('position_name', $orderType)
                     ->offset($offset)
                     ->limit(10)
                     ->get();
@@ -595,13 +591,12 @@ class PageController extends Controller
             }
             else {
                 $jobs = Job::whereIn('id', $employmentTypesArray)   //druh
-                    ->orderBy('position_name', 'asc')
+                    ->orderBy('position_name', $orderType)
                     ->offset($offset)
                     ->limit(10)
                     ->get();
 
                 $count = Job::whereIn('id', $employmentTypesArray)   
-                    ->orderBy('position_name', 'asc')
                     ->count();
             }
         }
@@ -609,7 +604,7 @@ class PageController extends Controller
             if ($salaryToArray) {
                 $jobs = Job::whereIn('id', $salaryFromArray, 'or')  //platOD | platDO
                     ->whereIn('id', $salaryToArray)
-                    ->orderBy('position_name', 'asc')
+                    ->orderBy('position_name', $orderType)
                     ->offset($offset)
                     ->limit(10)
                     ->get();
@@ -620,7 +615,7 @@ class PageController extends Controller
             }
             else {
                 $jobs = Job::whereIn('id', $salaryFromArray)    //platOD
-                    ->orderBy('position_name', 'asc')
+                    ->orderBy('position_name', $orderType)
                     ->offset($offset)
                     ->limit(10)
                     ->get();
@@ -631,7 +626,7 @@ class PageController extends Controller
         }
         elseif ($salaryToArray) {
             $jobs = Job::whereIn('id', $salaryToArray)  //platDO
-                ->orderBy('position_name', 'asc')
+                ->orderBy('position_name', $orderType)
                 ->offset($offset)
                 ->limit(10)
                 ->get();
@@ -640,7 +635,7 @@ class PageController extends Controller
                 ->count();
         }
         else{
-            $jobs = Job::orderBy('position_name', 'asc')
+            $jobs = Job::orderBy('position_name', $orderType)
                 ->offset($offset)
                 ->limit(10)
                 ->get();

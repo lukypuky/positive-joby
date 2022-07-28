@@ -16,16 +16,19 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     <script src="https://kit.fontawesome.com/dcd17d192d.js" crossorigin="anonymous"></script>
-    {{-- zakomentovane kvoli posielaniu mailov --}}
-    {{-- <script src="https://www.google.com/recaptcha/api.js"></script> --}}
     <script src='/js/script.js' type="text/javascript"></script>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    {{-- Metatags --}}
+    @yield('indexTags')
+    @yield('jobTags')
+    @yield('referenceTags')
+    @yield('contactTags')
+    {{-- Metatags-fb --}}
+    @yield('indexFbTags')
+    @yield('jobFbTags')
+    @yield('referenceFbTags')
+    @yield('contactFbTags')
     <title>Positive-joby</title>
-    <meta property="og:title" content=Positive-joby>
-    <meta property="og:site_name" content=Positive-joby>
-    <meta property="og:url" content=http://joby.positive.sk>
-    <meta property="og:description" content=positive-joby>
-    <meta property="og:type" content=website>
-    <meta property="og:image" content=https://positive.sk//storage/settings/December2020/TyWT88fVu1pX0P4iMa4e.png>
 </head>
 
 <body>
@@ -42,27 +45,42 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                     <ul class="navbar-nav ">
-                        <li class="nav-item">
+                        <li class="nav-item navButtons">
                             @if (Route::currentRouteNamed('getIndex') || Route::currentRouteNamed('getJob'))
-                                <a class="active" aria-current="page"
-                                    href="{{ route('getIndex') }}"><strong>Joby</strong></a>
+                                <a class="active heading" aria-current="page" href="{{ route('getIndex') }}">Joby</a>
                             @else
-                                <a class="" aria-current="page"
-                                    href="{{ route('getIndex') }}"><strong>Joby</strong></a>
+                                <a class="heading" aria-current="page" href="{{ route('getIndex') }}">Joby</a>
                             @endif
                         </li>
-                        <li class="nav-item">
-                            <a class="{{ Route::currentRouteNamed('getReference') ? 'active' : '' }}"
-                                aria-current="page" href="{{ route('getReference') }}"><strong>Referencie</strong></a>
+                        <li class="nav-item navButtons">
+                            <a class="{{ Route::currentRouteNamed('getReference') ? 'active' : '' }} heading"
+                                aria-current="page" href="{{ route('getReference') }}">Referencie</a>
                         </li>
                         <li class="nav-item">
-                            <a class="{{ Route::currentRouteNamed('getContact') ? 'active' : '' }}" aria-current="page"
-                                href="{{ route('getContact') }}"><strong>Kontakt</strong></a>
+                            <a class="{{ Route::currentRouteNamed('getContact') ? 'active' : '' }} heading"
+                                aria-current="page" href="{{ route('getContact') }}">Kontakt</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
+    </div>
+    <div class="links">
+        <a href="https://www.facebook.com/Positive.sw.sk">
+            <div class="linksIcons">
+                <i class="fa-brands fa-2x fa-square-facebook"></i>
+            </div>
+        </a>
+        <a href="https://www.linkedin.com/company/positive-sk/mycompany/">
+            <div class="linksIcons">
+                <i class="fa-brands fa-2x fa-instagram"></i>
+            </div>
+        </a>
+        <a href="https://www.instagram.com/positive_sro/?hl=sk">
+            <div class="linksIcons">
+                <i class="fa-brands fa-2x fa-linkedin"></i>
+            </div>
+        </a>
     </div>
     <div class="content">
         @yield('index')
@@ -86,7 +104,9 @@
         </div>
     @endif
 
-    <footer class="text-center pageFooter">
+    <footer class="text-center pageFooter" style="
+    position: absolute;
+    width: 100%;">
         <!-- Grid container -->
         <div class="container p-4 pb-0">
             <section>

@@ -4,11 +4,11 @@
     <div class="container pageContent">
         <div class="jobPageHeader">
             <div class="jobInfoBackButton">
-                <a href="{{ route('getIndex') }}"><i class="fa fa-arrow-left jobObjectFooterImage" aria-hidden="true"></i>Späť
+                <a href="{{ route('getIndex') }}"><i class="fa-solid fa-arrow-left jobObjectFooterImage"></i>Späť
                     na ponuku jobov</a>
             </div>
             <div class="jobInfoTitle">
-                <h1>{{ $job->position_name }}</h1>
+                <h1 class="heading">{{ $job->position_name }}</h1>
             </div>
             <div class="jobInfoButtons">
                 <div class="row g-custom">
@@ -53,7 +53,7 @@
                         <i class="fa fa-info-circle fa-2x jobObjectFooterImage centerIcon" aria-hidden="true"></i>
                     </div>
                     <div>
-                        <h3>Čo budeš robiť?</h3>
+                        <h3 class="heading">Čo budeš robiť?</h3>
                     </div>
                 </div>
                 <div class="jobInfoText">
@@ -68,7 +68,7 @@
                         <i class="fa fa-eur fa-2x jobObjectFooterImage centerIcon" aria-hidden="true"></i>
                     </div>
                     <div>
-                        <h3>Mzdové podmienky</h3>
+                        <h3 class="heading">Mzdové podmienky</h3>
                     </div>
                 </div>
                 <div class="jobInfoText">
@@ -83,7 +83,7 @@
                         <i class="fa-solid fa-user-check fa-2x jobObjectFooterImage centerIcon" aria-hidden="true"></i>
                     </div>
                     <div>
-                        <h3>Čo od teba očakávame?</h3>
+                        <h3 class="heading">Čo od teba očakávame?</h3>
                     </div>
                 </div>
                 <div class="jobInfoText">
@@ -98,7 +98,7 @@
                         <i class="fa-solid fa-crown fa-2x jobObjectFooterImage centerIcon" aria-hidden="true"></i>
                     </div>
                     <div>
-                        <h3>Základné benefity</h3>
+                        <h3 class="heading">Základné benefity</h3>
                     </div>
                 </div>
                 <div class="jobInfoText">
@@ -113,7 +113,7 @@
                         <i class="fa fa-envelope-o fa-2x jobObjectFooterImage centerIcon" aria-hidden="true"></i>
                     </div>
                     <div>
-                        <h3>Odoslať žiadosť</h3>
+                        <h3 class="heading">Odoslať žiadosť</h3>
                     </div>
                 </div>
                 <div class="jobInfoText">
@@ -163,7 +163,7 @@
                                 <label for="fileUpload" class="contactFormAttachmentBtn"><i
                                         class="fa fa-user-o jobObjectFooterImage"></i>Pridať
                                     prílohu</label>
-                                <span id="fileChosen" class="contactFormAttachmentText"></span>
+                                <span id="fileChosen" class="contactFormAttachmentText orangeText"></span>
                             </div>
                             <div>
                                 <div>
@@ -173,10 +173,14 @@
                                 </div>
                                 <div>
                                     <input class="form-check-input checkboxMargin jobInfoInput conditionCheckbox"
-                                        type="checkbox" name="conditions" id="conditionsCheckBox" required>
-                                    <label class="form-check-label" for="flexCheckDefault">Vyhlasujem, že som sa
+                                        type="checkbox" name="conditionsCheckBox" id="conditionsCheckBox" required>
+                                    <label class="form-check-label conditionsCheckboxLabel"
+                                        for="conditionsCheckBox">Vyhlasujem, že som sa
                                         oboznámil s
-                                        <a href="#">Podmienkami spracúvania a ochrany osobných údajov</a></label>
+                                        <a href="/storage/podmienky-spracuvania-ou.pdf"
+                                            title="Podmienkami spracúvania a ochrany osobných údajov"
+                                            class="textDecoration">Podmienkami
+                                            spracúvania a ochrany osobných údajov</a></label>
                                 </div>
                             </div>
                         </form>
@@ -199,11 +203,24 @@
             document.getElementById("contactForm").submit();
         }
 
-
         $("#toFormButton").click(function() {
             $('html, body').animate({
                 scrollTop: $("#contactForm").offset().top
             }, 10);
         });
     </script>
+@endsection
+
+@section('jobTags')
+    <meta name="description" content="Pridaj sa k tímu mladých ľudí s veľkými ambíciami.">
+    <meta name="keywords" content="{{ $job->position_name }}">
+    <meta name="author" content="Positive s.r.o. © 2022">
+@endsection
+
+@section('jobFbTags')
+    <meta property="og:title" content="{{ $job->position_name }}">
+    <meta property="og:description" content="Pridaj sa k tímu mladých ľudí s veľkými ambíciami.">
+    <meta property="og:image" content="https://positive.sk//storage/settings/December2020/TJr6eKZZGMb7lLYvpIF5.jpg">
+    <meta property="og:url" content="http://joby.positive.sk/joby/{{ $job->slug }}">
+    <meta property="og:type" content="website">
 @endsection

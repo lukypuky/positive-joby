@@ -1,12 +1,12 @@
 @extends('navbar')
 @section('contact')
     <div class="pageHeading">
-        <h1>Kontakt</h1>
+        <h1 class="heading">Kontakt</h1>
     </div>
     <div class="container pageContent">
         <div class="contactInfo">
             <div class="contactPageSubHeading">
-                <h2>Sme tu pre Vás v pracovnej dobe od 8:00 do 15:30</h2>
+                <h2 class="heading">Sme tu pre Vás v pracovnej dobe od 8:00 do 15:30</h2>
             </div>
             <div class="row contactPageInfo">
                 <a href="tel:+421902600700" class="col-12 col-sm-12 col-md-4 col-lg-4 contact">
@@ -38,7 +38,7 @@
 
         <div>
             <div class="contactPageSubHeading">
-                <h2>Dohodnime si stretnutie, alebo konferenčný hovor.</h2>
+                <h2 class="heading">Dohodnime si stretnutie, alebo konferenčný hovor.</h2>
             </div>
             <div class="contactPageForm">
                 <form action="{{ route('sendMail') }}" method="POST" enctype="multipart/form-data" id="contactForm">
@@ -82,7 +82,7 @@
                         <label for="fileUpload" class="contactFormAttachmentBtn"><i
                                 class="fa fa-user-o jobObjectFooterImage"></i>Pridať
                             prílohu</label>
-                        <span id="fileChosen" class="contactFormAttachmentText"></span>
+                        <span id="fileChosen" class="contactFormAttachmentText orangeText"></span>
                     </div>
                     <div>
                         <div>
@@ -92,10 +92,14 @@
                         </div>
                         <div>
                             <input class="form-check-input checkboxMargin jobInfoInput conditionCheckbox" type="checkbox"
-                                name="conditions" id="conditionsCheckBox" required>
-                            <label class="form-check-label" for="flexCheckDefault">Vyhlasujem, že som sa
+                                name="conditionsCheckBox" id="conditionsCheckBox" required>
+                            <label class="form-check-label conditionsCheckboxLabel" for="conditionsCheckBox">Vyhlasujem, že
+                                som sa
                                 oboznámil s
-                                <a href="#">Podmienkami spracúvania a ochrany osobných údajov</a></label>
+                                <a href="/storage/podmienky-spracuvania-ou.pdf"
+                                    title="Podmienkami spracúvania a ochrany osobných údajov"
+                                    class="textDecoration">Podmienkami
+                                    spracúvania a ochrany osobných údajov</a></label>
                         </div>
                     </div>
                 </form>
@@ -116,4 +120,21 @@
             document.getElementById("contactForm").submit();
         }
     </script>
+@endsection
+
+@section('contactTags')
+    <meta name="description"
+        content="Softvérovú spoločnosť Positive nájdete v Bratislave na ulici Škultétyho 18. Dohodnime si stretnutie alebo konferenčný hovor.">
+    <meta name="keywords"
+        content="kontakt, Positive, softvérová spoločnosť Positive, stretnutie, finančné sprostredkovanie, finančný agent, softvér a služby pre finančný trh">
+    <meta name="author" content="Positive s.r.o. © 2022">
+@endsection
+
+@section('contactFbTags')
+    <meta property="og:title" content="Kontakt">
+    <meta property="og:description"
+        content="Softvérovú spoločnosť Positive nájdete v Bratislave na ulici Škultétyho 18. Dohodnime si stretnutie alebo konferenčný hovor.">
+    <meta property="og:image" content="https://positive.sk//storage/settings/December2020/HML6QBJokpY50ddY04s1.jpg">
+    <meta property="og:url" content="http://joby.positive.sk/kontakt">
+    <meta property="og:type" content="website">
 @endsection
