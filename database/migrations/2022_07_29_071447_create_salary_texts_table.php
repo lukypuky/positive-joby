@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('salary_types', function (Blueprint $table) {
+        Schema::create('salary_texts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->timestamps();
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('salary_types');
+        Schema::dropIfExists('salary_texts');
     }
 };

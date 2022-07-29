@@ -9,6 +9,7 @@ use App\Models\Job_employment_type;
 use App\Models\Employment_type;
 use App\Models\Homeoffice;
 use App\Models\Salary_type;
+use App\Models\Salary_text;
 use Illuminate\Support\Facades\DB;
 use App\Models\Reference;
 use Illuminate\Database\Eloquent\Builder;
@@ -34,7 +35,7 @@ class PageController extends Controller
         return view('/reference', ['references' => $references]);
     }
 
-    public function renderLayout($layoutType, $jobs, $allEmploymentTypes, $jobEmploymentTypeIds, $salaryTypes){
+    public function renderLayout($layoutType, $jobs, $allEmploymentTypes, $jobEmploymentTypeIds, $salaryTypes, $salaryTexts){
         if(is_array($jobs[1])){
             if(empty($jobs[1])){
                     return "Nenašli sa žiadne záznamy.";
@@ -47,10 +48,10 @@ class PageController extends Controller
         }
 
         if($layoutType == 1){
-            return view('tile', ['jobs' => $jobs[1], 'allEmploymentTypes' => $allEmploymentTypes, 'jobEmploymentTypes' => $jobEmploymentTypeIds, 'salaryTypes' => $salaryTypes, 'count' => $jobs[0], 'page' => $jobs[2]]); 
+            return view('tile', ['jobs' => $jobs[1], 'allEmploymentTypes' => $allEmploymentTypes, 'jobEmploymentTypes' => $jobEmploymentTypeIds, 'salaryTypes' => $salaryTypes, 'count' => $jobs[0], 'page' => $jobs[2], 'salaryTexts' => $salaryTexts]); 
         }
         else{
-            return view('row', ['jobs' => $jobs[1], 'allEmploymentTypes' => $allEmploymentTypes, 'jobEmploymentTypes' => $jobEmploymentTypeIds, 'salaryTypes' => $salaryTypes, 'count' => $jobs[0], 'page' => $jobs[2]]); 
+            return view('row', ['jobs' => $jobs[1], 'allEmploymentTypes' => $allEmploymentTypes, 'jobEmploymentTypes' => $jobEmploymentTypeIds, 'salaryTypes' => $salaryTypes, 'count' => $jobs[0], 'page' => $jobs[2], 'salaryTexts' => $salaryTexts]); 
         }
     }
     
@@ -81,9 +82,10 @@ class PageController extends Controller
         $allEmploymentTypes = Employment_type::all();
         $jobEmploymentTypeIds = Job_employment_type::all();
         $salaryTypes = Salary_type::all();
+        $salaryTexts = Salary_text::all();
         $layoutType = $request->get('layout');
 
-        return $this->renderLayout($layoutType, array($count, $jobs, $page), $allEmploymentTypes, $jobEmploymentTypeIds, $salaryTypes);
+        return $this->renderLayout($layoutType, array($count, $jobs, $page), $allEmploymentTypes, $jobEmploymentTypeIds, $salaryTypes, $salaryTexts);
     }
 
     public function getJobLayout(Request $request){
@@ -102,9 +104,10 @@ class PageController extends Controller
         $allEmploymentTypes = Employment_type::all();
         $jobEmploymentTypeIds = Job_employment_type::all();
         $salaryTypes = Salary_type::all();
+        $salaryTexts = Salary_text::all();
         $layoutType = $request->get('layout');
 
-        return $this->renderLayout($layoutType, array($count, $jobs, $page), $allEmploymentTypes, $jobEmploymentTypeIds, $salaryTypes);
+        return $this->renderLayout($layoutType, array($count, $jobs, $page), $allEmploymentTypes, $jobEmploymentTypeIds, $salaryTypes, $salaryTexts);
     }
 
     public function getJobsFiltred(Request $request)
@@ -164,14 +167,15 @@ class PageController extends Controller
             }
         }
 
-        $jobsArray = $this->filterJobs($experiencesArray, $homeofficesArray, $employmentTypesArray, $salaryFromArray, $salaryToArray, $request->get('page'), $order);
+        $jobsArray = $this->filterJobs($experiencesArray, $homeofficesArray, $employmentTypesArray, $salaryFromArray, $salaryToArray, $order, $request->get('page'));
             
         $allEmploymentTypes = Employment_type::all();
         $jobEmploymentTypeIds = Job_employment_type::all();
         $salaryTypes = Salary_type::all();
+        $salaryTexts = Salary_text::all();
         $layoutType = $request->get('layout');
 
-        return $this->renderLayout($layoutType, $jobsArray, $allEmploymentTypes, $jobEmploymentTypeIds, $salaryTypes);        
+        return $this->renderLayout($layoutType, $jobsArray, $allEmploymentTypes, $jobEmploymentTypeIds, $salaryTypes, $salaryTexts);        
     }
 
     public function getJob($slug)
@@ -180,11 +184,12 @@ class PageController extends Controller
         $allEmploymentTypes = Employment_type::all();
         $jobEmploymentTypeIds = Job_employment_type::all();
         $salaryTypes = Salary_type::all();
+        $salaryTexts = Salary_text::all();
 
-        return view('job',['job' => $job, 'salaryTypes' => $salaryTypes, 'allEmploymentTypes' => $allEmploymentTypes, 'jobEmploymentTypes' => $jobEmploymentTypeIds]);
+        return view('job',['job' => $job, 'salaryTypes' => $salaryTypes, 'allEmploymentTypes' => $allEmploymentTypes, 'jobEmploymentTypes' => $jobEmploymentTypeIds, 'salaryTexts' => $salaryTexts]);
     }
 
-    public function filterJobs($experiencesArray, $homeofficesArray, $employmentTypesArray, $salaryFromArray, $salaryToArray, $page = 1, $order){
+    public function filterJobs($experiencesArray, $homeofficesArray, $employmentTypesArray, $salaryFromArray, $salaryToArray, $order, $page = 1){
         $offset = ($page - 1) * 10;
         $count = 0;
         $orderType = '';

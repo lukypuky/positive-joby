@@ -19,6 +19,7 @@ class Job extends Model
         'id_experience',
         'id_homeoffice',
         'id_salary_type',
+        'id_salary_text',
         'salary_from',
         'salary_to',
         'description',

@@ -43,6 +43,9 @@ class PlatformProvider extends OrchidServiceProvider
             Menu::make('Typ platu')
                 ->icon('tablet')
                 ->route('platform.salaryType.list'),
+            Menu::make('Text k platom')
+                ->icon('tablet')
+                ->route('platform.salaryText.list'),
             Menu::make('Referencie')
                 ->icon('tablet')
                 ->route('platform.reference.list'),

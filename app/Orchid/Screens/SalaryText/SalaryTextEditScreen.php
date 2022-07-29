@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Orchid\Screens\SalaryType;
+namespace App\Orchid\Screens\SalaryText;
 
-use App\Models\Salary_type;
+use App\Models\Salary_text;
 use Orchid\Screen\Screen;
 use Illuminate\Http\Request;
 use Orchid\Screen\Fields\Input;
@@ -11,23 +11,22 @@ use Orchid\Screen\Actions\Button;
 use Orchid\Support\Facades\Alert;
 use Orchid\Screen\Actions\ModalToggle;
 
-class SalaryTypeEditScreen extends Screen
+class SalaryTextEditScreen extends Screen
 {
     /**
-     * @var Salary_type
+     * @var Salary_text
      */
 
-    public $salaryType;
+    public $salaryText;
     /**
      * Query data.
      *
      * @return array
      */
-    
-    public function query(Salary_type $salaryType): array
+    public function query(Salary_text $salaryText): array
     {
         return [
-            'salary_type' => $salaryType
+            'salary_text' => $salaryText
         ];
     }
 
@@ -38,7 +37,7 @@ class SalaryTypeEditScreen extends Screen
      */
     public function name(): ?string
     {
-        return 'Typ platu';
+        return 'Doplňujúci text platu';
     }
 
     /**
@@ -77,7 +76,7 @@ class SalaryTypeEditScreen extends Screen
     {
         return [
             Layout::rows([
-                Input::make('salary_type.name')
+                Input::make('salary_text.name')
                     ->title('Hodnota')
                     ->required(),
             ]),
@@ -87,21 +86,21 @@ class SalaryTypeEditScreen extends Screen
         ];
     }
 
-    public function updateRow(Salary_type $salaryType, Request $request)
+    public function updateRow(Salary_text $salaryText, Request $request)
     {
-        $salaryType->fill($request->get('salary_type'))->save();
+        $salaryText->fill($request->get('salary_text'))->save();
 
         Alert::info('Úspešne ste upravili záznam.');
 
-        return redirect()->route('platform.salaryType.list');
+        return redirect()->route('platform.salaryText.list');
     }
 
-    public function remove(Salary_type $salaryType)
+    public function remove(Salary_text $salaryText)
     {
-        $salaryType->delete();
+        $salaryText->delete();
 
         Alert::info('Záznam bol úspešne odstránený.');
 
-        return redirect()->route('platform.salaryType.list');
+        return redirect()->route('platform.salaryText.list');
     }
 }

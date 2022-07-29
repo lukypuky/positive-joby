@@ -1,26 +1,26 @@
 <?php
 
-namespace App\Orchid\Screens\SalaryType;
+namespace App\Orchid\Screens\SalaryText;
 
-use App\Models\Salary_type;
+use App\Models\Salary_text;
 use Orchid\Screen\Screen;
 use Orchid\Screen\Actions\Link;
 use Orchid\Support\Facades\Layout;
 use Orchid\Screen\TD;
 
-class SalaryTypeListScreen extends Screen
+class SalaryTextListScreen extends Screen
 {
     /**
      * Query data.
      *
      * @return array
      */
-    public function query(): array
+    public function query(): iterable
     {
-        $salaryType = Salary_type::paginate(10);
-        
+        $salaryText = Salary_text::paginate(10);
+
         return [
-            'salary_types' => $salaryType
+            'salary_texts' => $salaryText
         ];
     }
 
@@ -31,7 +31,7 @@ class SalaryTypeListScreen extends Screen
      */
     public function name(): ?string
     {
-        return 'Typ Platu';
+        return 'Doplňujúci text platu';
     }
 
     /**
@@ -50,9 +50,9 @@ class SalaryTypeListScreen extends Screen
     public function commandBar(): array
     {
         return [
-            Link::make('Pridať nový typ platu')
+            Link::make('Pridať nový doplňujúci text platu')
                 ->icon('plus')
-                ->route('platform.salaryType.create')
+                ->route('platform.salaryText.create')
         ];
     }
 
@@ -64,18 +64,18 @@ class SalaryTypeListScreen extends Screen
     public function layout(): array
     {
         return [
-            Layout::table('salary_types',[
+            Layout::table('salary_texts',[
                 TD::make('Názov')
                     ->filter(TD::FILTER_TEXT)
                     ->sort()
-                    ->render(function ($salaryType) {
-                        return $salaryType->name;
+                    ->render(function ($salaryText) {
+                        return $salaryText->name;
                     }),
                 TD::make('Akcie')
-                    ->render(function (Salary_type $salaryType) {
+                    ->render(function (Salary_text $salaryText) {
                         return Link::make('')
                             ->icon('pencil')
-                            ->route('platform.salaryType.edit', $salaryType);
+                            ->route('platform.salaryText.edit', $salaryText);
                     }), 
             ])
         ];

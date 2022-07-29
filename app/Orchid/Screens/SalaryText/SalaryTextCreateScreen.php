@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Orchid\Screens\SalaryType;
+namespace App\Orchid\Screens\SalaryText;
 
-use App\Models\Salary_type;
+use App\Models\Salary_text;
 use Orchid\Screen\Screen;
 use Illuminate\Http\Request;
 use Orchid\Screen\Fields\Input;
@@ -10,7 +10,7 @@ use Orchid\Support\Facades\Layout;
 use Orchid\Screen\Actions\Button;
 use Orchid\Support\Facades\Alert;
 
-class SalaryTypeCreateScreen extends Screen
+class SalaryTextCreateScreen extends Screen
 {
     /**
      * Query data.
@@ -29,7 +29,7 @@ class SalaryTypeCreateScreen extends Screen
      */
     public function name(): ?string
     {
-        return 'Typ platu';
+        return 'Doplňujúci text platu';
     }
 
     /**
@@ -39,7 +39,6 @@ class SalaryTypeCreateScreen extends Screen
     {
         return "Pridanie";
     }
-
 
     /**
      * Button commands.
@@ -64,19 +63,19 @@ class SalaryTypeCreateScreen extends Screen
     {
         return [
             Layout::rows([
-                Input::make('salary_type.name')
+                Input::make('salary_text.name')
                     ->title('Hodnota')
                     ->required(),
             ])
         ];
     }
 
-    public function createRow(Salary_type $salaryType, Request $request)
+    public function createRow(Salary_text $salaryText, Request $request)
     {
-        $salaryType->fill($request->get('salary_type'))->save();
+        $salaryText->fill($request->get('salary_text'))->save();
 
         Alert::info('Úspešne ste pridali nový záznam.');
 
-        return redirect()->route('platform.salaryType.list');
+        return redirect()->route('platform.salaryText.list');
     }
 }

@@ -23,6 +23,8 @@ return new class extends Migration
             $table->foreign('id_homeoffice')->references('id')->on('homeoffices')->nullable();
             $table->unsignedInteger('id_salary_type');
             $table->foreign('id_salary_type')->references('id')->on('salary_types');
+            $table->unsignedInteger('id_salary_text');
+            $table->foreign('id_salary_text')->references('id')->on('salary_texts')->nullable();
             $table->integer('salary_from')->nullable();
             $table->integer('salary_to')->nullable();
             $table->text('description');

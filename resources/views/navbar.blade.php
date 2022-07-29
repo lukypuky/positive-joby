@@ -107,9 +107,7 @@
         </div>
     @endif
 
-    <footer class="text-center pageFooter" style="
-    position: absolute;
-    width: 100%;">
+    <footer class="text-center pageFooter">
         <!-- Grid container -->
         <div class="container p-4 pb-0">
             <section>

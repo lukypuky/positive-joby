@@ -9,6 +9,7 @@ use App\Models\Experience;
 use App\Models\Employment_type;
 use App\Models\Homeoffice;
 use App\Models\Salary_type;
+use App\Models\Salary_text;
 use Orchid\Screen\Screen;
 use Illuminate\Http\Request;
 use Orchid\Screen\Fields\Input;
@@ -96,6 +97,9 @@ class JobCreateScreen extends Screen
                     ->title('Typ platu')
                     ->fromModel(Salary_type::class, 'name')
                     ->required(),
+                Select::make('job.id_salary_text')
+                    ->title('Doplňujúci text platu')
+                    ->fromModel(Salary_text::class, 'name'),
                 Input::make('job.salary_from')
                     ->title('Plat od')
                     ->type('number'),

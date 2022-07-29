@@ -83,13 +83,13 @@ class ReferenceListScreen extends Screen
                     ->render(function ($reference) {
                         return $reference->img_path;
                     }),
-                TD::make('Popis')
-                    ->filter(TD::FILTER_TEXT)
-                    ->sort()
-                    ->width('500px')
-                    ->render(function ($reference) {
-                        return $reference->description;
-                    }),
+                // TD::make('Popis')
+                //     ->filter(TD::FILTER_TEXT)
+                //     ->sort()
+                //     ->width('500px')
+                //     ->render(function ($reference) {
+                //         return $reference->description;
+                //     }),
                 TD::make('Akcie')
                     ->render(function (Reference $reference) {
                         return Link::make('')

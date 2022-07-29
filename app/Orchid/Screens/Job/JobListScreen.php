@@ -8,6 +8,7 @@ use App\Models\Employment_type;
 use App\Models\Job_employment_type;
 use App\Models\Homeoffice;
 use App\Models\Salary_type;
+use App\Models\Salary_text;
 use Orchid\Screen\Screen;
 use Orchid\Screen\Actions\Link;
 use Orchid\Support\Facades\Layout;
@@ -150,8 +151,28 @@ class JobListScreen extends Screen
                         $salaryTypeName = $salaryTypeName->toJson();
                         $newSalaryTypeName = json_decode($salaryTypeName);
 
-                        return $newSalaryTypeName[0]->name;
+                        if(empty($newSalaryTypeName)){
+                            return null;
+                        }
+                        else{
+                            return $newSalaryTypeName[0]->name;
+                        }
                    }),
+                TD::make('Doplňujúci text platu')
+                   ->filter(TD::FILTER_TEXT)
+                   ->sort()
+                   ->render(function ($jobs) {
+                       $salaryTextName = Salary_text::select('name')->where('id', $jobs->id_salary_text)->get();
+                       $salaryTextName = $salaryTextName->toJson();
+                       $newSalaryTextName = json_decode($salaryTextName);
+
+                        if(empty($newSalaryTextName)){
+                            return null;
+                        }
+                        else{
+                            return $newSalaryTextName[0]->name;
+                        }
+                  }),
                 
                 // TD::make('Popis') //zakomentovane kvoli dlhym textom v nahlade
                 //     ->sort()

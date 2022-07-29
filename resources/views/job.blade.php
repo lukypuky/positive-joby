@@ -28,36 +28,41 @@
                         <div class="jobPageHeaderInfo">
                             <i class="fa fa-eur jobObjectFooterImage centerIcon" aria-hidden="true"></i>
                             @foreach ($salaryTypes as $salaryType)
-                                @if ($job->id_salary_type === $salaryType->id &&
-                                    ($salaryType->id === 1 || $salaryType->id === 2 || $salaryType->id === 7 || $salaryType->id === 8))
-                                    @if ($salaryType->text_after)
-                                        <div>{{ $job->salary_from }} € {{ $salaryType->name }}
-                                            {{ $salaryType->text_after }}</div>
-                                    @else
-                                        <div>{{ $job->salary_from }} € {{ $salaryType->name }} </div>
-                                    @endif
-                                @elseif($job->id_salary_type === $salaryType->id && ($salaryType->id === 3 || $salaryType->id === 9))
-                                    @if ($salaryType->text_after)
-                                        <div>{{ $salaryType->name }} {{ $job->salary_from }} €
-                                            {{ $salaryType->text_after }}</div>
-                                    @else
-                                        <div>{{ $salaryType->name }} {{ $job->salary_from }} €</div>
-                                    @endif
-                                @elseif($job->id_salary_type === $salaryType->id && ($salaryType->id === 4 || $salaryType->id === 10))
-                                    @if ($salaryType->text_after)
-                                        <div>{{ $job->salary_from }} € - {{ $job->salary_to }} €
-                                            {{ $salaryType->text_after }}</div>
-                                    @else
-                                        <div>{{ $job->salary_from }} € - {{ $job->salary_to }} €</div>
-                                    @endif
+                                @if ($job->id_salary_type === $salaryType->id && $salaryType->id === 3)
+                                    <div>
+                                        {{ $salaryType->name }} {{ $job->salary_from }} €
+                                        @foreach ($salaryTexts as $salaryText)
+                                            @if ($job->id_salary_text === $salaryText->id)
+                                                {{ $salaryText->name }}
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                @elseif($job->id_salary_type === $salaryType->id && $salaryType->id === 4)
+                                    <div>
+                                        {{ $job->salary_from }} € - {{ $job->salary_to }} €
+                                        @foreach ($salaryTexts as $salaryText)
+                                            @if ($job->id_salary_text === $salaryText->id)
+                                                {{ $salaryText->name }}
+                                            @endif
+                                        @endforeach
+                                    </div>
                                 @elseif($job->id_salary_type === $salaryType->id && $salaryType->id === 5)
-                                    <div>{{ $salaryType->name }}</div>
-                                @elseif($job->id_salary_type === $salaryType->id && ($salaryType->id === 6 || $salaryType->id === 11))
-                                    @if ($salaryType->text_after)
-                                        <div>{{ $job->salary_from }} € {{ $salaryType->text_after }}</div>
-                                    @else
-                                        <div>{{ $job->salary_from }} €</div>
-                                    @endif
+                                    <div>
+                                        @foreach ($salaryTexts as $salaryText)
+                                            @if ($job->id_salary_text === $salaryText->id)
+                                                {{ $salaryText->name }}
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                @elseif($job->id_salary_type === $salaryType->id && $salaryType->id === 6)
+                                    <div>
+                                        {{ $job->salary_from }} €
+                                        @foreach ($salaryTexts as $salaryText)
+                                            @if ($job->id_salary_text === $salaryText->id)
+                                                {{ $salaryText->name }}
+                                            @endif
+                                        @endforeach
+                                    </div>
                                 @endif
                             @endforeach
                         </div>

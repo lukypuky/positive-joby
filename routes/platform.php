@@ -34,6 +34,10 @@ use App\Orchid\Screens\SalaryType\SalaryTypeEditScreen;
 use App\Orchid\Screens\SalaryType\SalaryTypeListScreen;
 use App\Orchid\Screens\SalaryType\SalaryTypeCreateScreen;
 
+use App\Orchid\Screens\SalaryText\SalaryTextEditScreen;
+use App\Orchid\Screens\SalaryText\SalaryTextListScreen;
+use App\Orchid\Screens\SalaryText\SalaryTextCreateScreen;
+
 use App\Orchid\Screens\Reference\ReferenceEditScreen;
 use App\Orchid\Screens\Reference\ReferenceListScreen;
 use App\Orchid\Screens\Reference\ReferenceCreateScreen;
@@ -41,6 +45,8 @@ use App\Orchid\Screens\Reference\ReferenceCreateScreen;
 use App\Orchid\Screens\Job\JobEditScreen;
 use App\Orchid\Screens\Job\JobListScreen;
 use App\Orchid\Screens\Job\JobCreateScreen;
+
+
 /*
 |--------------------------------------------------------------------------
 | Dashboard Routes
@@ -164,6 +170,13 @@ Route::screen('typy-platu', SalaryTypeListScreen::class)
     ->name('platform.salaryType.list');
 Route::screen('typ-platu-create', SalaryTypeCreateScreen::class)
     ->name('platform.salaryType.create');
+
+Route::screen('text-platu/{textplatu?}', SalaryTextEditScreen::class)
+    ->name('platform.salaryText.edit');
+Route::screen('texty-platu', SalaryTextListScreen::class)
+    ->name('platform.salaryText.list');
+Route::screen('text-platu-create', SalaryTextCreateScreen::class)
+    ->name('platform.salaryText.create');
 
 Route::screen('referencia/{referencia?}', ReferenceEditScreen::class)
     ->name('platform.reference.edit');

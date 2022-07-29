@@ -10,14 +10,14 @@
         <div>
             @foreach ($references as $reference)
                 <div class="row referenceRow">
-                    <div class="col col-12 col-sm-12 col-md-4 col-lg-4">
+                    <div class="col col-12 col-sm-12 col-md-3 col-lg-3">
                         <div class="referenceRowLeft">
                             <img src="{{ $reference->img_path }}" alt="{{ $reference->name }}" class="img_set">
                             <div class="heading">{{ $reference->name }}</div>
                             <div>{{ $reference->company }}</div>
                         </div>
                     </div>
-                    <div class="col col-12 col-sm-12 col-md-8 col-lg-8">
+                    <div class="col col-12 col-sm-12 col-md-9 col-lg-9">
                         <div class="referenceRowRight">
                             <?php echo htmlspecialchars_decode(stripslashes($reference->description)); ?>
                         </div>
@@ -26,6 +26,18 @@
             @endforeach
         </div>
     </div>
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                method: 'GET',
+                url: "{{ route('linkstorage') }}",
+                success: console.log('ide'),
+                error: function(xhr, status, error) {
+                    $("#errorModalCenter").modal('show')
+                }
+            });
+        });
+    </script>
 @endsection
 
 @section('referenceTags')
